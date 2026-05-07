@@ -37,7 +37,7 @@ async function logout() {
     try {
         const csrfToken = getCsrfToken();
 
-        const response = await fetch(`/logout`, {
+        const response = await fetch(`/api/logout`, {
             method: "POST",
             headers: {
                 "X-XSRF-TOKEN": csrfToken || ""
