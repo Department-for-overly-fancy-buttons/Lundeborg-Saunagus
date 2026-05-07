@@ -21,7 +21,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
-                .csrf(CsrfConfigurer::disable)
+                .csrf(CsrfConfigurer::spa)
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
@@ -31,10 +31,7 @@ public class SecurityConfig {
                         .failureHandler((req, res, ex) -> res.setStatus(HttpServletResponse.SC_UNAUTHORIZED))
 
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/api/logout") // Endpoint for logout requests
-                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_NO_CONTENT)) // 204 on success
-                )
+                .logout(Customizer.withDefaults())
                 // Return 401 instead of redirecting to /login
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
