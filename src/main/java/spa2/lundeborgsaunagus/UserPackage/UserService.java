@@ -14,4 +14,8 @@ public class UserService {
     public GusUser logIn(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
     }
+
+    public GusUser getUser(String name) {
+        return userRepository.findByUsernameIgnoreCase(name).orElseThrow();
+    }
 }

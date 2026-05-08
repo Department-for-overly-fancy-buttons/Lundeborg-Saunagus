@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<GusUser,Long> {
 
     GusUser findByUsernameAndPassword(String username, String password);
 
-    Optional<GusUser> findByUsername(String username);
+    Optional<GusUser> findByUsernameIgnoreCase(String username);
 
 }

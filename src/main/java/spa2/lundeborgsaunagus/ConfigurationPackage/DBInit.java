@@ -21,7 +21,7 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        GusUser user = new GusUser("Freja", passwordEncoder.encode("test"));
+        GusUser user = new GusUser("Freja", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0 by");
         userRepository.save(user);
     }
 }

@@ -30,10 +30,18 @@ class UserController {
     }
 
     @GetMapping("/user")
-    GusUser getUser(Authentication authentication) {
+    GusUserDto getUser(Authentication authentication) {
         String username = authentication.getName();
+        GusUser user = userService.getUser(authentication.getName());
 
-        return new GusUser(username, "t");
+        return new GusUserDto(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress());
     }
-
+    @PostMapping("/register")
+    ResponseEntity<GusUserDto> registerUser(@RequestBody CreateUserRequest userRequest) {
+        GusUser addedUser = userService.createUser(userRequest);
+        if (addedUser == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(new GusUserDto());
+    }
 }
