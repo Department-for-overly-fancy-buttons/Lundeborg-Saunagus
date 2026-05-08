@@ -23,6 +23,7 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::spa)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/register").not().hasAuthority("ROLE_CUSTOMER")
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form

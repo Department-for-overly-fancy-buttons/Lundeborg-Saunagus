@@ -22,14 +22,17 @@ public class GusUser {
     private String phoneNumber;
     @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
+    private Role role;
 
-    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address) {
+    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address, Role role) {
         this.username = username;
         this.password = password;
         this.firstname = firstName;
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.role = role;
     }
 
 
@@ -90,5 +93,13 @@ public class GusUser {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

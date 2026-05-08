@@ -14,9 +14,9 @@ async function setLoggedInUser() {
 }
 
 function getLoggedInUser() {
+    //Bør der checkes om localstorage er altered eller eventuelt authenticeres med backend
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
-
 }
 
 function isLoggedIn() {
@@ -26,6 +26,12 @@ function isLoggedIn() {
 function requireLogIn() {
     if (!isLoggedIn()) {
         return location.href = "/Login/LoginForm.html";
+    }
+}
+
+function requireNotLogIn() {
+    if (isLoggedIn()) {
+        return location.href = "../index.html";
     }
 }
 

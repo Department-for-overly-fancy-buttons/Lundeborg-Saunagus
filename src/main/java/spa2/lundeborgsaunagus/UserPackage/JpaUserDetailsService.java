@@ -27,7 +27,7 @@ public class JpaUserDetailsService implements UserDetailsService {
             return User.builder()
                     .username(foundUser.getUsername())
                     .password(foundUser.getPassword())
-                    //.authorities(new SimpleGrantedAuthority("ROLE_" + foundUser.getRole().name()))
+                    .authorities(new SimpleGrantedAuthority("ROLE_" + foundUser.getRole().name()))
                     .build();
         }
         System.out.println(":'(");

@@ -29,9 +29,14 @@ export function displayNavigationBar(){
         let loginLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Login", textContent: "Login"}});
         loginLinkEl.addEventListener("click", login);
 
+        //let listItemCreateAccountEl = createHtmlElement({tagName: "li", htmlClass:  "navigationListItem"});
+        let createAccountLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Opret profil", textContent: "Opret profil"}});
+        createAccountLinkEl.addEventListener("click", () => location.href = "/Login/CreateAccount.html");
+
         listItemLoginEl.appendChild(loginLinkEl);
+        listItemLoginEl.appendChild(createAccountLinkEl);
     } else {
-        let logoutLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "logout", textContent: "logout"}});
+        let logoutLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "log ud", textContent: "log ud"}});
         logoutLinkEl.addEventListener("click", logout);
         listItemLoginEl.appendChild(logoutLinkEl);
     }
