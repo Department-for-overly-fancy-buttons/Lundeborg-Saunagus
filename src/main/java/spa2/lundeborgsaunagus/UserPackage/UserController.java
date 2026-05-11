@@ -1,4 +1,42 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
-public class UserController {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin( origins = "http://localhost")
+@RequestMapping("/api/users")
+@RestController
+class UserController {
+
+    private final UserService userService;
+
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/log_in")
+    ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
+        GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getRole()));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/user")
+    GusUserResponse getUser(Authentication authentication) {
+        GusUser user = userService.getUser(authentication.getName());
+
+        return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getRole());
+    }
+    @PostMapping("/register")
+    ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
+        GusUser addedUser = userService.createUser(userRequest);
+        if (addedUser == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(new GusUserResponse(addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getRole()));
+    }
 }
