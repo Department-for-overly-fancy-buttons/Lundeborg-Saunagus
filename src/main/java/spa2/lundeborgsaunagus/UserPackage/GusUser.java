@@ -2,6 +2,8 @@ package spa2.lundeborgsaunagus.UserPackage;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 public class GusUser {
@@ -23,15 +25,21 @@ public class GusUser {
     @Column(nullable = false)
     private String address;
     @Column(nullable = false)
+    private LocalDate birthday;
+    @Column(nullable = false)
+    private Gender gender;
+    @Column(nullable = false)
     private Role role;
 
-    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address, Role role) {
+    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address, LocalDate birthday, Gender gender, Role role) {
         this.username = username;
         this.password = password;
         this.firstname = firstName;
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.birthday = birthday;
+        this.gender = gender;
         this.role = role;
     }
 
@@ -101,5 +109,21 @@ public class GusUser {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

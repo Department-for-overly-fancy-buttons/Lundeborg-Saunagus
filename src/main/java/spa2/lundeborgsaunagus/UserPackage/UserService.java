@@ -27,6 +27,15 @@ public class UserService {
         //if(requestedRole == null){
         //    return null;
         //}
-        return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), Role.CUSTOMER));
+        return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
     }
+
+    private Gender parseJsonGender(String gender){
+        return switch (gender) {
+            case "male" -> Gender.MALE;
+            case "female" -> Gender.FEMALE;
+            default -> null;
+        };
+    }
+
 }

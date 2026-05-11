@@ -20,48 +20,120 @@ async function display() {
         htmlAttributes: {type: "hidden", name: "userId", id: "userId"}
     })
     userFormEl.appendChild(userIdEl);*/
+    const usernameLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "usernameInput", textContent: "Email"}
+    })
+    userFormEl.appendChild(usernameLabelEL);
 
     const usernameInputEl = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "text", name: "username", placeholder: "username", id: "usernameInput"}
+        htmlAttributes: {type: "email", name: "username", placeholder: "Eksempel@mail.com", id: "usernameInput"}
     });
     usernameInputEl.required = true;
     userFormEl.appendChild(usernameInputEl);
 
+    const passwordLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "passwordInput", textContent: "Adgangskode"}
+    })
+    userFormEl.appendChild(passwordLabelEL);
     const passwordInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "password", name: "password", placeholder: "password", id: "passwordInput"}
+        htmlAttributes: {type: "password", name: "password", placeholder: "Adgangskode på mindst 8 tegn", id: "passwordInput"}
     })
     passwordInputEL.required = true;
     userFormEl.appendChild(passwordInputEL);
 
+    const firstnameLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "firstnameInput", textContent: "Fornavn (evt. mellemnavne)"}
+    })
+    userFormEl.appendChild(firstnameLabelEL);
     const firstnameInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "text", name: "firstname", placeholder: "firstname", id: "firstnameInput"}
+        htmlAttributes: {type: "text", name: "firstname", placeholder: "Fornavn", id: "firstnameInput"}
     })
     firstnameInputEL.required = true;
     userFormEl.appendChild(firstnameInputEL);
 
+    const lastnameLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "lastnameInput", textContent: "Efternavn"}
+    })
+    userFormEl.appendChild(lastnameLabelEL);
     const lastnameInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "text", name: "lastname", placeholder: "lastname", id: "lastnameInput"}
+        htmlAttributes: {type: "text", name: "lastname", placeholder: "Efternavn", id: "lastnameInput"}
     })
     lastnameInputEL.required = true;
     userFormEl.appendChild(lastnameInputEL);
 
+    const phoneNumberLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "phoneInput", textContent: "MobilNummer"}
+    })
+    userFormEl.appendChild(phoneNumberLabelEL);
     const phoneNumberInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "text", name: "phoneNumber", placeholder: "phoneNumber", id: "phoneNumberInput"}
+        htmlAttributes: {type: "tel", name: "phoneNumber", placeholder: "01234567", id: "phoneNumberInput", pattern: "[0-9]", maxLength: 8}
     })
     phoneNumberInputEL.required = true;
     userFormEl.appendChild(phoneNumberInputEL);
 
+    const addressLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "addressInput", textContent: "Fulde adresse"}
+    })
+    userFormEl.appendChild(addressLabelEL);
     const addressInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "text", name: "address", placeholder: "address", id: "addressInput"}
+        htmlAttributes: {type: "text", name: "address", placeholder: "Adresse", id: "addressInput"}
     })
     addressInputEL.required = true;
     userFormEl.appendChild(addressInputEL);
+
+    const birthdayLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "birthdayInput", textContent: "Fødselsdato"}
+    })
+    userFormEl.appendChild(birthdayLabelEL);
+    const birthdayInputEL = createHtmlElement({
+        tagName: "input",
+        htmlAttributes: {type: "date", name: "birthday", placeholder: "dd-mm-yyyy", id: "birthdayInput"}
+    })
+    birthdayInputEL.required = true;
+    userFormEl.appendChild(birthdayInputEL);
+
+    const genderMaleInputEL = createHtmlElement({
+        tagName: "input",
+        htmlAttributes: {type: "radio", name: "gender", value: "male", id: "genderMale"}
+    })
+    genderMaleInputEL.required = true;
+    genderMaleInputEL.checked = true;
+    userFormEl.appendChild(genderMaleInputEL);
+
+    const genderMaleLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "genderMale", textContent: "Mand"}
+    })
+    userFormEl.appendChild(genderMaleLabelEL);
+
+
+
+
+    const genderFemaleInputEL = createHtmlElement({
+        tagName: "input",
+        htmlAttributes: {type: "radio", name: "gender", value: "female", id: "genderFemale"}
+    })
+    genderFemaleInputEL.required = true;
+    userFormEl.appendChild(genderFemaleInputEL);
+
+    const genderFemaleLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "genderFemale", textContent: "Kvinde"}
+    })
+    userFormEl.appendChild(genderFemaleLabelEL);
 
     let submitButton = document.createElement("button")
     submitButton.textContent = `Submit`;
@@ -90,6 +162,15 @@ async function addUser(event) {
     const lastname = formData.get("lastname");
     const phoneNumber = formData.get("phoneNumber");
     const address = formData.get("address");
+    const birthday = formData.get("birthday");
+    let gender;
+
+    let genderOptions = document.getElementsByName('gender');
+
+    for (let i = 0; i < genderOptions.length; i++) {
+        if (genderOptions[i].checked)
+            gender = genderOptions[i].value;
+    }
 
     //const role = "CUSTOMER";
 
@@ -99,7 +180,9 @@ async function addUser(event) {
         firstname: firstname,
         lastname: lastname,
         phoneNumber: phoneNumber,
-        address: address
+        address: address,
+        birthday: birthday,
+        gender: gender
         //role: role
     };
     /*   console.log(typeof formData.get("userId"))

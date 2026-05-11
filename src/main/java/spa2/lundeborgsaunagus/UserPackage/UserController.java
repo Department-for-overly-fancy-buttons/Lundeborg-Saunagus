@@ -20,7 +20,7 @@ class UserController {
     ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
         GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
         if (loggedInUser != null) {
-            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getRole()));
+            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -29,7 +29,7 @@ class UserController {
     GusUserResponse getUser(Authentication authentication) {
         GusUser user = userService.getUser(authentication.getName());
 
-        return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getRole());
+        return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole());
     }
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
@@ -37,6 +37,6 @@ class UserController {
         if (addedUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(new GusUserResponse(addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getRole()));
+        return ResponseEntity.ok(new GusUserResponse(addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getBirthday(), addedUser.getGender(), addedUser.getRole()));
     }
 }
