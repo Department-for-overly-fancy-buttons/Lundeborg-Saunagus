@@ -1,5 +1,6 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,35 @@ public class UserService {
             default -> null;
         };
     }
+    private Role stringToRole(String roleText){
+        switch (roleText){
+            case "CUSTOMER":
+                return Role.CUSTOMER;
+            case "EMPLOYEE":
+                return Role.EMPLOYEE;
+            case "ADMIN":
+                return Role.ADMIN;
+            default:
+                return null;
+        }
+    }
+
+    public GusUser getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+    }
+
+    public GusUser updateUserLogin(Long id, CreateGusUserRequest userRequest) {
+        GusUser newUser = getUserById(id);
+        newUser.setUsername(userRequest.username());
+        newUser.setPassword(userRequest.password());
+        newUser.setRole(stringToRole(userRequest.role()));
+
+        if(newUser.getRole() == null){
+            return null;
+        }
+
+        return userRepository.save(newUser);
+    }
+
 
 }
