@@ -15,11 +15,11 @@ async function display() {
     const userFormEl = document.getElementById("userForm");
     userFormEl.innerHTML = "";
 
-   /* const userIdEl = createHtmlElement({
-        tagName: "input",
-        htmlAttributes: {type: "hidden", name: "userId", id: "userId"}
-    })
-    userFormEl.appendChild(userIdEl);*/
+    /* const userIdEl = createHtmlElement({
+         tagName: "input",
+         htmlAttributes: {type: "hidden", name: "userId", id: "userId"}
+     })
+     userFormEl.appendChild(userIdEl);*/
     const usernameLabelEL = createHtmlElement({
         tagName: "label",
         htmlAttributes: {for: "usernameInput", textContent: "Email"}
@@ -40,7 +40,12 @@ async function display() {
     userFormEl.appendChild(passwordLabelEL);
     const passwordInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "password", name: "password", placeholder: "Adgangskode på mindst 8 tegn", id: "passwordInput"}
+        htmlAttributes: {
+            type: "password",
+            name: "password",
+            placeholder: "Adgangskode på mindst 8 tegn",
+            id: "passwordInput"
+        }
     })
     passwordInputEL.required = true;
     userFormEl.appendChild(passwordInputEL);
@@ -76,7 +81,14 @@ async function display() {
     userFormEl.appendChild(phoneNumberLabelEL);
     const phoneNumberInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "tel", name: "phoneNumber", placeholder: "01234567", id: "phoneNumberInput", pattern: "[0-9]", maxLength: 8}
+        htmlAttributes: {
+            type: "tel",
+            name: "phoneNumber",
+            placeholder: "01234567",
+            id: "phoneNumberInput",
+            pattern: "[0-9]",
+            maxLength: 8
+        }
     })
     phoneNumberInputEL.required = true;
     userFormEl.appendChild(phoneNumberInputEL);
@@ -93,14 +105,55 @@ async function display() {
     addressInputEL.required = true;
     userFormEl.appendChild(addressInputEL);
 
+    const zipCodeLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "zipCodeInput", textContent: "Postnr"}
+    })
+    userFormEl.appendChild(zipCodeLabelEL);
+    const zipCodeInputEL = createHtmlElement({
+        tagName: "input",
+        htmlAttributes: {type: "text", name: "zipCode", placeholder: "0000", id: "zipCodeInput"}
+    })
+    zipCodeInputEL.required = true;
+    userFormEl.appendChild(zipCodeInputEL);
+
+    const cityLabelEL = createHtmlElement({
+        tagName: "label",
+        htmlAttributes: {for: "cityInput", textContent: "By"}
+    })
+    userFormEl.appendChild(cityLabelEL);
+    const cityInputEL = createHtmlElement({
+        tagName: "input",
+        htmlAttributes: {type: "text", name: "city", placeholder: "Annekspræstegårde", id: "cityInput"}
+    })
+    cityInputEL.required = true;
+    userFormEl.appendChild(cityInputEL);
+
     const birthdayLabelEL = createHtmlElement({
         tagName: "label",
         htmlAttributes: {for: "birthdayInput", textContent: "Fødselsdato"}
     })
     userFormEl.appendChild(birthdayLabelEL);
+    let date = new Date();
+    let year = date.getFullYear() - 16;
+    let month = date.getMonth().toString();
+    if (month.length === 1) {
+        month = '0' + month;
+    }
+    let day = date.getDate().toString();
+    if (day.length === 1) {
+        day = '0' + day;
+    }
     const birthdayInputEL = createHtmlElement({
         tagName: "input",
-        htmlAttributes: {type: "date", name: "birthday", placeholder: "dd-mm-yyyy", id: "birthdayInput"}
+        htmlAttributes: {
+            type: "date",
+            name: "birthday",
+            placeholder: "dd-mm-yyyy",
+            id: "birthdayInput",
+            min: "1910-04-01",
+            max: `${year}-${month}-${day}`
+        }
     })
     birthdayInputEL.required = true;
     userFormEl.appendChild(birthdayInputEL);
@@ -118,8 +171,6 @@ async function display() {
         htmlAttributes: {for: "genderMale", textContent: "Mand"}
     })
     userFormEl.appendChild(genderMaleLabelEL);
-
-
 
 
     const genderFemaleInputEL = createHtmlElement({
@@ -157,11 +208,30 @@ async function addUser(event) {
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
     const username = formData.get("username");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username)) {
+        alert("Mail adresen har ikke den korrekte format")
+        return
+    }
     const password = formData.get("password");
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
+    if (!passwordRegex.test(password) || password.length < 8) {
+        alert("Adgangskode har ikke den korrekte format")
+        return
+    }
     const firstname = formData.get("firstname");
+    const firstnameRegex = /a/;
+    if (firstnameRegex.test(firstname)) {
+        alert("Fornavn kan kun indeholde bogstaver")
+        return
+    }
     const lastname = formData.get("lastname");
     const phoneNumber = formData.get("phoneNumber");
-    const address = formData.get("address");
+    const address = formData.get("address") + "," + formData.get("zipCode") + "," + formData.get("city");
+    console.log(address);
+    /*const zipCode = formData.get("zipCode");
+    const city = formData.get("city");*/
     const birthday = formData.get("birthday");
     let gender;
 
