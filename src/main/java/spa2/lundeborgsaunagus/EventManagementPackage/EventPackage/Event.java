@@ -26,8 +26,12 @@ public class Event {
     private String address;
     @Column(nullable = false)
     private int capacity;
-    @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name = "reservation",
+            joinColumns = @JoinColumn(name = "eventId"),
+            inverseJoinColumns = @JoinColumn(name = "ticketId")
+    )
     private List<Ticket> reservations;
 
     public Event(LocalDate date, LocalTime startTime, LocalTime endTime, GusUser saunaMaster, String address, int capacity) {

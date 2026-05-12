@@ -22,7 +22,7 @@ public class EventController {
     public List<Event> getEvents() {
         List<Event> events= eventService.getEvents();
         System.out.println(events.getFirst().ticketsLeft());
-        return eventService.getEvents();
+        return events;
     }
 
 }
