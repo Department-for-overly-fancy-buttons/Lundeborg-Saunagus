@@ -20,7 +20,9 @@ public class EventController {
 
     @GetMapping()
     public List<Event> getEvents() {
-        return eventService.getEvent();
+        List<Event> events= eventService.getEvents();
+        System.out.println(events.getFirst().ticketsLeft());
+        return eventService.getEvents();
     }
 
 }

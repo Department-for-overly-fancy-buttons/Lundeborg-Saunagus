@@ -13,7 +13,7 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<Event> getEvent(){
+    public List<Event> getEvents(){
         return eventRepository.findAll();
     }
 }

@@ -40,7 +40,6 @@ public class Event {
     }
 
 
-
     public Event() {
     }
 
@@ -107,4 +106,17 @@ public class Event {
     public void setReservations(List<Ticket> reservations) {
         this.reservations = reservations;
     }
+
+    public void addReservation(Ticket ticket) {
+        this.reservations.add(ticket);
+    }
+
+    public void removeReservation(Ticket ticket) {
+        this.reservations.remove(ticket);
+    }
+
+    public int ticketsLeft() {
+        return capacity - reservations.size();
+    }
+
 }
