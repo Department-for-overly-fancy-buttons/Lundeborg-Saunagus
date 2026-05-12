@@ -15,6 +15,11 @@ async function display() {
     const userFormEl = document.getElementById("userForm");
     userFormEl.innerHTML = "";
 
+    const titleCreateUser = createHtmlElement({
+        tagName: "h1",
+        htmlAttributes: {textContent: "Opret Bruger"}
+    })
+    userFormEl.appendChild(titleCreateUser);
     /* const userIdEl = createHtmlElement({
          tagName: "input",
          htmlAttributes: {type: "hidden", name: "userId", id: "userId"}
