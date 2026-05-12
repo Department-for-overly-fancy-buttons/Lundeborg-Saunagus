@@ -41,3 +41,19 @@ input{
     width: 100%;
 }
 
+
+#navigationList {
+    height: inherit;
+    list-style-type: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    color: inherit;
+}
+
+.navigationListItem {
+    background-color: inherit;
+    border-left: 3px solid var(--textColor);
+    color: inherit;
+}
