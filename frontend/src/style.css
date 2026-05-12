@@ -1,4 +1,4 @@
-#userForm {
+#userForm, #loginForm {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
@@ -10,7 +10,7 @@
     text-align: center;
 }
 
-label, #submitButton {
+label, #submitButton, #loginButton {
     min-width: 500px;
     padding: 12px;
     display: table-cell;
@@ -20,11 +20,17 @@ label, #submitButton {
     box-sizing: border-box;
 }
 
-#submitButton {
+#submitButton, #loginButton {
     background-color: deeppink;
 }
 
-#genderDiv,#birthdayBox,#cityBox,#zipCodeBox,#addressBox,#phoneNumberBox,#lastnameBox,#firstnameBox,#passwordBox,#usernameBox{
+#loginButton{
+    margin-top: 15px;
+}
+
+#genderDiv,#birthdayBox,#cityBox,#zipCodeBox, #addressBox,
+#phoneNumberBox,#lastnameBox,#firstnameBox,#passwordBox,#usernameBox,
+#loginUsernameBox,#loginPasswordBox{
     display: block;
 }
 
@@ -34,3 +40,4 @@ input{
     text-align: center;
     width: 100%;
 }
+
