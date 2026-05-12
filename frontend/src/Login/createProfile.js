@@ -264,34 +264,72 @@ async function display() {
 
 async function addUser(event) {
     event.preventDefault();
-    console.log("adding user")
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
-    const username = formData.get("username");
-    const emailRegex = /^[a-zA-Z0-9_!#$%&’*+/=?`{}~^.-]+@[a-zA-Z0-9.-]+$/;
+    const username = formData.get("mail").trim();
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     if (!emailRegex.test(username)) {
-        alert("Mail adresen har ikke den korrekte format")
+        alert("Mail adressen har ikke den korrekte format ( eksempel@mail.domæne )")
         return
     }
+
     const password = formData.get("password");
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
     if (!passwordRegex.test(password) || password.length < 8) {
         alert("Adgangskode har ikke den korrekte format")
         return
     }
+
     const firstname = formData.get("firstname");
-    /*const firstnameRegex = /[a-z]/;
-    if (!firstname.match(firstnameRegex)) {
-        alert("Fornavn kan kun indeholde bogstaver")
+    const nameRegex = /^[a-zA-ZæøåÆØÅ](?!.*--)(?!.*\s{2})[a-zA-ZæøåÆØÅ\s-]{0,98}[a-zA-ZææøåÆØÅ]$/i;
+    if (!nameRegex.test(firstname)) {
+        alert("Fornavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
         return
-    }*/
+    }
     const lastname = formData.get("lastname");
+    if (!nameRegex.test(lastname)) {
+        alert("Efternavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
+        return
+    }
     const phoneNumber = formData.get("phoneNumber");
-    const address = formData.get("address") + "," + formData.get("zipCode") + "," + formData.get("city");
+    const digitsOnlyPattern = /^\d+$/;
+
+    let phoneNumberLength = 8;
+    if(phoneNumber.length !== phoneNumberLength || !digitsOnlyPattern.test(phoneNumber)){
+        alert("Dit number må kun indeholde tal og have en længde på 8");
+        return
+    }
+
+    const address = formData.get("address") + ";" + formData.get("zipCode") + ";" + formData.get("city");
+    const addressPattern = /^[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+$/;
+    if (!addressPattern.test(address)) {
+        console.log("Der er gået noget galt i sammensætning af adressen");
+        alert("Der er gået noget galt i sammensætning af adressen");
+        return
+    }
+
+    const addressParts = address.split(";");
+    console.log(addressParts[0]);
+    const zipcode = addressParts[1];
+    const zipcodeLength = 4;
+    if (zipcode.length !== zipcodeLength || !digitsOnlyPattern.test(zipcode)) {
+        console.log("Zipcode kan kun indeholde tal");
+        alert("Zipcode kan kun indeholde tal");
+        return
+    }
+
     console.log(address);
-    /*const zipCode = formData.get("zipCode");
-    const city = formData.get("city");*/
+
     const birthday = formData.get("birthday");
+    const ageLowerLimit = 16, ageUpperLimit = 140;
+    const today = new Date();
+    const minAgeDate = new Date(today.getFullYear() - ageLowerLimit, today.getMonth(), today.getDate());
+    const maxAgeDate = new Date(today.getFullYear() - ageUpperLimit, today.getMonth(), today.getDate());
+
+    if (!birthday || birthday > minAgeDate || birthday < maxAgeDate) {
+        alert(`Fødselsdato er enten for langt i fortiden eller for kort tid siden. Man skal være ${ageLowerLimit} år for at oprette en profil`)
+        return
+    }
     let gender;
 
     let genderOptions = document.getElementsByName('gender');

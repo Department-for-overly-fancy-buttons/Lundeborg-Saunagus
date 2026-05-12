@@ -13,9 +13,9 @@ public class UserValidationService implements InputValidationService {
 
     private final Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9_!#$%&’*+/=?`{}~^.-]+@[a-zA-Z0-9.-]+$");
     private final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])");
-    private final Pattern addressPattern = Pattern.compile("^[a-zA-Z0-9 .-]+,[a-zA-Z0-9 .-]+,[a-zA-Z0-9 .-]+$");
-    private final Pattern alphabeticOnlyPattern = Pattern.compile("^\\p{L}+$");
-    private final Pattern digitsOnlyPattern = Pattern.compile("^.*\\d.*+$");
+    private final Pattern addressPattern = Pattern.compile("^[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+$");
+    private final Pattern namePattern = Pattern.compile("^[a-zA-ZæøåÆØÅ](?!.*--)(?!.*\\s{2})[a-zA-ZæøåÆØÅ\\s-]{0,98}[a-zA-ZæøåÆØÅ]$",Pattern.CASE_INSENSITIVE);
+    private final Pattern digitsOnlyPattern = Pattern.compile("^.*\\d.*$");
     private final Short ageLowerLimit = 16;
     private final Short ageUpperLimit = 140;
     private final Short phoneNumberLength = 8;
@@ -62,7 +62,11 @@ public class UserValidationService implements InputValidationService {
     }
     
     private void validateName(String name){
-        Matcher nameMatcher = alphabeticOnlyPattern.matcher(name);
+        if (name == null || name.contains("--") || name.contains("  ")) {
+            System.out.println("Name contains invalid characters (-- or double space)");
+            throw new RuntimeException("Name contains invalid characters (-- or double space)");
+        }
+        Matcher nameMatcher = namePattern.matcher(name);
         boolean nameMatchFound = nameMatcher.matches();
         if(!nameMatchFound){
             System.out.println("Name contains non alphabetic characters");
@@ -89,7 +93,7 @@ public class UserValidationService implements InputValidationService {
         }
 
         Scanner scanner = new Scanner(address);
-        scanner.useDelimiter(",");
+        scanner.useDelimiter(";");
         System.out.println(scanner.next());
         String zipcode = scanner.next();
         Matcher zipcodeMatcher = digitsOnlyPattern.matcher(zipcode);
