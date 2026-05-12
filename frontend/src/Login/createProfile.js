@@ -268,8 +268,7 @@ async function addUser(event) {
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
     const username = formData.get("username");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9_!#$%&’*+/=?`{}~^.-]+@[a-zA-Z0-9.-]+$/;
     if (!emailRegex.test(username)) {
         alert("Mail adresen har ikke den korrekte format")
         return
@@ -281,11 +280,11 @@ async function addUser(event) {
         return
     }
     const firstname = formData.get("firstname");
-    const firstnameRegex = /a/;
-    if (firstnameRegex.test(firstname)) {
+    /*const firstnameRegex = /[a-z]/;
+    if (!firstname.match(firstnameRegex)) {
         alert("Fornavn kan kun indeholde bogstaver")
         return
-    }
+    }*/
     const lastname = formData.get("lastname");
     const phoneNumber = formData.get("phoneNumber");
     const address = formData.get("address") + "," + formData.get("zipCode") + "," + formData.get("city");

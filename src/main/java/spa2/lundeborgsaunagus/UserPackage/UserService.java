@@ -4,6 +4,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -24,10 +26,6 @@ public class UserService {
     }
 
     public GusUser createUser(CreateGusUserRequest userRequest) {
-        //Role requestedRole = stringToRole(userRequest.role());
-        //if(requestedRole == null){
-        //    return null;
-        //}
         return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
     }
 

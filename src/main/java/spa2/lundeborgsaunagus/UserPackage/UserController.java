@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 class UserController {
 
     private final UserService userService;
+    private final UserValidationService userValidationService;
 
-    UserController(UserService userService) {
+    UserController(UserService userService, UserValidationService userValidationService) {
         this.userService = userService;
+        this.userValidationService = userValidationService;
     }
 
     @PostMapping("/log_in")
@@ -33,6 +35,7 @@ class UserController {
     }
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
+        userValidationService.validateUserInput(userRequest);
         GusUser addedUser = userService.createUser(userRequest);
         if (addedUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
