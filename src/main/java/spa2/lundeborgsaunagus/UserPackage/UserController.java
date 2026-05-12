@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin( origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
@@ -51,4 +53,23 @@ class UserController {
         }
         return ResponseEntity.ok(updateUser);
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+    @GetMapping
+    ResponseEntity<List<GusUser>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/role/{role}")
+    ResponseEntity<List<GusUser>> getAllUsersByRole(@PathVariable Role role) {
+        return ResponseEntity.ok(userService.getAllUsersByRole(role));
+    }
+
 }

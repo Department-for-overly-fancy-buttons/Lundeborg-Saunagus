@@ -49,8 +49,19 @@ public class UserService {
         }
     }
 
+    public List<GusUser> getAllUsers() {
+        return userRepository.findAll();
+    }
+    public List<GusUser> getAllUsersByRole(Role role) {
+        return userRepository.findByRole(role.toString());
+    }
+
     public GusUser getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 
     public GusUser updateUserLogin(Long id, CreateGusUserRequest userRequest) {
