@@ -6,6 +6,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record EventResponse(LocalDate date, LocalTime startTime, LocalTime endTime, GusUserResponse gusUserResponse,
-                            String address, int capacity,int ticketsLeft) implements Serializable {
+public record EventResponse(Long id, LocalDate date, LocalTime startTime, LocalTime endTime, GusUserResponse gusUserResponse,
+                            String address, int capacity, int ticketsLeft,String title,String information) implements Serializable {
 }

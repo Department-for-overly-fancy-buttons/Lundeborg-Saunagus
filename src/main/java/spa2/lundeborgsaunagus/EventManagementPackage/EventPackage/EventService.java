@@ -24,10 +24,10 @@ public class EventService {
         List<Event> events = eventRepository.findAll();
         for (Event event : events) {
             GusUser saunaMaster = event.getSaunaMaster();
-            eventResponses.add(new EventResponse(event.getDate(), event.getStartTime(), event.getEndTime(),
-                    new GusUserResponse(saunaMaster.getUsername(),
-                            saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                            saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft()));
+            eventResponses.add(new EventResponse(event.getId(), event.getDate(), event.getStartTime(),
+                    event.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
+                    saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
+                    saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation()));
 
         }
         return eventResponses;
@@ -42,13 +42,17 @@ public class EventService {
         if (saunaMaster == null) {
             return null;
         }
-        Event addedEvent = eventRepository.save(new Event(event.date(), event.startTime(), event.endTime(),
-                saunaMaster, event.address(), event.capacity()));
+        Event addEvent = new Event(event.date(), event.startTime(), event.endTime(),
+                saunaMaster, event.address(), event.capacity(), event.title());
+        if(!event.information().isEmpty()){
+            addEvent.setInformation(event.information());
+        }
+        Event addedEvent = eventRepository.save(addEvent);
 
-        return new EventResponse(addedEvent.getDate(), addedEvent.getStartTime(), addedEvent.getEndTime(),
-                new GusUserResponse(saunaMaster.getUsername(),
-                        saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                        saunaMaster.getGender(), saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft());
+        return new EventResponse(addedEvent.getId(), addedEvent.getDate(), addedEvent.getStartTime(),
+                addedEvent.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
+                saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
+                saunaMaster.getGender(), saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft(), addedEvent.getTitle(), addedEvent.getInformation());
     }
 
 }

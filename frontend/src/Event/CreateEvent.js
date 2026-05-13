@@ -41,7 +41,9 @@ async function handleSubmit(event) {
         endTime: formData.get("eventEndTime"),
         saunaMasterEmail: saunaMaster,
         address: formData.get("eventLocation"),
-        capacity: formData.get("eventCapacity")
+        capacity: formData.get("eventCapacity"),
+        title: formData.get("eventTitle"),
+        information: formData.get("eventInfo")
     }
     console.log(eventRequest);
     const response = await fetch(`${BASE_URL}/create`, {
@@ -62,7 +64,7 @@ function getSaunaMaster() {
 function display() {
     let saunaMasterContainer = document.getElementById("eventSaunaMasterBox");
     let saunaMasterLabel = document.createElement("label");
-    saunaMasterLabel.textContent="Fyrmester";
+    saunaMasterLabel.textContent = "Fyrmester";
     let saunaMasterSelect = document.createElement("select");
     saunaMasterSelect.setAttribute("id", "eventSaunaMaster");
     saunaMasterLabel.appendChild(saunaMasterSelect);

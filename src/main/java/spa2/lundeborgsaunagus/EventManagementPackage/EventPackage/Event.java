@@ -34,14 +34,20 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "ticketId")
     )
     private List<Ticket> reservations = new ArrayList<>();
+    @Column(nullable = false)
+    private String title;
+    @Column
+    private String information;
 
-    public Event(LocalDate date, LocalTime startTime, LocalTime endTime, GusUser saunaMaster, String address, int capacity) {
+
+    public Event(LocalDate date, LocalTime startTime, LocalTime endTime, GusUser saunaMaster, String address, int capacity, String title) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.saunaMaster = saunaMaster;
         this.address = address;
         this.capacity = capacity;
+        this.title = title;
     }
 
 
@@ -118,6 +124,22 @@ public class Event {
 
     public void removeReservation(Ticket ticket) {
         this.reservations.remove(ticket);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
     }
 
     public int ticketsLeft() {

@@ -1,4 +1,4 @@
-#userForm, #loginForm {
+#userForm, #loginForm, #event-container {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
@@ -10,7 +10,7 @@
     text-align: center;
 }
 
-label, #submitButton, #loginButton, #createEventButton {
+label, #submitButton, #loginButton, #createEventButton, .event-box {
     min-width: 500px;
     padding: 12px;
     display: table-cell;
