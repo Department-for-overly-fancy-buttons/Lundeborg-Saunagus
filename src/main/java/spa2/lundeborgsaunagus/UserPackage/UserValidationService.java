@@ -1,6 +1,7 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
 import org.springframework.stereotype.Service;
+import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
 import spa2.lundeborgsaunagus.securityPackage.InputValidationService;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class UserValidationService implements InputValidationService {
     private final Short zipcodeLength = 4;
 
     public void validateUserInput(CreateGusUserRequest userRequest){
+        checkInputNotNull(userRequest);
         checkForIllegalCharacters(userRequest);
         validateEmail(userRequest.username());
         validatePassword(userRequest.password());
@@ -34,13 +36,24 @@ public class UserValidationService implements InputValidationService {
         validateRole(userRequest.role());
     }
 
+    private void checkInputNotNull(CreateGusUserRequest userRequest){
+        if(userRequest.username() == null || userRequest.password() == null || userRequest.firstname() == null || userRequest.lastname() == null || userRequest.phoneNumber() == null ||userRequest.address() == null || userRequest.birthday() == null || userRequest.gender() == null) {
+            System.out.println("Missing input");
+            throw new InvalidInputException("Missing input");
+        }
+    }
+
     private void checkForIllegalCharacters(CreateGusUserRequest userRequest){
+        System.out.println(userRequest.password());
         checkForSqlOperands(userRequest.username());
         checkForSqlOperands(userRequest.password());
         checkForSqlOperands(userRequest.firstname());
         checkForSqlOperands(userRequest.lastname());
         checkForSqlOperands(userRequest.address());
         checkForSqlOperands(userRequest.gender());
+        if(userRequest.role() != null) {
+            checkForSqlOperands(userRequest.role());
+        }
     }
 
     private void validateEmail(String email){
@@ -48,7 +61,7 @@ public class UserValidationService implements InputValidationService {
         boolean matchFound = matcher.matches();
         if(!matchFound){
             System.out.println("Email not matching format");
-            throw new RuntimeException("Email not correct format");
+            throw new InvalidInputException("Email not correct format");
         }
     }
 
@@ -57,20 +70,20 @@ public class UserValidationService implements InputValidationService {
         boolean passwordMatchFound = passwordMatcher.find();
         if(!passwordMatchFound){
             System.out.println("Password not matching format");
-            throw new RuntimeException("Password not correct format");
+            throw new InvalidInputException("Password not correct format");
         }
     }
     
     private void validateName(String name){
         if (name == null || name.contains("--") || name.contains("  ")) {
             System.out.println("Name contains invalid characters (-- or double space)");
-            throw new RuntimeException("Name contains invalid characters (-- or double space)");
+            throw new InvalidInputException("Name contains invalid characters (-- or double space)");
         }
         Matcher nameMatcher = namePattern.matcher(name);
         boolean nameMatchFound = nameMatcher.matches();
         if(!nameMatchFound){
             System.out.println("Name contains non alphabetic characters");
-            throw new RuntimeException("Name contains non alphabetic characters");
+            throw new InvalidInputException("Name contains non alphabetic characters");
         }
     }
 
@@ -79,7 +92,7 @@ public class UserValidationService implements InputValidationService {
         boolean phonenumberMatchFound = phonenumberMatcher.matches();
         if(phonenumber.length() != (phoneNumberLength) || !phonenumberMatchFound){
             System.out.println("Phonenumber may have the wrong length (of 8) or contain non digit characters");
-            throw new RuntimeException("Phonenumber may have the wrong length (of 8) or contain non digit characters");
+            throw new InvalidInputException("Phonenumber may have the wrong length (of 8) or contain non digit characters");
         }
     }
 
@@ -89,7 +102,7 @@ public class UserValidationService implements InputValidationService {
         if(!addressMatchFound){
             System.out.println("Address not matching format (address,zipcode,city)");
             System.out.println(address);
-            throw new RuntimeException("Address not matching format (address,zipcode,city)");
+            throw new InvalidInputException("Address not matching format (address,zipcode,city)");
         }
 
         Scanner scanner = new Scanner(address);
@@ -99,21 +112,21 @@ public class UserValidationService implements InputValidationService {
         Matcher zipcodeMatcher = digitsOnlyPattern.matcher(zipcode);
         if(zipcode.length() != zipcodeLength || !zipcodeMatcher.matches()){
             System.out.println("Zipcode contains non digit characters");
-            throw new RuntimeException("Zipcode contains non digit characters");
+            throw new InvalidInputException("Zipcode contains non digit characters");
         }
     }
 
     private void validateBirthday(LocalDate birthday) {
         if(birthday == null || birthday.isAfter(LocalDate.now().minusYears(ageLowerLimit)) || birthday.isBefore(LocalDate.now().minusYears(ageUpperLimit))){
             System.out.println("Birthday my be to long into the past or my place the user under 16 years of age");
-            throw new RuntimeException("Birthday my be to long into the past or my place the user under 16 years of age");
+            throw new InvalidInputException("Birthday my be to long into the past or my place the user under 16 years of age");
         }
     }
 
     private void validateGender(String gender){
         if(!gender.equals("male") && !gender.equals("female")){
             System.out.println("Gender does not match male or female");
-            throw new RuntimeException("Gender does not match male or female");
+            throw new InvalidInputException("Gender does not match male or female");
         }
     }
 
@@ -122,7 +135,7 @@ public class UserValidationService implements InputValidationService {
 
         }else{
             System.out.println("Role does not match CUSTOMER, EMPLOYEE, ADMIN or is blank or is null");
-            throw new RuntimeException("Role does not match CUSTOMER, EMPLOYEE, ADMIN or is blank or is null");
+            throw new InvalidInputException("Role does not match CUSTOMER, EMPLOYEE, ADMIN or is blank or is null");
         }
     }
 
