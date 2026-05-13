@@ -1,12 +1,14 @@
 package spa2.lundeborgsaunagus.ConfigurationPackage;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.Event;
 import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.EventRepository;
 import spa2.lundeborgsaunagus.TicketPackage.Ticket;
 import spa2.lundeborgsaunagus.TicketPackage.TicketRepository;
+import spa2.lundeborgsaunagus.UserPackage.Gender;
 import spa2.lundeborgsaunagus.UserPackage.GusUser;
 import spa2.lundeborgsaunagus.UserPackage.Role;
 import spa2.lundeborgsaunagus.UserPackage.UserRepository;

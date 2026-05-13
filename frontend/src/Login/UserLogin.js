@@ -1,3 +1,5 @@
+import {displayNavigationBar} from "../navigationBars.js";
+
 const BASE_URL = "/api/users"
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,5 +38,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Something went wrong with login.");
         }
     });
-
+    displayNavigationBar();
 });
