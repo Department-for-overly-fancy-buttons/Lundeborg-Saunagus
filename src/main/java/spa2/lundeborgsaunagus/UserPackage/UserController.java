@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin( origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
@@ -31,6 +33,12 @@ class UserController {
 
         return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getRole());
     }
+
+    @GetMapping("/employees")
+    List<GusUserResponse> getEmployees() {
+        return userService.getAllEmployees();
+    }
+
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
         GusUser addedUser = userService.createUser(userRequest);

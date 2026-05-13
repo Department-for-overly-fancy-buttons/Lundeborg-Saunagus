@@ -3,6 +3,9 @@ package spa2.lundeborgsaunagus.UserPackage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -20,6 +23,20 @@ public class UserService {
 
     public GusUser getUser(String name) {
         return userRepository.findByUsernameIgnoreCase(name).orElseThrow();
+    }
+
+    public GusUser getUserById(Long id) {
+        return userRepository.getReferenceById(id);
+    }
+
+    public List<GusUserResponse> getAllEmployees() {
+        List<GusUserResponse> gusUserResponses = new ArrayList<>();
+        List<GusUser> employees = userRepository.findByRole(Role.EMPLOYEE);
+        for (GusUser user : employees) {
+            gusUserResponses.add(new GusUserResponse(user.getUsername(), user.getFirstname(),
+                    user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getRole()));
+        }
+        return gusUserResponses;
     }
 
     public GusUser createUser(CreateGusUserRequest userRequest) {

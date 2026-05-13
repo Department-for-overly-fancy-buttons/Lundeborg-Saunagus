@@ -7,6 +7,7 @@ import spa2.lundeborgsaunagus.UserPackage.GusUser;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Event {
             joinColumns = @JoinColumn(name = "eventId"),
             inverseJoinColumns = @JoinColumn(name = "ticketId")
     )
-    private List<Ticket> reservations;
+    private List<Ticket> reservations = new ArrayList<>();
 
     public Event(LocalDate date, LocalTime startTime, LocalTime endTime, GusUser saunaMaster, String address, int capacity) {
         this.date = date;
