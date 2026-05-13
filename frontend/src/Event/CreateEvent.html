@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+<nav></nav>
+<form id="userForm">
+    <h1>Opret event</h1>
+    <p id="eventDateBox">
+        <label for="eventDate" id="eventDateLabel">Dato:
+            <input type="date" name="eventDate" required id="eventDate"></label>
+    </p>
+    <p id="eventStartTimeBox">
+        <label for="eventStartTime" id="eventStartTimeLabel">Start tidspunkt:
+            <input type="time" name="eventStartTime" required id="eventStartTime"></label>
+    </p>
+    <p id="eventEndTimeBox">
+        <label for="eventEndTime" id="eventEndTimeLabel">Slut tidspunkt:
+            <input type="time" name="eventEndTime" required id="eventEndTime"></label>
+    </p>
+    <p id="eventSaunaMasterBox">
+    </p>
+    <p id="eventLocationBox">
+        <label for="eventLocation" id="eventLocationLabel">Lokation:
+            <input type="text" name="eventLocation" placeholder="Lokation" required id="eventLocation"></label>
+    </p>
+    <p id="eventCapacityBox">
+        <label for="eventCapacity" id="eventCapacityLabel">Pladser:
+            <input type="number" name="eventCapacity" placeholder="Lokation" required id="eventCapacity"></label>
+    </p>
 
-<form id="userForm"></form>
+    <button type="submit" id="createEventButton">Opret event</button>
+</form>
+<script src="../Login/auth.js"></script>
+<script type="module" src="CreateEvent.js"></script>
 </body>
 </html>

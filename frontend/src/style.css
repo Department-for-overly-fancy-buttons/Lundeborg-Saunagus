@@ -10,7 +10,7 @@
     text-align: center;
 }
 
-label, #submitButton, #loginButton {
+label, #submitButton, #loginButton, #createEventButton {
     min-width: 500px;
     padding: 12px;
     display: table-cell;
@@ -20,21 +20,15 @@ label, #submitButton, #loginButton {
     box-sizing: border-box;
 }
 
-#submitButton, #loginButton {
+#submitButton, #loginButton, #createEventButton {
     background-color: deeppink;
 }
 
-#loginButton{
+#loginButton {
     margin-top: 15px;
 }
 
-#genderDiv,#birthdayBox,#cityBox,#zipCodeBox, #addressBox,
-#phoneNumberBox,#lastnameBox,#firstnameBox,#passwordBox,#usernameBox,
-#loginUsernameBox,#loginPasswordBox{
-    display: block;
-}
-
-input{
+input, select {
     display: table-cell;
     padding: 6px 0;
     text-align: center;
