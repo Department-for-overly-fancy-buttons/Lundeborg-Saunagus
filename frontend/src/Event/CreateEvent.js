@@ -33,13 +33,13 @@ async function handleSubmit(event) {
     event.preventDefault();
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
-    const saunaMasterId = getSaunaMasterId();
+    const saunaMaster = getSaunaMaster();
 
     const eventRequest = {
         date: formData.get("eventDate"),
         startTime: formData.get("eventStartTime"),
         endTime: formData.get("eventEndTime"),
-        saunaMasterId: saunaMasterId,
+        saunaMasterEmail: saunaMaster,
         address: formData.get("eventLocation"),
         capacity: formData.get("eventCapacity")
     }
@@ -54,7 +54,7 @@ async function handleSubmit(event) {
     console.log("Event added:", result);
 }
 
-function getSaunaMasterId() {
+function getSaunaMaster() {
     const saunaMaster = document.getElementById("eventSaunaMaster");
     return saunaMaster.options[saunaMaster.selectedIndex].value
 }
@@ -71,7 +71,7 @@ function display() {
         const option = document.createElement("option")
         option.setAttribute("label", `${saunaMasterData[i].firstname} ${saunaMasterData[i].lastname}`);
         console.log(saunaMasterData[i]);
-        option.setAttribute("value", saunaMasterData[i].id);
+        option.setAttribute("value", saunaMasterData[i].username);
         saunaMasterSelect.appendChild(option);
     }
     saunaMasterContainer.appendChild(saunaMasterLabel);

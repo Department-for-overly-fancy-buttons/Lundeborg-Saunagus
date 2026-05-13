@@ -6,6 +6,6 @@ import java.time.LocalDate;
 /**
  * DTO for {@link GusUser}
  */
-public record GusUserResponse(Long id, String username, String firstname, String lastname, String phoneNumber,
+public record GusUserResponse(String username, String firstname, String lastname, String phoneNumber,
                               String address, LocalDate birthday, Gender gender, Role role) implements Serializable {
 }

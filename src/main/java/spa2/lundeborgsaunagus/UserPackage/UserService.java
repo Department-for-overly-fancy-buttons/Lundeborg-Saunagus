@@ -35,7 +35,7 @@ public class UserService {
         employees.addAll(userRepository.findByRole(Role.ADMIN));
         System.out.println(Role.EMPLOYEE);
         for (GusUser user : employees) {
-            gusUserResponses.add(new GusUserResponse(user.getId(), user.getUsername(),
+            gusUserResponses.add(new GusUserResponse(user.getUsername(),
                     user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
                     user.getBirthday(), user.getGender(), user.getRole()));
         }
