@@ -35,7 +35,8 @@ public class UserService {
         List<GusUser> employees = userRepository.findByRole(Role.EMPLOYEE);
         for (GusUser user : employees) {
             gusUserResponses.add(new GusUserResponse(user.getUsername(), user.getFirstname(),
-                    user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getRole()));
+                    user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(),
+                    user.getGender(), user.getRole()));
         }
         return gusUserResponses;
     }
@@ -44,15 +45,16 @@ public class UserService {
         return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
     }
 
-    private Gender parseJsonGender(String gender){
+    private Gender parseJsonGender(String gender) {
         return switch (gender) {
             case "male" -> Gender.MALE;
             case "female" -> Gender.FEMALE;
             default -> null;
         };
     }
-    private Role stringToRole(String roleText){
-        switch (roleText){
+
+    private Role stringToRole(String roleText) {
+        switch (roleText) {
             case "CUSTOMER":
                 return Role.CUSTOMER;
             case "EMPLOYEE":
@@ -70,7 +72,7 @@ public class UserService {
         newUser.setPassword(userRequest.password());
         newUser.setRole(stringToRole(userRequest.role()));
 
-        if(newUser.getRole() == null){
+        if (newUser.getRole() == null) {
             return null;
         }
 
