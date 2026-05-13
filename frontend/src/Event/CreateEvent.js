@@ -63,6 +63,7 @@ function getSaunaMasterId() {
 function display() {
     let saunaMasterContainer = document.getElementById("eventSaunaMasterBox");
     let saunaMasterLabel = document.createElement("label");
+    saunaMasterLabel.textContent="Fyrmester";
     let saunaMasterSelect = document.createElement("select");
     saunaMasterSelect.setAttribute("id", "eventSaunaMaster");
     saunaMasterLabel.appendChild(saunaMasterSelect);
