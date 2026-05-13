@@ -27,7 +27,7 @@ public class EventService {
     }
 
     public EventResponse createEvent(CreateEventRequest event) {
-        GusUser saunaMaster = userService.getUserById(event.gusUserId());
+        GusUser saunaMaster = userService.getUserById(event.saunaMasterId());
         if (saunaMaster == null) {
             return null;
         }
@@ -35,9 +35,9 @@ public class EventService {
                 saunaMaster, event.address(), event.capacity()));
 
         return new EventResponse(addedEvent.getDate(), addedEvent.getStartTime(), addedEvent.getEndTime(),
-                new GusUserResponse(saunaMaster.getUsername(), saunaMaster.getFirstname(),
-                        saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(), saunaMaster.getGender(),
-                        saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft());
+                new GusUserResponse(saunaMaster.getId(), saunaMaster.getUsername(),
+                        saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
+                        saunaMaster.getGender(), saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft());
     }
 
 }

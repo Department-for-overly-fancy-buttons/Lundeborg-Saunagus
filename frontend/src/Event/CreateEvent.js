@@ -12,6 +12,8 @@ async function initApp() {
     displayNavigationBar();
     saunaMasterData = await fetchSaunaMasters();
     display();
+    document.getElementById("createEventButton").addEventListener("click", handleSubmit);
+
 }
 
 async function fetchSaunaMasters() {
@@ -28,6 +30,36 @@ async function fetchSaunaMasters() {
     }
 }
 
+async function handleSubmit(event) {
+    event.preventDefault();
+    const formEl = event.target.closest("form");
+    const formData = new FormData(formEl);
+    const saunaMasterId = getSaunaMasterId();
+
+    const eventRequest = {
+        date: formData.get("eventDate"),
+        startTime: formData.get("eventStartTime"),
+        endTime: formData.get("eventEndTime"),
+        saunaMasterId: saunaMasterId,
+        address: formData.get("eventLocation"),
+        capacity: formData.get("eventCapacity")
+    }
+    console.log(eventRequest);
+    const response = await fetch(`${BASE_URL}/create`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
+        body: JSON.stringify(eventRequest)
+    });
+
+    const result = await response.json();
+    console.log("Event added:", result);
+}
+
+function getSaunaMasterId() {
+    const saunaMaster = document.getElementById("eventSaunaMaster");
+    return saunaMaster.options[saunaMaster.selectedIndex].value
+}
+
 function display() {
     let saunaMasterContainer = document.getElementById("eventSaunaMasterBox");
     let saunaMasterLabel = document.createElement("label");
@@ -39,7 +71,7 @@ function display() {
         const option = document.createElement("option")
         option.setAttribute("label", `${saunaMasterData[i].firstname} ${saunaMasterData[i].lastname}`);
         console.log(saunaMasterData[i]);
-        option.setAttribute("value", saunaMasterData[i].username);
+        option.setAttribute("value", saunaMasterData[i].id);
         saunaMasterSelect.appendChild(option);
     }
     saunaMasterContainer.appendChild(saunaMasterLabel);

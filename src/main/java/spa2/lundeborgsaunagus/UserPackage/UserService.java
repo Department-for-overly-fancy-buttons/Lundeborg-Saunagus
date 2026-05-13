@@ -1,6 +1,5 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +34,9 @@ public class UserService {
         List<GusUser> employees = userRepository.findByRole(Role.EMPLOYEE);
         System.out.println(Role.EMPLOYEE);
         for (GusUser user : employees) {
-            gusUserResponses.add(new GusUserResponse(user.getUsername(), user.getFirstname(),
-                    user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(),
-                    user.getGender(), user.getRole()));
+            gusUserResponses.add(new GusUserResponse(user.getId(), user.getUsername(),
+                    user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
+                    user.getBirthday(), user.getGender(), user.getRole()));
         }
         return gusUserResponses;
     }
