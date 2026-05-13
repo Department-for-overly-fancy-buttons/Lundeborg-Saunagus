@@ -38,9 +38,11 @@ public class DBInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
         GusUser user = new GusUser("Freja", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0 b", LocalDate.of(2000, 2, 2), Gender.FEMALE, Role.CUSTOMER);
         GusUser user2 = new GusUser("Freja2", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111112", "vej 0 b", LocalDate.of(1902, 1, 1), Gender.FEMALE, Role.EMPLOYEE);
+        GusUser user3 = new GusUser("Freja3", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111113", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN);
 
         userRepository.save(user);
         userRepository.save(user2);
+        userRepository.save(user3);
         Event event = new Event(LocalDate.now(), LocalTime.now(), LocalTime.of(10, 10), user, "fyn", 30);
         Ticket ticket = new Ticket(user2, "ticket", false, 50, LocalDateTime.now());
         Ticket ticket2 = new Ticket(user2, "ticket", true, 50, LocalDateTime.now());

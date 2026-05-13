@@ -32,6 +32,7 @@ public class UserService {
     public List<GusUserResponse> getAllEmployees() {
         List<GusUserResponse> gusUserResponses = new ArrayList<>();
         List<GusUser> employees = userRepository.findByRole(Role.EMPLOYEE);
+        employees.addAll(userRepository.findByRole(Role.ADMIN));
         System.out.println(Role.EMPLOYEE);
         for (GusUser user : employees) {
             gusUserResponses.add(new GusUserResponse(user.getId(), user.getUsername(),
