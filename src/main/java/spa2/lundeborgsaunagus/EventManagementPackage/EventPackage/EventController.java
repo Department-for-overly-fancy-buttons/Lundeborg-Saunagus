@@ -17,9 +17,8 @@ class EventController {
     }
 
     @GetMapping()
-    List<Event> getEvents() {
-        List<Event> events = eventService.getEvents();
-        System.out.println(events.getFirst().ticketsLeft());
+    List<EventResponse> getEvents() {
+        List<EventResponse> events = eventService.getEvents();
         return events;
     }
 

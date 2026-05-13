@@ -5,6 +5,7 @@ import spa2.lundeborgsaunagus.UserPackage.GusUser;
 import spa2.lundeborgsaunagus.UserPackage.GusUserResponse;
 import spa2.lundeborgsaunagus.UserPackage.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +19,18 @@ public class EventService {
         this.userService = userService;
     }
 
-    public List<Event> getEvents() {
-        return eventRepository.findAll();
+    public List<EventResponse> getEvents() {
+        List<EventResponse> eventResponses = new ArrayList<>();
+        List<Event> events = eventRepository.findAll();
+        for (Event event : events) {
+            GusUser saunaMaster = event.getSaunaMaster();
+            eventResponses.add(new EventResponse(event.getDate(), event.getStartTime(), event.getEndTime(),
+                    new GusUserResponse(saunaMaster.getId(), saunaMaster.getUsername(),
+                            saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
+                            saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft()));
+
+        }
+        return eventResponses;
     }
 
     public Event getEventById(Long id) {

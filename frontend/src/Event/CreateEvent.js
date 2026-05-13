@@ -13,7 +13,6 @@ async function initApp() {
     saunaMasterData = await fetchSaunaMasters();
     display();
     document.getElementById("createEventButton").addEventListener("click", handleSubmit);
-
 }
 
 async function fetchSaunaMasters() {
