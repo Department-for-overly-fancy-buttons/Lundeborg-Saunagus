@@ -1,7 +1,12 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spa2.lundeborgsaunagus.ExceptionHandling.DuplicateUserException;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -23,10 +28,51 @@ public class UserService {
     }
 
     public GusUser createUser(CreateGusUserRequest userRequest) {
-        //Role requestedRole = stringToRole(userRequest.role());
-        //if(requestedRole == null){
-        //    return null;
-        //}
-        return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), Role.CUSTOMER));
+        GusUser user;
+        try{
+            user = userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateUserException("A user of this email or phonenumber already exist");
+        }
+        return user;
     }
+
+    private Gender parseJsonGender(String gender){
+        return switch (gender) {
+            case "male" -> Gender.MALE;
+            case "female" -> Gender.FEMALE;
+            default -> null;
+        };
+    }
+    private Role stringToRole(String roleText){
+        switch (roleText){
+            case "CUSTOMER":
+                return Role.CUSTOMER;
+            case "EMPLOYEE":
+                return Role.EMPLOYEE;
+            case "ADMIN":
+                return Role.ADMIN;
+            default:
+                return null;
+        }
+    }
+
+    public GusUser getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+    }
+
+    public GusUser updateUserLogin(Long id, CreateGusUserRequest userRequest) {
+        GusUser newUser = getUserById(id);
+        newUser.setUsername(userRequest.username());
+        newUser.setPassword(userRequest.password());
+        newUser.setRole(stringToRole(userRequest.role()));
+
+        if(newUser.getRole() == null){
+            return null;
+        }
+
+        return userRepository.save(newUser);
+    }
+
+
 }

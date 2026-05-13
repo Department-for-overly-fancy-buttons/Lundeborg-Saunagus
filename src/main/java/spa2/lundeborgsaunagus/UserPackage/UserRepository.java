@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<GusUser,Long> {
 
     Optional<GusUser> findByUsernameIgnoreCase(String username);
 
+
+
 }

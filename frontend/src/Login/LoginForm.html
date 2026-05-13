@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <base href="/Login">
-    <title>User log in</title>
+    <title>Log ind</title>
+    <link rel="stylesheet" href="../style.css">
+
 </head>
 <body>
-<nav></nav>
-<h1>Login</h1>
 <form id="loginForm">
+    <h1>Login</h1>
+    <p id="loginUsernameBox">
     <input type="hidden" id="loginId" name="id">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
+    <label for="loginUsername" id="loginUsernameLabel">Email:
+        <input type="text" name="username" placeholder="Username" required id="loginUsername"></label>
+</p>
+    <p id="loginPasswordBox">
+    <label for="loginPassword" id="loginPasswordLabel">Kodeord:
+        <input type="password" name="password" placeholder="Password" required id="loginPassword"></label>
+    <button type="submit" id="loginButton">Login</button>
+    </p>
 </form>
-
+<nav></nav>
 <script type="module" src="../Login/UserLogin.js"></script>
 <script src="../Login/auth.js"></script>
 </body>
