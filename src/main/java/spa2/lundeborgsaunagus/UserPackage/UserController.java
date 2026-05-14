@@ -6,6 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
 
+import java.util.List;
+
 @CrossOrigin( origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
@@ -37,6 +39,12 @@ class UserController {
 
         return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole());
     }
+
+    @GetMapping("/employees")
+    List<GusUserResponse> getEmployees() {
+        return userService.getAllEmployees();
+    }
+
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
         userValidationService.validateUserInput(userRequest);
