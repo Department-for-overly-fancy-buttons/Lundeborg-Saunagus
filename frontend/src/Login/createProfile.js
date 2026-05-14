@@ -321,12 +321,18 @@ async function addUser(event) {
     console.log(address);
 
     const birthday = formData.get("birthday");
+    if(!birthday){
+        alert("Der mangler en dato for fødsel")
+        return;
+    }
     const ageLowerLimit = 16, ageUpperLimit = 140;
+    const dateOfBirth = Date.parse(birthday);
     const today = new Date();
     const minAgeDate = new Date(today.getFullYear() - ageLowerLimit, today.getMonth(), today.getDate());
     const maxAgeDate = new Date(today.getFullYear() - ageUpperLimit, today.getMonth(), today.getDate());
-
-    if (!birthday || birthday > minAgeDate || birthday < maxAgeDate) {
+    console.log(dateOfBirth + " > " + minAgeDate )
+    console.log(dateOfBirth + " < " + maxAgeDate)
+    if (dateOfBirth > minAgeDate || dateOfBirth < maxAgeDate) {
         alert(`Fødselsdato er enten for langt i fortiden eller for kort tid siden. Man skal være ${ageLowerLimit} år for at oprette en profil`)
         return
     }

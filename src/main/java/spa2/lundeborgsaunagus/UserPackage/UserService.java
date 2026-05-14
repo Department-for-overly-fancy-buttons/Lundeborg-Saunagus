@@ -1,7 +1,10 @@
 package spa2.lundeborgsaunagus.UserPackage;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spa2.lundeborgsaunagus.ExceptionHandling.DuplicateUserException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,13 @@ public class UserService {
     }
 
     public GusUser createUser(CreateGusUserRequest userRequest) {
-        return userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
+        GusUser user;
+        try{
+            user = userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateUserException("A user of this email or phonenumber already exist");
+        }
+        return user;
     }
 
     private Gender parseJsonGender(String gender) {
