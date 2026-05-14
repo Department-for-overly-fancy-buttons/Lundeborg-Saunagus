@@ -1,80 +1,102 @@
 document.addEventListener('DOMContentLoaded', initApp);
+
 const BASE_URL = "/api/users/user";
 
 async function initApp() {
-    await display()
-
-}
-
-async function display() {
     const user = await fetchCurrentUser();
+
+    if (!user) return;
+
     showUser(user);
 
-
+    document.querySelector("form").addEventListener("submit", handleSubmit);
+    document.querySelector("#editBtn").addEventListener("click", enableEditMode);
 }
+
+
 
 async function fetchCurrentUser() {
-
     try {
-        const response = await fetch(BASE_URL)
+        const response = await fetch(BASE_URL);
 
         if (!response.ok) {
-            throw new Error("Could not fetch user information")
+            throw new Error("Could not fetch user information");
         }
-        const user = await response.json()
-        userData = user;
-        return user
+
+        return await response.json();
+
     } catch (error) {
-        console.log("An error occurred " + error)
+        console.error("An error occurred:", error);
+        return null;
     }
-
 }
-async function handleSubmit(user, event) {
-    event.preventDefault()
-    const formElement = event.target.closest("form")
-    const formData = new formData(formElement)
-    
+
+
+
+function showUser(user) {
+    document.querySelector("#firstname").value = user.firstname;
+    document.querySelector("#lastname").value = user.lastname;
+    document.querySelector("#username").value = user.username;
+    document.querySelector("#phoneNumber").value = user.phoneNumber;
+    document.querySelector("#address").value = user.address;
+    document.querySelector("#birthday").value = user.birthday;
+
+    setInputsDisabled(true);
+}
+
+
+
+function enableEditMode() {
+    setInputsDisabled(false);
+}
+
+
+
+function setInputsDisabled(state) {
+    document.querySelector("#firstname").disabled = state;
+    document.querySelector("#lastname").disabled = state;
+    document.querySelector("#username").disabled = state;
+    document.querySelector("#phoneNumber").disabled = state;
+    document.querySelector("#address").disabled = state;
+}
+
+
+
+async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
     const userData = {
-        username: formData.get("#username"),
-        password: formData.get("#password"),
-        phoneNumber: formData.get("#phonenumber"),
-        address: formData.get("#address"),
+        firstname: formData.get("firstname"),
+        lastname: formData.get("lastname"),
+        username: formData.get("username"),
+        phoneNumber: formData.get("phoneNumber"),
+        address: formData.get("address"),
+    };
+
+    const csrfToken = getCsrfToken();
+
+    try {
+        const response = await fetch(`${BASE_URL}/update`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-XSRF-TOKEN": csrfToken || ""
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (!response.ok) {
+            throw new Error("Update failed: " + response.status);
+        }
+
+        const result = await response.json();
+        console.log("User updated:", result);
+
+        window.location.href = "../index.html";
+
+    } catch (err) {
+        console.error("Error updating user:", err);
     }
-    const response = await fetch({
-        method: "POST",
-        headers: {
-            "X-XSRF-TOKEN": csrfToken || ""},
-        body: JSON.stringify(user)
-    })
-
-    const result = await response.json();
-    console.log("User data updated: ", result)
-    //insert til html
-    window.location.href =
-
-
-    }
-
-}
-
-
-async function showUser(user) {
-    document.querySelector("#firstname").textContent = user.firstname;
-    document.querySelector("#lastname").textContent = user.lastname;
-    document.querySelector("#username").textContent = user.username;
-    document.querySelector("#phoneNumber").textContent = user.phoneNumber;
-    document.querySelector("#address").textContent = user.address;
-    document.querySelector("#birthday").textContent = user.birthday;
-
-}
-
-async function editUserProfile(user) {
-    const firstnameinput = document.querySelector("#firstname")
-    const lastnameinput = document.querySelector("#lastname")
-    const usernameinput = document.querySelector("#username")
-    const phoneNumberinput = document.querySelector("#phoneNumber")
-    const addressinput = document.querySelector("#address")
-
-    document.getElementById("submitEditUser").addEventListener("click", handleSubmit)
-
 }

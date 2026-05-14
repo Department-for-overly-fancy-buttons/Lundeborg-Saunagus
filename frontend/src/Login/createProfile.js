@@ -1,5 +1,6 @@
 import {createHtmlElement} from "../htmlTagFactory.js";
 import {displayNavigationBar} from "../navigationBars.js";
+import {ValidateEmail} from "../UserHandling/inputValidation.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
@@ -267,8 +268,7 @@ async function addUser(event) {
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
     const username = formData.get("mail").trim();
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-    if (!emailRegex.test(username)) {
+    if (ValidateEmail(username)) {
         alert("Mail adressen har ikke den korrekte format ( eksempel@mail.domæne )")
         return
     }
