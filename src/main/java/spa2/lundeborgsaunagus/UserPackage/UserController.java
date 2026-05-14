@@ -4,6 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -31,10 +34,19 @@ class UserController {
 
     @GetMapping("/user")
     GusUserResponse getUser(Authentication authentication) {
+        if(authentication == null) {
+            throw new InvalidInputException("test");
+        }
         GusUser user = userService.getUser(authentication.getName());
 
         return new GusUserResponse(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole());
     }
+
+    @GetMapping("/employees")
+    List<GusUserResponse> getEmployees() {
+        return userService.getAllEmployees();
+    }
+
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
         userValidationService.validateUserInput(userRequest);

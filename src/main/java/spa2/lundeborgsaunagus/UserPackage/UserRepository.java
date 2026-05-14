@@ -9,10 +9,10 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<GusUser,Long> {
 
+    List<GusUser> findByRole(Role role);
+
     GusUser findByUsernameAndPassword(String username, String password);
 
     Optional<GusUser> findByUsernameIgnoreCase(String username);
 
-
-    List<GusUser> findByRole(String role);
 }

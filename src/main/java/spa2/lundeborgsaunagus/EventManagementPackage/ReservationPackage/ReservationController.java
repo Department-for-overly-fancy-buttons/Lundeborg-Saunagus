@@ -1,4 +1,4 @@
-package spa2.lundeborgsaunagus.EventManagementPackage.ReservationPackage;
-
-public class ReservationController {
-}
+//package spa2.lundeborgsaunagus.EventManagementPackage.ReservationPackage;
+//
+//public class ReservationController {
+//}
