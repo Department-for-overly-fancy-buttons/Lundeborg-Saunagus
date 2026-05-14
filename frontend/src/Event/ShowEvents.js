@@ -32,7 +32,7 @@ function display() {
     let eventContainerEl = document.querySelector("#event-container");
     for (let i = 0; i < eventData.length; i++) {
         let eventBox = createHtmlElement({tagName: "div", htmlClass: "event-box"})
-        eventBox.setAttribute("data-eventID", eventData[i].id);
+        eventBox.setAttribute("data-eventId", eventData[i].id);
 
         let titleElement = createHtmlElement({
             tagName: "h4",
@@ -54,8 +54,21 @@ function display() {
                 }
             });
             eventBox.appendChild(infoElement);
+            eventBox.addEventListener("click", handleGetEvent);
         }
         eventContainerEl.appendChild(eventBox);
         console.log(eventData[i]);
+    }
+}
+
+async function handleGetEvent(event) {
+    event.preventDefault();
+
+    const eventBox = event.target.closest("div");
+    const eventId = eventBox.getAttribute("data-eventId");
+    if (eventId !== null) {
+        window.location.href = `/Event/EventInfo.html?eventId=${eventId}`;
+    } else {
+        //console.log("box clicked");
     }
 }
