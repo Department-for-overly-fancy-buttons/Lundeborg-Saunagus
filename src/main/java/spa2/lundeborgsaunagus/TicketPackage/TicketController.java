@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.Event;
 import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.EventService;
+import spa2.lundeborgsaunagus.EventManagementPackage.ReservationPackage.Reservation;
 
 import java.util.List;
 
@@ -21,8 +22,14 @@ public class TicketController {
     }
 
     @GetMapping()
-    public List<Ticket> getEvents() {
-        List<Ticket> tickets= ticketService.getTickets();
+    public List<Ticket> getTickets() {
+        List<Ticket> tickets = ticketService.getTickets();
         return tickets;
     }
+
+    @GetMapping("/reservations")
+    public List<Reservation> getReservations() {
+        return ticketService.getAllReservations();
+    }
+
 }
