@@ -18,8 +18,7 @@ class EventController {
 
     @GetMapping()
     List<EventResponse> getEvents() {
-        List<EventResponse> events = eventService.getEvents();
-        return events;
+        return eventService.getEvents();
     }
 
     @PostMapping("/create")
