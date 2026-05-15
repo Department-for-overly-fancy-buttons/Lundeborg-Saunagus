@@ -20,22 +20,22 @@ class TicketController {
     }
 
     @GetMapping()
-    List<Ticket> getTickets() {
+    List<TicketResponse> getTickets() {
         return ticketService.getTickets();
     }
 
     @GetMapping("/{email}")
-    List<Ticket> getTicketsForUser(@PathVariable String email) {
+    List<TicketResponse> getTicketsForUser(@PathVariable String email) {
         return ticketService.getTicketsForUser(email);
     }
 
     @GetMapping("/my/tickets")
-    List<Ticket> getMyTickets(Authentication authentication) {
+    List<TicketResponse> getMyTickets(Authentication authentication) {
         return ticketService.getTicketsForUser(authentication.getName());
     }
 
     @GetMapping("/event/{eventId}")
-    List<Ticket> getTicketsForEvent(@PathVariable Long eventId) {
+    List<TicketResponse> getTicketsForEvent(@PathVariable Long eventId) {
         return ticketService.getTicketsForEvent(eventId);
     }
 
@@ -49,12 +49,12 @@ class TicketController {
     }
 
     @PostMapping("/paid/status")
-    ResponseEntity<Ticket> setPaidStatus(@RequestBody TicketRequest ticketRequest, Authentication authentication) {
+    ResponseEntity<TicketResponse> setPaidStatus(@RequestBody TicketRequest ticketRequest, Authentication authentication) {
         if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             System.out.println(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
             return null;
         }
-        Ticket ticket = ticketService.setTicketPaidStatus(ticketRequest);
+        TicketResponse ticket = ticketService.setTicketPaidStatus(ticketRequest);
         return ResponseEntity.ok(ticket);
     }
 

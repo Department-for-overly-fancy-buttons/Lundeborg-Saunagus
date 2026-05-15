@@ -7,6 +7,7 @@ import spa2.lundeborgsaunagus.UserPackage.GusUser;
 import spa2.lundeborgsaunagus.UserPackage.UserService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,8 +23,8 @@ public class TicketService {
         this.eventService = eventService;
     }
 
-    public List<Ticket> getTickets() {
-        return ticketRepository.findAll();
+    public List<TicketResponse> getTickets() {
+        return ticketListToTicketResponseList(ticketRepository.findAll());
     }
 
     public TicketResponse createTicket(TicketRequest ticketRequest, String email) {
@@ -38,30 +39,45 @@ public class TicketService {
         if (event.ticketsLeft() > 0) {
             Ticket ticket = new Ticket(user, "ticket", false, 50, LocalDateTime.now(), event);
             Ticket addedTicket = ticketRepository.save(ticket);
-            return new TicketResponse();
+            return ticketToTicketResponse(addedTicket);
         } else return null;
 
     }
 
-    public List<Ticket> getTicketsForEvent(Long eventId) {
-        return ticketRepository.findAllByEvent(eventService.getEventById(eventId));
+    public List<TicketResponse> getTicketsForEvent(Long eventId) {
+        return ticketListToTicketResponseList(ticketRepository.findAllByEvent(eventService.getEventById(eventId)));
     }
 
-    public List<Ticket> getTicketForEventAndUser(Event event, GusUser user) {
-        return ticketRepository.findAllByEventAndUser(event, user);
+    public List<TicketResponse> getTicketForEventAndUser(Event event, GusUser user) {
+        return ticketListToTicketResponseList(ticketRepository.findAllByEventAndUser(event, user));
     }
 
-    public List<Ticket> getTicketsForUser(String email) {
+    public List<TicketResponse> getTicketsForUser(String email) {
         GusUser user = userService.getUser(email);
-        return ticketRepository.findAllByUser(user);
+        return ticketListToTicketResponseList(ticketRepository.findAllByUser(user));
     }
 
-    public Ticket setTicketPaidStatus(TicketRequest ticketRequest) {
+    public TicketResponse setTicketPaidStatus(TicketRequest ticketRequest) {
         Ticket ticket = ticketRepository.findAllByEventIdAndUser(ticketRequest.eventId(), userService.getUser(ticketRequest.email()));
         if (ticket == null) {
             return null;
         }
         ticket.setPaid(!ticket.isPaid());
-        return ticketRepository.save(ticket);
+        Ticket updatedTicket = ticketRepository.save(ticket);
+        return ticketToTicketResponse(updatedTicket);
     }
+
+    private TicketResponse ticketToTicketResponse(Ticket ticket) {
+        return new TicketResponse(ticket.getUser().getId(), ticket.getTicketType(), ticket.isPaid(),
+                ticket.getPrice(), ticket.getTimeOfPurchase(), ticket.getEvent().getId());
+    }
+
+    private List<TicketResponse> ticketListToTicketResponseList(List<Ticket> tickets) {
+        List<TicketResponse> ticketResponses = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            ticketResponses.add(ticketToTicketResponse(ticket));
+        }
+        return ticketResponses;
+    }
+
 }
