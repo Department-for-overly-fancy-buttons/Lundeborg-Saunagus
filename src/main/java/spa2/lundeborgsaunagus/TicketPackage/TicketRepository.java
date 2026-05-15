@@ -12,7 +12,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByUser(GusUser user);
 
-    List<Ticket> findAllByEvent(Event event);
+    List<Ticket> findAllByEventOrderByPaid(Event event);
 
     List<Ticket> findAllByEventAndUser(Event event, GusUser user);
 

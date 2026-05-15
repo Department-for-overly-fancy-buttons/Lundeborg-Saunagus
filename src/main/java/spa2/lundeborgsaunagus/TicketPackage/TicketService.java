@@ -45,7 +45,7 @@ public class TicketService {
     }
 
     public List<TicketResponse> getTicketsForEvent(Long eventId) {
-        return ticketListToTicketResponseList(ticketRepository.findAllByEvent(eventService.getEventById(eventId)));
+        return ticketListToTicketResponseList(ticketRepository.findAllByEventOrderByPaid(eventService.getEventById(eventId)));
     }
 
     public List<TicketResponse> getTicketForEventAndUser(Event event, GusUser user) {
