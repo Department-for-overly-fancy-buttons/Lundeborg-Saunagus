@@ -18,7 +18,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Ticket findAllByEventIdAndUser(Long event_id, GusUser user);
 
-
     List<Ticket> findAllByPaid(Boolean paid);
 
     List<Ticket> findAllByPaidAndEvent(Boolean paid, Event event);
