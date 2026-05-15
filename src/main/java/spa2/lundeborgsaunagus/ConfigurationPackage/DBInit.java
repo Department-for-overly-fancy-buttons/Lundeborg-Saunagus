@@ -46,8 +46,11 @@ public class DBInit implements CommandLineRunner {
         Event event = new Event(LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna");
         event.setInformation("kun for over 90");
         Event event2 = new Event(LocalDate.now().plusDays(10), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna2");
+        event2.setInformation("Hunde tilladt");
         Event event3 = new Event(LocalDate.now().plusDays(20), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna3");
+        event3.setInformation("Is sauna");
         Event event4 = new Event(LocalDate.now().plusDays(30), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna4");
+        event4.setInformation("Kun adgang med skitøj");
         Event event5 = new Event(LocalDate.now().plusDays(54), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna5");
         Event event6 = new Event(LocalDate.now().plusDays(8), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna6");
         Event event7 = new Event(LocalDate.now().plusDays(103), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna7");
