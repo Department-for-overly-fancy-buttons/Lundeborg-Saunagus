@@ -44,6 +44,9 @@ public class DBInit implements CommandLineRunner {
         userRepository.save(user2);
         userRepository.save(user3);
         Event event = new Event(LocalDate.now(), LocalTime.now(), LocalTime.of(10, 10), user, "fyn", 30,"Sauna");
+        Event event2 = new Event(LocalDate.now(), LocalTime.now(), LocalTime.of(10, 10), user, "fyn", 10,"Sauna spa");
+        Event event3 = new Event(LocalDate.now().minusDays(4), LocalTime.now(), LocalTime.of(10, 10), user, "fyn", 20,"Sauna");
+
         event.setInformation("kun for over 90");
         Ticket ticket = new Ticket(user2, "ticket", false, 50, LocalDateTime.now());
         Ticket ticket2 = new Ticket(user2, "ticket", true, 50, LocalDateTime.now());
@@ -52,5 +55,7 @@ public class DBInit implements CommandLineRunner {
 
         event.setReservations(List.of(ticket, ticket2));
         eventRepository.save(event);
+        eventRepository.save(event2);
+        eventRepository.save(event3);
     }
 }

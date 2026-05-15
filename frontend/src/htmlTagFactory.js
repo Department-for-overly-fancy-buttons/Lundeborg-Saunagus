@@ -18,18 +18,19 @@ export function createHtmlElement(elementInfo){
     }
 
     if("htmlClass" in elementInfo) {
-        let classString = null;
         if (Array.isArray(elementInfo.htmlClass)) {
-            classString = elementInfo.htmlClass.reduce((previousClass, currentClass) => previousClass += " " + currentClass);
-            //console.log(`htmlClass has multiple htmlClass ${classString}`);
-        } else if (typeof elementInfo.htmlClass === "string") {
-            classString = elementInfo.htmlClass;
+            //console.log(`htmlClass has multiple htmlClass`);
+            //console.log(elementInfo.htmlClass.length)
+            for(let i = 0; i < elementInfo.htmlClass.length; i++){
+                //console.log(elementInfo.htmlClass[i])
+                if(elementInfo.htmlClass[i].length > 0) {
+                    element.classList.add(elementInfo.htmlClass[i]);
+                }
+                //console.log(element)
+            }
+        } else if (typeof elementInfo.htmlClass === "string" && 0 < elementInfo.htmlClass.length) {
+            element.classList.add(elementInfo.htmlClass);
             //console.log(`htmlClass has one string ${classString}`);
-        }
-        if (classString !== null) {
-            element.classList.add(classString);
-            //console.log(`htmlClassString is not null (${classString}) element:`);
-            //console.log(element);
         }
     }
 

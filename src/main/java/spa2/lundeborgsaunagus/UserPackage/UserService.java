@@ -80,12 +80,12 @@ public class UserService {
         return userRepository.findAll();
     }
     public List<GusUser> getAllUsersByRole(Role role) {
-        return userRepository.findByRole(role.toString());
+        return userRepository.findByRole(role);
     }
 
-    public GusUser getUserById(Long id) {
+    /*public GusUser getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
-    }
+    }*/
 
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
