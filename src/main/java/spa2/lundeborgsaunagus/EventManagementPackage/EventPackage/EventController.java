@@ -18,13 +18,17 @@ class EventController {
 
     @GetMapping()
     List<EventResponse> getEvents() {
-        List<EventResponse> events = eventService.getEvents();
-        return events;
+        return eventService.getEvents();
     }
 
     @PostMapping("/create")
     ResponseEntity<EventResponse> createEvent(@RequestBody CreateEventRequest eventRequest) {
         return ResponseEntity.ok(eventService.createEvent(eventRequest));
+    }
+
+    @GetMapping("/{id}")
+    Event getEvent(@PathVariable Long id) {
+        return eventService.getEventById(id);
     }
 
 }

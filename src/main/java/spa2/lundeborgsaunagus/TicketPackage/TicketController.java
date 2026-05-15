@@ -1,28 +1,61 @@
 package spa2.lundeborgsaunagus.TicketPackage;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.Event;
-import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.EventService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost")
 @RequestMapping("/api/tickets")
 @RestController
-public class TicketController {
+class TicketController {
 
     private final TicketService ticketService;
 
-    public TicketController(TicketService ticketService) {
+    TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 
     @GetMapping()
-    public List<Ticket> getEvents() {
-        List<Ticket> tickets= ticketService.getTickets();
-        return tickets;
+    List<TicketResponse> getTickets() {
+        return ticketService.getTickets();
     }
+
+    @GetMapping("/{email}")
+    List<TicketResponse> getTicketsForUser(@PathVariable String email) {
+        return ticketService.getTicketsForUser(email);
+    }
+
+    @GetMapping("/my/tickets")
+    List<TicketResponse> getMyTickets(Authentication authentication) {
+        return ticketService.getTicketsForUser(authentication.getName());
+    }
+
+    @GetMapping("/event/{eventId}")
+    List<TicketResponse> getTicketsForEvent(@PathVariable Long eventId) {
+        return ticketService.getTicketsForEvent(eventId);
+    }
+
+    @PostMapping("/ticket")
+    ResponseEntity<TicketResponse> reserveTicket(@RequestBody TicketRequest ticketRequest, Authentication authentication) {
+        TicketResponse ticketResponse = ticketService.createTicket(ticketRequest, authentication.getName());
+        if (ticketResponse == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(ticketResponse);
+    }
+
+    @PostMapping("/paid/status")
+    ResponseEntity<TicketResponse> setPaidStatus(@RequestBody TicketRequest ticketRequest, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            System.out.println(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            return null;
+        }
+        TicketResponse ticket = ticketService.setTicketPaidStatus(ticketRequest);
+        return ResponseEntity.ok(ticket);
+    }
+
 }
