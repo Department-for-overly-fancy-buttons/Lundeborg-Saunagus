@@ -43,14 +43,25 @@ public class DBInit implements CommandLineRunner {
         userRepository.save(user);
         userRepository.save(user2);
         userRepository.save(user3);
-        Event event = new Event(LocalDate.now(), LocalTime.now(), LocalTime.of(10, 10), user, "fyn", 30, "Sauna");
+        Event event = new Event(LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna");
         event.setInformation("kun for over 90");
-        Event event2 = new Event(LocalDate.now(), LocalTime.now(), LocalTime.of(19, 10), user, "fyn", 30, "Sauna2");
-        Ticket ticket = new Ticket(user2, "ticket", false, 50, LocalDateTime.now(),event);
-        Ticket ticket2 = new Ticket(user, "ticket", true, 50, LocalDateTime.now(),event);
-        Ticket ticket3 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(),event);
-        eventRepository.save(event);
-        eventRepository.save(event2);
+        Event event2 = new Event(LocalDate.now().plusDays(10), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna2");
+        Event event3 = new Event(LocalDate.now().plusDays(20), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna3");
+        Event event4 = new Event(LocalDate.now().plusDays(30), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna4");
+        Event event5 = new Event(LocalDate.now().plusDays(54), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna5");
+        Event event6 = new Event(LocalDate.now().plusDays(8), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna6");
+        Event event7 = new Event(LocalDate.now().plusDays(103), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna7");
+        Event event8 = new Event(LocalDate.now().plusDays(100), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna8");
+        Event event9 = new Event(LocalDate.now().plusDays(19), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna9");
+        Event event10 = new Event(LocalDate.now().plusDays(33), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Saun12");
+        Event event11 = new Event(LocalDate.now().plusDays(44), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna22");
+        Event event12 = new Event(LocalDate.now().plusDays(40), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna42");
+
+
+        Ticket ticket = new Ticket(user2, "ticket", false, 50, LocalDateTime.now(), event);
+        Ticket ticket2 = new Ticket(user, "ticket", true, 50, LocalDateTime.now(), event);
+        Ticket ticket3 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(), event);
+        eventRepository.saveAll(List.of(event, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12));
         ticketRepository.save(ticket);
         ticketRepository.save(ticket2);
         ticketRepository.save(ticket3);
