@@ -27,13 +27,9 @@ public class Event {
     private String address;
     @Column(nullable = false)
     private int capacity;
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "reservation",
-            joinColumns = @JoinColumn(name = "eventId"),
-            inverseJoinColumns = @JoinColumn(name = "ticketId")
-    )
-    private List<Ticket> reservations = new ArrayList<>();
+    @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonManagedReference
+    private List<Ticket> reservations;
     @Column(nullable = false)
     private String title;
     @Column
