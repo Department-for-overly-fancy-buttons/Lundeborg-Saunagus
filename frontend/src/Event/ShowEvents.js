@@ -44,7 +44,7 @@ function display() {
         });
         eventBox.appendChild(titleElement);
 
-        if(eventData[i].information) {
+        if (eventData[i].information) {
             let infoElement = createHtmlElement({
                 tagName: "h5",
                 htmlClass: "event-info",
@@ -54,8 +54,8 @@ function display() {
                 }
             });
             eventBox.appendChild(infoElement);
-            eventBox.addEventListener("click", handleGetEvent);
         }
+        eventBox.addEventListener("click", handleGetEvent);
         eventContainerEl.appendChild(eventBox);
         console.log(eventData[i]);
     }
@@ -69,6 +69,6 @@ async function handleGetEvent(event) {
     if (eventId !== null) {
         window.location.href = `/Event/EventInfo.html?eventId=${eventId}`;
     } else {
-        //console.log("box clicked");
+        console.log("box clicked");
     }
 }
