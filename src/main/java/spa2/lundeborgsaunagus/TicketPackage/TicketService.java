@@ -56,4 +56,12 @@ public class TicketService {
         return ticketRepository.findAllByUser(user);
     }
 
+    public Ticket setTicketPaidStatus(TicketRequest ticketRequest) {
+        Ticket ticket = ticketRepository.findAllByEventIdAndUser(ticketRequest.eventId(), userService.getUser(ticketRequest.email()));
+        if (ticket == null) {
+            return null;
+        }
+        ticket.setPaid(!ticket.isPaid());
+        return ticketRepository.save(ticket);
+    }
 }

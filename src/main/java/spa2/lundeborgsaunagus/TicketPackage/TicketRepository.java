@@ -8,12 +8,21 @@ import spa2.lundeborgsaunagus.UserPackage.GusUser;
 import java.util.List;
 
 @Repository
-public interface TicketRepository extends JpaRepository<Ticket,Long> {
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByUser(GusUser user);
 
     List<Ticket> findAllByEvent(Event event);
 
     List<Ticket> findAllByEventAndUser(Event event, GusUser user);
+
+    Ticket findAllByEventIdAndUser(Long event_id, GusUser user);
+
+
+    List<Ticket> findAllByPaid(Boolean paid);
+
+    List<Ticket> findAllByPaidAndEvent(Boolean paid, Event event);
+
+    List<Ticket> findAllByPaidAndUser(Boolean paid, GusUser user);
 
 }
