@@ -32,6 +32,9 @@ public class TicketService {
         }
         GusUser user = userService.getUser(email);
         Event event = eventService.getEventById(ticketRequest.eventId());
+        if (!getTicketForEventAndUser(event, user).isEmpty()) {
+            return null;
+        }
         if (event.ticketsLeft() > 0) {
             Ticket ticket = new Ticket(user, "ticket", false, 50, LocalDateTime.now(), event);
             Ticket addedTicket = ticketRepository.save(ticket);
@@ -44,6 +47,9 @@ public class TicketService {
         return ticketRepository.findAllByEvent(eventService.getEventById(eventId));
     }
 
+    public List<Ticket> getTicketForEventAndUser(Event event, GusUser user) {
+        return ticketRepository.findAllByEventAndUser(event, user);
+    }
 
     public List<Ticket> getTicketsForUser(String email) {
         GusUser user = userService.getUser(email);
