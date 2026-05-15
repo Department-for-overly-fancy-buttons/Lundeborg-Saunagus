@@ -22,13 +22,17 @@ public class Ticket {
     private double price;
     @Column(nullable = false)
     private LocalDateTime timeOfPurchase;
+    @ManyToOne
+    @JsonBackReference
+    private Event event;
 
-    public Ticket(GusUser user, String ticketType, boolean paid, double price, LocalDateTime timeOfPurchase) {
+    public Ticket(GusUser user, String ticketType, boolean paid, double price, LocalDateTime timeOfPurchase,Event event) {
         this.user = user;
         this.ticketType = ticketType;
         this.paid = paid;
         this.price = price;
         this.timeOfPurchase = timeOfPurchase;
+        this.event = event;
     }
 
     public Ticket() {
@@ -81,5 +85,13 @@ public class Ticket {
 
     public void setTimeOfPurchase(LocalDateTime timeOfPurchase) {
         this.timeOfPurchase = timeOfPurchase;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }
