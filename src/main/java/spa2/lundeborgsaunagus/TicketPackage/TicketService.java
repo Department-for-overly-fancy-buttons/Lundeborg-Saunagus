@@ -27,18 +27,20 @@ public class TicketService {
     }
 
     public TicketResponse createTicket(TicketRequest ticketRequest, String email) {
+        if (!ticketRequest.email().equalsIgnoreCase(email)) {
+            return null;
+        }
         GusUser user = userService.getUser(email);
         Event event = eventService.getEventById(ticketRequest.eventId());
         if (event.ticketsLeft() > 0) {
             Ticket ticket = new Ticket(user, "ticket", false, 50, LocalDateTime.now(), event);
             Ticket addedTicket = ticketRepository.save(ticket);
             return new TicketResponse();
-        }
-        else return null;
+        } else return null;
 
     }
 
-    public List<Ticket> getTicketsForEvent(Long eventId){
+    public List<Ticket> getTicketsForEvent(Long eventId) {
         return ticketRepository.findAllByEvent(eventService.getEventById(eventId));
     }
 

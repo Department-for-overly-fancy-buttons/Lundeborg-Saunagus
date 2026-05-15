@@ -12,11 +12,12 @@ let eventData;
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
-    eventData = await fetchEvents();
+    eventData = await fetchEvent();
+    display();
     console.log(eventData);
 }
 
-async function fetchEvents() {
+async function fetchEvent() {
     try {
         const response = await fetch(`${BASE_URL}/${eventId}`);
         console.log(response);
@@ -27,5 +28,23 @@ async function fetchEvents() {
 
     } catch (error) {
         console.log("An error occurred:   " + error)
+    }
+}
+
+function display() {
+    let ticketButton = document.querySelector("#getTicketButton");
+    ticketButton.setAttribute("data-eventId", eventData.id);
+    ticketButton.addEventListener("click", handleGetTicket);
+}
+
+async function handleGetTicket(event) {
+    event.preventDefault();
+
+    const ticketButton = event.target.closest("button");
+    const eventId = ticketButton.getAttribute("data-eventId");
+    if (eventId !== null) {
+        window.location.href = `/Ticket/CreateReservation.html?eventId=${eventId}`;
+    } else {
+        //console.log("box clicked");
     }
 }
