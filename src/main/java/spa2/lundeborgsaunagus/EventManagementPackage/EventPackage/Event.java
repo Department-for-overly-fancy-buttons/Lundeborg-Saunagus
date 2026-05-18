@@ -29,7 +29,7 @@ public class Event {
     private int capacity;
     @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonManagedReference
-    private List<Ticket> reservations;
+    private List<Ticket> reservations = new ArrayList<>();
     @Column(nullable = false)
     private String title;
     @Column
@@ -139,6 +139,9 @@ public class Event {
     }
 
     public int ticketsLeft() {
+        if(reservations.isEmpty()){
+            return capacity;
+        }
         return capacity - reservations.size();
     }
 
