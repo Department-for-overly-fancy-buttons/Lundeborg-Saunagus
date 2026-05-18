@@ -20,6 +20,10 @@ label, #submitButton, #loginButton, #createEventButton, .event-box {
     box-sizing: border-box;
 }
 
+.event-box{
+    text-align: center;
+}
+
 #submitButton, #loginButton, #createEventButton {
     background-color: deeppink;
 }

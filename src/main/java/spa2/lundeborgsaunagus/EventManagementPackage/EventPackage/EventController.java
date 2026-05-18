@@ -27,8 +27,8 @@ class EventController {
     }
 
     @GetMapping("/{id}")
-    Event getEvent(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    EventResponse getEvent(@PathVariable Long id) {
+        return eventService.getEventResponseById(id);
     }
 
 }
