@@ -99,6 +99,7 @@ function showCalenderMonth() {
                     htmlClass: "calender-event-box",
                     htmlAttributes: {textContent: `${eventList[i].title}`}
                 });
+                eventBoxEl.setAttribute("data-eventId", eventList[i].id);
                 weekDayEl.appendChild(eventBoxEl);
             }
         }
@@ -106,6 +107,7 @@ function showCalenderMonth() {
         weekDayEl.appendChild(createHtmlElement({tagName: "p", htmlClass: "default-cursor", htmlAttributes: {textContent: `${weekDay}`}}));
 
         calenderWeekDaysEl.appendChild(weekDayEl);
+        calenderWeekDaysEl.addEventListener("click", handleEventClick);
     }
     bodyEl.appendChild(calenderWeekDayHeadersEl);
     bodyEl.appendChild(calenderWeekDaysEl);
@@ -143,4 +145,13 @@ function handlePrevMonth(event){
     }
     showCalenderMonth();
 
+}
+
+function handleEventClick(event){
+    event.preventDefault();
+    const clickedEvent = event.target;
+    if(!clickedEvent.classList.contains("calender-event-box")) {
+        return;
+    }
+    window.location.href = `/Event/EventInfo.html?eventId=${clickedEvent.getAttribute("data-eventId")}`;
 }
