@@ -41,6 +41,9 @@ export function displayNavigationBar(){
         listItemLoginEl.appendChild(logoutLinkEl);
     }
 
+    let createEventLink = createHtmlElement({tagName: "a",htmlClass: "navigationLink", htmlAttributes: {href: "/Event/CreateEvent.html", title: "Events", textContent: "Opret event"}});
+    listItemTitleEl.appendChild(createEventLink);
+
     listEl.appendChild(listItemLoginEl);
 
 
