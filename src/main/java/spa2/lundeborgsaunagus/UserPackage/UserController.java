@@ -8,6 +8,8 @@ import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
 
 import java.util.List;
 
+import java.util.List;
+
 @CrossOrigin( origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
@@ -63,4 +65,23 @@ class UserController {
         }
         return ResponseEntity.ok(updateUser);
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+    @GetMapping
+    ResponseEntity<List<GusUser>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/role/{role}")
+    ResponseEntity<List<GusUser>> getAllUsersByRole(@PathVariable Role role) {
+        return ResponseEntity.ok(userService.getAllUsersByRole(role));
+    }
+
 }

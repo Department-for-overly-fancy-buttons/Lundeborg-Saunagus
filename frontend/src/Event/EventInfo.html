@@ -8,7 +8,23 @@
 <body>
 <nav></nav>
 
-<button id="getTicketButton">Bestil billet</button>
+<div id="event-container">
+</div>
+
+<form id="userForm">
+    <h1>Bestil billet</h1>
+    <p id="ticketEmailBox">
+        <label for="ticketEmail" id="ticketEmailLabel">Email for billet:
+            <input type="text" name="ticketEmail" required id="ticketEmail"></label>
+    </p>
+    <p id="prePaidBox">
+        <label for="prePaidCheckBox" id="prePaidCheckBoxLabel">Brug Klippekort:
+            <input type="checkbox" name="prePaidCheckBox" id="prePaidCheckBox">
+        </label>
+
+    </p>
+    <button type="submit" id="reserveTicketButton">Bestil billet</button>
+</form>
 
 <script src="../Login/auth.js"></script>
 <script type="module" src="EventInfo.js"></script>
