@@ -1,26 +1,62 @@
 import {createHtmlElement} from "./htmlTagFactory.js";
 
-export function displayCalender(eventList){
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth();
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
+let eventList;
+let headerEl
+let bodyEl;
 
+export function displayCalender(inputList){
+    eventList = inputList;
     let containerEl = createHtmlElement({tagName: "div", htmlClass: "calender-container"});
 
-    let headerEl = createHtmlElement({tagName: "div", htmlClass: "calender-header"});
+    headerEl = createHtmlElement({tagName: "div", htmlClass: "calender-header"});
 
+    bodyEl = createHtmlElement({tagName: "div", htmlClass: "calender-body"});
+
+    showCalenderMonth();
+
+    containerEl.appendChild(headerEl);
+    containerEl.appendChild(bodyEl);
+
+    document.body.appendChild(containerEl);
+}
+
+function showCalenderMonth() {
+
+    if(headerEl.children.length > 0) {
+        while(headerEl.lastElementChild) {
+            headerEl.removeChild(headerEl.lastElementChild)
+        }
+    }
+
+    //Display header
     const monthNames = ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"];
 
     let currentMonthTitleEl = createHtmlElement({tagName: "h2", htmlClass: "calender-current-month", htmlAttributes: {textContent: `${monthNames[currentMonth]}  ${currentYear}`}});
 
+    let prevMonthButton = createHtmlElement({tagName: "button", htmlAttributes: {textContent: "Prev"}});
+    prevMonthButton.dataset.function = "prev";
+    let nextMonthButton = createHtmlElement({tagName: "button", htmlAttributes: {textContent: "Next"}});
+    nextMonthButton.dataset.function = "next";
+    headerEl.addEventListener("click", handlePrevMonth );
+    headerEl.appendChild(prevMonthButton);
     headerEl.appendChild(currentMonthTitleEl);
+    headerEl.appendChild(nextMonthButton);
 
-    let bodyEl = createHtmlElement({tagName: "div", htmlClass: "calender-body"});
+    alert("showing calender")
+    //if(bodyEl.children.length > 0) {
+    console.log(bodyEl)
+        while (bodyEl.lastElementChild) {
+            bodyEl.removeChild(bodyEl.lastElementChild)
+        }
+        console.log(bodyEl)
+    //}
 
+    //Display day names
     let calenderWeekDayHeadersEl = createHtmlElement({tagName: "ul", htmlClass: "calender-weekdays-headers"});
-
-
 
     calenderWeekDayHeadersEl.appendChild(createCalenderHeader("Mandag"));
     calenderWeekDayHeadersEl.appendChild(createCalenderHeader("Tirsdag"));
@@ -30,9 +66,10 @@ export function displayCalender(eventList){
     calenderWeekDayHeadersEl.appendChild(createCalenderHeader("Lørdag"));
     calenderWeekDayHeadersEl.appendChild(createCalenderHeader("Søndag"));
 
+    //Display day numbers
     let calenderWeekDaysEl = createHtmlElement({tagName: "ul", htmlClass: "calender-weekdays"});
 
-    let firstDayInMonth = new Date(currentYear, currentMonth, 1).getDay();
+    let firstDayInMonth = new Date(currentYear, currentMonth, 0).getDay();
     let lastDayInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     //Display previous month
@@ -53,7 +90,6 @@ export function displayCalender(eventList){
             let eventDate = new Date(Date.parse(eventList[i].date));
             let eventBoxEl;
             if (weekDay === eventDate.getDate() && currentMonth === eventDate.getMonth() && currentYear === eventDate.getFullYear()) {
-                console.log("Is today")
                 eventBoxEl = createHtmlElement({
                     tagName: "div",
                     htmlClass: "calender-event-box",
@@ -67,16 +103,8 @@ export function displayCalender(eventList){
 
         calenderWeekDaysEl.appendChild(weekDayEl);
     }
-
-
-
     bodyEl.appendChild(calenderWeekDayHeadersEl);
     bodyEl.appendChild(calenderWeekDaysEl);
-
-    containerEl.appendChild(headerEl);
-    containerEl.appendChild(bodyEl);
-
-    document.body.appendChild(containerEl);
 }
 
 function createCalenderHeader(name){
@@ -85,4 +113,30 @@ function createCalenderHeader(name){
 
 function createEmptyListElement(){
     return createHtmlElement({tagName: "li", htmlClass: "overflowDay"});
+}
+
+function handlePrevMonth(event){
+    event.preventDefault();
+    console.log(`${currentMonth}`)
+    if(!event.target.closest("button")){
+        return;
+    }
+    if(event.target.closest("button").dataset.function === "prev") {
+        currentMonth = currentMonth - 1;
+    }else if(event.target.closest("button").dataset.function === "next"){
+        currentMonth = currentMonth + 1;
+    }
+    console.log(`${currentMonth}`)
+    if(currentMonth < 0){
+        console.log(`${currentMonth} < 0: ${currentDate}`)
+        currentDate = new Date(currentYear, currentMonth, new Date().getDate());
+        currentYear = currentDate.getFullYear();
+        currentMonth = currentDate.getMonth();
+        console.log(`${currentDate}`)
+    }else{
+        currentDate = new Date(currentYear, currentMonth, 1);
+        console.log(`${currentDate}`)
+    }
+    showCalenderMonth();
+
 }
