@@ -4,6 +4,10 @@ let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
 
+let displaedDate = currentDate;
+let displaedYear = currentYear;
+let displaedMonth = currentMonth;
+
 let eventList;
 let headerEl
 let bodyEl;
@@ -35,7 +39,7 @@ function showCalenderMonth() {
     //Display header
     const monthNames = ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"];
 
-    let currentMonthTitleEl = createHtmlElement({tagName: "h2", htmlClass: "calender-current-month", htmlAttributes: {textContent: `${monthNames[currentMonth]}  ${currentYear}`}});
+    let currentMonthTitleEl = createHtmlElement({tagName: "h2", htmlClass: "calender-current-month", htmlAttributes: {textContent: `${monthNames[displaedMonth]}  ${displaedYear}`}});
 
     let prevMonthButton = createHtmlElement({tagName: "button", htmlAttributes: {textContent: "Prev"}});
     prevMonthButton.dataset.function = "prev";
@@ -69,8 +73,8 @@ function showCalenderMonth() {
     //Display day numbers
     let calenderWeekDaysEl = createHtmlElement({tagName: "ul", htmlClass: "calender-weekdays"});
 
-    let firstDayInMonth = new Date(currentYear, currentMonth, 0).getDay();
-    let lastDayInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    let firstDayInMonth = new Date(displaedYear, displaedMonth, 0).getDay();
+    let lastDayInMonth = new Date(displaedYear, displaedMonth + 1, 0).getDate();
 
     //Display previous month
     for(let i = firstDayInMonth; i > 0; i--) {
@@ -79,7 +83,7 @@ function showCalenderMonth() {
 
     for(let weekDay = 1; weekDay <= lastDayInMonth; weekDay++) {
         let weekDayEl;
-        if(weekDay === currentDate.getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear()){
+        if(weekDay === currentDate.getDate() && displaedMonth === currentMonth && displaedYear === currentYear){
             weekDayEl = createHtmlElement({tagName: "li", htmlClass: ["calender-week-day", "isToday"]});
         }else{
             weekDayEl = createHtmlElement({tagName: "li", htmlClass: "calender-week-day"});
@@ -89,7 +93,7 @@ function showCalenderMonth() {
         for(let i = 0; i < eventList.length; i++) {
             let eventDate = new Date(Date.parse(eventList[i].date));
             let eventBoxEl;
-            if (weekDay === eventDate.getDate() && currentMonth === eventDate.getMonth() && currentYear === eventDate.getFullYear()) {
+            if (weekDay === eventDate.getDate() && displaedMonth === eventDate.getMonth() && displaedYear === eventDate.getFullYear()) {
                 eventBoxEl = createHtmlElement({
                     tagName: "div",
                     htmlClass: "calender-event-box",
@@ -117,25 +121,25 @@ function createEmptyListElement(){
 
 function handlePrevMonth(event){
     event.preventDefault();
-    console.log(`${currentMonth}`)
+    console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
     if(!event.target.closest("button")){
         return;
     }
     if(event.target.closest("button").dataset.function === "prev") {
-        currentMonth = currentMonth - 1;
+        displaedMonth = displaedMonth - 1;
     }else if(event.target.closest("button").dataset.function === "next"){
-        currentMonth = currentMonth + 1;
+        displaedMonth = displaedMonth + 1;
     }
-    console.log(`${currentMonth}`)
-    if(currentMonth < 0){
-        console.log(`${currentMonth} < 0: ${currentDate}`)
-        currentDate = new Date(currentYear, currentMonth, new Date().getDate());
-        currentYear = currentDate.getFullYear();
-        currentMonth = currentDate.getMonth();
-        console.log(`${currentDate}`)
+    console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
+    if(displaedMonth < 0){
+        console.log(`${displaedMonth} < 0: ${displaedDate}`)
+        displaedDate = new Date(displaedYear, displaedMonth, new Date().getDate());
+        displaedYear = displaedDate.getFullYear();
+        displaedMonth = displaedDate.getMonth();
+        console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
     }else{
-        currentDate = new Date(currentYear, currentMonth, 1);
-        console.log(`${currentDate}`)
+        displaedDate = new Date(displaedYear, displaedMonth, 1);
+        console.log(`Current: ${currentDate}, displayed: ${displaedDate}`)
     }
     showCalenderMonth();
 
