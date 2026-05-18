@@ -4,6 +4,8 @@ import {createHtmlElement} from "../htmlTagFactory.js";
 document.addEventListener('DOMContentLoaded', initApp);
 
 const BASE_URL = "/api/events";
+const TICKET_URL = "/api/tickets";
+
 
 const params = new URLSearchParams(window.location.search);
 const eventId = params.get("eventId");
@@ -14,6 +16,7 @@ async function initApp() {
     displayNavigationBar();
     eventData = await fetchEvent();
     display();
+    document.getElementById("reserveTicketButton").addEventListener("click", handleGetTicket);
     console.log(eventData);
 }
 
@@ -33,10 +36,6 @@ async function fetchEvent() {
 
 function display() {
     let eventContainerEl = document.querySelector("#event-container");
-    let ticketButton = document.querySelector("#getTicketButton");
-    ticketButton.setAttribute("data-eventId", eventData.id);
-    ticketButton.addEventListener("click", handleGetTicket);
-
     let eventBox = createHtmlElement({tagName: "div", htmlClass: "event-box"})
     eventBox.setAttribute("data-eventId", eventData.id);
 
@@ -110,12 +109,20 @@ function display() {
 
 async function handleGetTicket(event) {
     event.preventDefault();
+    const formEl = event.target.closest("form");
+    const formData = new FormData(formEl);
 
-    const ticketButton = event.target.closest("button");
-    const eventId = ticketButton.getAttribute("data-eventId");
-    if (eventId !== null) {
-        window.location.href = `/Ticket/CreateReservation.html?eventId=${eventId}`;
-    } else {
-        //console.log("box clicked");
+    const eventRequest = {
+        email: formData.get("ticketEmail"),
+        eventId: eventData.id
     }
+    console.log(eventRequest);
+    const response = await fetch(`${TICKET_URL}/ticket`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
+        body: JSON.stringify(eventRequest)
+    });
+
+    const result = await response.json();
+    console.log("Event added:", result);
 }
