@@ -1,27 +1,26 @@
 //package spa2.lundeborgsaunagus.EventManagementPackage.ReservationPackage;
 //
-//import jakarta.persistence.Column;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
+//import jakarta.persistence.*;
 //import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.Event;
 //import spa2.lundeborgsaunagus.TicketPackage.Ticket;
 //import spa2.lundeborgsaunagus.UserPackage.GusUser;
 //
+//@Entity
 //public class Reservation {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 //    @Column(nullable = false)
-//    private Ticket ticket;
+//    private Long ticketId;
 //    @Column(nullable = false)
-//    private Event event;
+//    private Long eventId;
 //
-//    public Reservation(Long id, Ticket ticket, Event event) {
-//        this.id = id;
-//        this.ticket = ticket;
-//        this.event = event;
+//    public Reservation(Long ticketId, Long eventId) {
+//        this.ticketId = ticketId;
+//        this.eventId = eventId;
 //    }
+//
+//    public Reservation(){}
 //
 //    public Long getId() {
 //        return id;
@@ -31,19 +30,19 @@
 //        this.id = id;
 //    }
 //
-//    public Ticket getTicket() {
-//        return ticket;
+//    public Long getTicketId() {
+//        return ticketId;
 //    }
 //
-//    public void setTicket(Ticket ticket) {
-//        this.ticket = ticket;
+//    public void setTicketId(Long ticketId) {
+//        this.ticketId = ticketId;
 //    }
 //
-//    public Event getEvent() {
-//        return event;
+//    public Long getEventId() {
+//        return eventId;
 //    }
 //
-//    public void setEvent(Event event) {
-//        this.event = event;
+//    public void setEventId(Long eventId) {
+//        this.eventId = eventId;
 //    }
 //}
