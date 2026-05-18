@@ -69,7 +69,7 @@ public class TicketService {
 
     private TicketResponse ticketToTicketResponse(Ticket ticket) {
         return new TicketResponse(ticket.getUser().getId(),ticket.getUser().getUsername(), ticket.getTicketType(), ticket.isPaid(),
-                ticket.getPrice(), ticket.getTimeOfPurchase(), ticket.getEvent().getId());
+                ticket.getPrice(), ticket.getTimeOfPurchase(), ticket.getEvent().getId(), ticket.getEvent().getTitle(),ticket.getEvent().getDate());
     }
 
     private List<TicketResponse> ticketListToTicketResponseList(List<Ticket> tickets) {

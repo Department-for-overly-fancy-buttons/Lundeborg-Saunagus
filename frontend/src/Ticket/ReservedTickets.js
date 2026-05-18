@@ -31,7 +31,7 @@ async function fetchTickets() {
 function display() {
     let ticketContainerEl = document.querySelector("#ticket-container");
     for (let i = 0; i < ticketData.length; i++) {
-        let ticketBox = createHtmlElement({tagName: "div", htmlClass: "event-box"})
+        let ticketBox = createHtmlElement({tagName: "div", htmlClass: "ticket-box"})
         ticketBox.setAttribute("data-ticketId", ticketData[i].id);
 
 
@@ -39,7 +39,7 @@ function display() {
                 tagName: "h5",
                 htmlClass: "ticket-info",
                 htmlAttributes: {
-                    textContent: "Bruger: " + ticketData[i].email + " betalt: " + ticketData[i].paid ,
+                    textContent: "Bruger: " + ticketData[i].email + " betalt: " + ticketData[i].paid + " event: " + ticketData[i].eventTitle + " Dato: " + ticketData[i].date ,
                     title: "ticket"
                 }
             });
