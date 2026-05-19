@@ -54,19 +54,21 @@ function display() {
         htmlAttributes: {textContent: "Gå til event"}
     })
 
-    let setPaymentButton = createHtmlElement({
-        tagName: "button",
-        htmlClass: "event-button",
-        htmlAttributes: {textContent: "Sæt betalt til: " + !ticketData.paid}
-    })
-    setPaymentButton.addEventListener("click", setPaymentStatus);
-
     goToEventButton.setAttribute("data-eventId", ticketData.eventId);
     goToEventButton.addEventListener("click", handleGetEvent);
     ticketBox.appendChild(ticketElement);
-    ticketBox.appendChild(setPaymentButton);
-    ticketBox.appendChild(createHtmlElement({tagName: "br"}));
-    ticketBox.appendChild(createHtmlElement({tagName: "br"}));
+
+    if (isAdmin()) {
+        let setPaymentButton = createHtmlElement({
+            tagName: "button",
+            htmlClass: "event-button",
+            htmlAttributes: {textContent: "Sæt betalt til: " + !ticketData.paid}
+        })
+        setPaymentButton.addEventListener("click", setPaymentStatus);
+        ticketBox.appendChild(setPaymentButton);
+        ticketBox.appendChild(createHtmlElement({tagName: "br"}));
+        ticketBox.appendChild(createHtmlElement({tagName: "br"}));
+    }
     ticketBox.appendChild(goToEventButton);
     ticketContainerEl.appendChild(ticketBox);
     console.log(ticketData);
