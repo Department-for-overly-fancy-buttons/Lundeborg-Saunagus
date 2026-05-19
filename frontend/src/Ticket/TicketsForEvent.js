@@ -3,6 +3,9 @@ import {createHtmlElement} from "../htmlTagFactory.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
+const params = new URLSearchParams(window.location.search);
+const eventId = params.get("eventId");
+
 const BASE_URL = "/api/tickets";
 
 let ticketData = [];
@@ -16,7 +19,7 @@ async function initApp() {
 
 async function fetchTickets() {
     try {
-        const response = await fetch(`${BASE_URL}`);
+        const response = await fetch(`${BASE_URL}/event/${eventId}`);
         console.log(response);
         if (!response.ok) {
             throw new Error("HTTP error!");

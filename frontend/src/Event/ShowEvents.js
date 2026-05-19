@@ -44,6 +44,26 @@ function display() {
         });
         eventBox.appendChild(titleElement);
 
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let eventStartDate = Temporal.PlainDateTime.from(eventData[1].date);
+        let eventStartTime = Temporal.PlainTime.from(eventData[1].startTime);
+        let startHour = String(eventStartTime.hour).padStart(2, "0");
+        let startMinute = String(eventStartTime.minute).padStart(2, "0");
+        let eventEndTime = Temporal.PlainTime.from(eventData[1].endTime);
+        let endHour = String(eventEndTime.hour).padStart(2, "0");
+        let endMinute = String(eventEndTime.minute).padStart(2, "0");
+        let dateTimeElement = createHtmlElement({
+                tagName: "h5",
+                htmlClass: "dateTime-info",
+                htmlAttributes: {
+                    textContent: "Dato: " + eventStartDate.day + ". " + monthNames[eventStartDate.month - 1] + "\n" + startHour + ":" + startMinute + " Til " + endHour + ":" + endMinute,
+                    title: "date"
+                }
+            }
+        );
+        dateTimeElement.setAttribute('style', 'white-space: pre;');
+        eventBox.appendChild(dateTimeElement);
+
         if (eventData[i].information) {
             let infoElement = createHtmlElement({
                 tagName: "h5",
@@ -55,6 +75,7 @@ function display() {
             });
             eventBox.appendChild(infoElement);
         }
+
         eventBox.addEventListener("click", handleGetEvent);
         eventContainerEl.appendChild(eventBox);
         console.log(eventData[i]);

@@ -5,6 +5,7 @@ import spa2.lundeborgsaunagus.UserPackage.GusUser;
 import spa2.lundeborgsaunagus.UserPackage.GusUserResponse;
 import spa2.lundeborgsaunagus.UserPackage.UserService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +21,8 @@ public class EventService {
     }
 
     public List<EventResponse> getEvents() {
-        List<EventResponse> eventResponses = new ArrayList<>();
-        List<Event> events = eventRepository.findAll();
-        for (Event event : events) {
-            GusUser saunaMaster = event.getSaunaMaster();
-            eventResponses.add(new EventResponse(event.getId(), event.getDate(), event.getStartTime(),
-                    event.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
-                    saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                    saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation()));
-
-        }
-        return eventResponses;
+        List<Event> events = eventRepository.findAllByDateAfterOrderByDate(LocalDate.now().minusDays(1));
+        return toEventResponseList(events);
     }
 
     public Event getEventById(Long id) {
@@ -64,6 +56,14 @@ public class EventService {
         return new EventResponse(event.getId(), event.getDate(), event.getStartTime(), event.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
                 saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
                 saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation());
+    }
+
+    private List<EventResponse> toEventResponseList(List<Event> events) {
+        List<EventResponse> eventResponses = new ArrayList<>();
+        for (Event event : events) {
+            eventResponses.add(toEventResponse(event));
+        }
+        return eventResponses;
     }
 
 }
