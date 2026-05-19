@@ -54,7 +54,7 @@ public class TicketService {
 
     public List<TicketResponse> getTicketsForUser(String email) {
         GusUser user = userService.getUser(email);
-        return ticketListToTicketResponseList(ticketRepository.findAllByUser(user));
+        return ticketListToTicketResponseList(ticketRepository.findAllByUserOrderByTimeOfPurchase(user));
     }
 
     public TicketResponse setTicketPaidStatus(TicketRequest ticketRequest) {
