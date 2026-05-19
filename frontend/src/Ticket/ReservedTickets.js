@@ -35,15 +35,16 @@ function display() {
         ticketBox.setAttribute("data-ticketId", ticketData[i].id);
 
 
-            let ticketElement = createHtmlElement({
-                tagName: "h5",
-                htmlClass: "ticket-info",
-                htmlAttributes: {
-                    textContent: "Bruger: " + ticketData[i].email + " betalt: " + ticketData[i].paid + " event: " + ticketData[i].eventTitle + " Dato: " + ticketData[i].date ,
-                    title: "ticket"
-                }
-            });
-            ticketBox.appendChild(ticketElement);
+        let ticketElement = createHtmlElement({
+            tagName: "h5",
+            htmlClass: "ticket-info",
+            htmlAttributes: {
+                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nEvent: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
+                title: "ticket"
+            }
+        });
+        ticketElement.setAttribute('style', 'white-space: pre;');
+        ticketBox.appendChild(ticketElement);
         ticketBox.addEventListener("click", handleGetTicket);
         ticketContainerEl.appendChild(ticketBox);
         console.log(ticketData[i]);

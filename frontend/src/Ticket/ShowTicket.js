@@ -41,10 +41,11 @@ function display() {
         tagName: "h5",
         htmlClass: "ticket-info",
         htmlAttributes: {
-            textContent: "Bruger: " + ticketData.email + " betalt: " + ticketData.paid + " event: " + ticketData.eventTitle + " Dato: " + ticketData.date,
+            textContent: "Bruger: " + ticketData.email + "\nBetalt: " + ticketData.paid + "\nPris: " + ticketData.price +  " kr.\nEvent: " + ticketData.eventTitle + "\nDato: " + ticketData.date,
             title: "ticket"
         }
     });
+    ticketElement.setAttribute('style', 'white-space: pre;');
 
     let goToEventButton = createHtmlElement({
         tagName: "button",

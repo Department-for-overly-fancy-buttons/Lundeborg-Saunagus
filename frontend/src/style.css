@@ -20,7 +20,7 @@ label, #submitButton, #loginButton, #createEventButton, .event-box ,.ticket-box{
     box-sizing: border-box;
 }
 
-.event-box, #userForm{
+.event-box, #userForm,.ticket-box{
     text-align: center;
 }
 
