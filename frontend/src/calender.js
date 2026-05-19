@@ -133,11 +133,12 @@ function handlePrevMonth(event){
         displaedMonth = displaedMonth + 1;
     }
     console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
-    if(displaedMonth < 0){
+    if(displaedMonth < 0 || displaedMonth > 11){
         console.log(`${displaedMonth} < 0: ${displaedDate}`)
         displaedDate = new Date(displaedYear, displaedMonth, new Date().getDate());
         displaedYear = displaedDate.getFullYear();
         displaedMonth = displaedDate.getMonth();
+        console.log(`${displaedMonth} < 0: ${displaedDate}`)
         console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
     }else{
         displaedDate = new Date(displaedYear, displaedMonth, 1);
