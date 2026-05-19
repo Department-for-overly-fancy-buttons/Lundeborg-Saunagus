@@ -57,7 +57,7 @@ body {
     display: table;
 }
 
-#event-container {
+#event-container, #ticket-container {
     display:flex;
     flex-direction: column;
 }

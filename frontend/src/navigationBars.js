@@ -24,6 +24,14 @@ export function displayNavigationBar(){
 
     listEl.appendChild(listItemEventEl);
 
+    let listItemTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let createTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Tilmeldinger", textContent: "Tilmeldinger"}});
+    createTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/MyTickets.html");
+    listItemTicketsEl.appendChild(createTicketsLink);
+
+    listEl.appendChild(listItemTicketsEl);
+
     let listItemLoginEl = createHtmlElement({tagName: "li", htmlClass:  "navigationListItem"});
 
     if (!isLoggedIn()) {
