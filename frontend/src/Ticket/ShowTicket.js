@@ -31,6 +31,42 @@ async function fetchTicket() {
     }
 }
 
-function display(){
+function display() {
+    let ticketContainerEl = document.querySelector("#ticket-container");
+
+    let ticketBox = createHtmlElement({tagName: "div", htmlClass: "ticket-box"})
+
+
+    let ticketElement = createHtmlElement({
+        tagName: "h5",
+        htmlClass: "ticket-info",
+        htmlAttributes: {
+            textContent: "Bruger: " + ticketData.email + " betalt: " + ticketData.paid + " event: " + ticketData.eventTitle + " Dato: " + ticketData.date,
+            title: "ticket"
+        }
+    });
+
+    let goToEventButton = createHtmlElement({
+        tagName: "button",
+        htmlClass: "event-button",
+        htmlAttributes: {textContent: "Gå til event"}
+    })
+    goToEventButton.setAttribute("data-eventId", ticketData.eventId);
+    goToEventButton.addEventListener("click", handleGetEvent);
+    ticketBox.appendChild(ticketElement);
+    ticketBox.appendChild(goToEventButton);
+    ticketContainerEl.appendChild(ticketBox);
     console.log(ticketData);
+}
+
+async function handleGetEvent(event) {
+    event.preventDefault();
+
+    const eventButton = event.target.closest("button");
+    const eventId = eventButton.getAttribute("data-eventId");
+    if (eventId !== null) {
+        window.location.href = `/event/EventInfo.html?eventId=${eventId}`;
+    } else {
+        console.log("box clicked");
+    }
 }
