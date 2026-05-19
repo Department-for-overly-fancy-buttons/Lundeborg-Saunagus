@@ -4,9 +4,9 @@ let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
 
-let displaedDate = currentDate;
-let displaedYear = currentYear;
-let displaedMonth = currentMonth;
+let displayedDate = currentDate;
+let displayedYear = currentYear;
+let displayedMonth = currentMonth;
 
 let eventList;
 let headerEl
@@ -25,7 +25,9 @@ export function displayCalender(inputList){
     containerEl.appendChild(headerEl);
     containerEl.appendChild(bodyEl);
 
-    document.body.appendChild(containerEl);
+    document.getElementById("page").appendChild(containerEl);
+    document.body.addEventListener("keydown", handleChangeMonthKey);
+
 }
 
 function showCalenderMonth() {
@@ -39,13 +41,13 @@ function showCalenderMonth() {
     //Display header
     const monthNames = ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"];
 
-    let currentMonthTitleEl = createHtmlElement({tagName: "h2", htmlClass: "calender-current-month", htmlAttributes: {textContent: `${monthNames[displaedMonth]}  ${displaedYear}`}});
+    let currentMonthTitleEl = createHtmlElement({tagName: "h2", htmlClass: "calender-current-month", htmlAttributes: {textContent: `${monthNames[displayedMonth]}  ${displayedYear}`}});
 
-    let prevMonthButton = createHtmlElement({tagName: "button", htmlAttributes: {textContent: "Prev"}});
+    let prevMonthButton = createHtmlElement({tagName: "button", htmlClass: "calender-prev-button", htmlAttributes: {textContent: "Prev"}});
     prevMonthButton.dataset.function = "prev";
-    let nextMonthButton = createHtmlElement({tagName: "button", htmlAttributes: {textContent: "Next"}});
+    let nextMonthButton = createHtmlElement({tagName: "button", htmlClass: "calender-next-button", htmlAttributes: {textContent: "Next"}});
     nextMonthButton.dataset.function = "next";
-    headerEl.addEventListener("click", handlePrevMonth );
+    headerEl.addEventListener("click", handleChangeMonthButton );
     headerEl.appendChild(prevMonthButton);
     headerEl.appendChild(currentMonthTitleEl);
     headerEl.appendChild(nextMonthButton);
@@ -73,8 +75,8 @@ function showCalenderMonth() {
     //Display day numbers
     let calenderWeekDaysEl = createHtmlElement({tagName: "ul", htmlClass: "calender-weekdays"});
 
-    let firstDayInMonth = new Date(displaedYear, displaedMonth, 0).getDay();
-    let lastDayInMonth = new Date(displaedYear, displaedMonth + 1, 0).getDate();
+    let firstDayInMonth = new Date(displayedYear, displayedMonth, 0).getDay();
+    let lastDayInMonth = new Date(displayedYear, displayedMonth + 1, 0).getDate();
 
     //Display previous month
     for(let i = firstDayInMonth; i > 0; i--) {
@@ -83,7 +85,7 @@ function showCalenderMonth() {
 
     for(let weekDay = 1; weekDay <= lastDayInMonth; weekDay++) {
         let weekDayEl;
-        if(weekDay === currentDate.getDate() && displaedMonth === currentMonth && displaedYear === currentYear){
+        if(weekDay === currentDate.getDate() && displayedMonth === currentMonth && displayedYear === currentYear){
             weekDayEl = createHtmlElement({tagName: "li", htmlClass: ["calender-week-day", "isToday"]});
         }else{
             weekDayEl = createHtmlElement({tagName: "li", htmlClass: "calender-week-day"});
@@ -93,7 +95,7 @@ function showCalenderMonth() {
         for(let i = 0; i < eventList.length; i++) {
             let eventDate = new Date(Date.parse(eventList[i].date));
             let eventBoxEl;
-            if (weekDay === eventDate.getDate() && displaedMonth === eventDate.getMonth() && displaedYear === eventDate.getFullYear()) {
+            if (weekDay === eventDate.getDate() && displayedMonth === eventDate.getMonth() && displayedYear === eventDate.getFullYear()) {
                 eventBoxEl = createHtmlElement({
                     tagName: "div",
                     htmlClass: "calender-event-box",
@@ -121,28 +123,46 @@ function createEmptyListElement(){
     return createHtmlElement({tagName: "li", htmlClass: "overflowDay"});
 }
 
-function handlePrevMonth(event){
+function handleChangeMonthButton(event){
     event.preventDefault();
-    console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
+    console.log(`Current: ${currentMonth}, displayed: ${displayedMonth}`)
     if(!event.target.closest("button")){
         return;
     }
     if(event.target.closest("button").dataset.function === "prev") {
-        displaedMonth = displaedMonth - 1;
+        displayedMonth = displayedMonth - 1;
     }else if(event.target.closest("button").dataset.function === "next"){
-        displaedMonth = displaedMonth + 1;
+        displayedMonth = displayedMonth + 1;
     }
-    console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
-    if(displaedMonth < 0 || displaedMonth > 11){
-        console.log(`${displaedMonth} < 0: ${displaedDate}`)
-        displaedDate = new Date(displaedYear, displaedMonth, new Date().getDate());
-        displaedYear = displaedDate.getFullYear();
-        displaedMonth = displaedDate.getMonth();
-        console.log(`${displaedMonth} < 0: ${displaedDate}`)
-        console.log(`Current: ${currentMonth}, displayed: ${displaedMonth}`)
+    handleChangeMonth(event);
+}
+
+function handleChangeMonthKey(event){
+    console.log(event.key)
+    console.log(event.code)
+    if(event.code === "KeyA" || event.code === "ArrowLeft") {
+        displayedMonth = displayedMonth - 1;
+    }else if(event.code ===  "KeyD" || event.code === "ArrowRight"){
+        displayedMonth = displayedMonth + 1;
     }else{
-        displaedDate = new Date(displaedYear, displaedMonth, 1);
-        console.log(`Current: ${currentDate}, displayed: ${displaedDate}`)
+        return;
+    }
+    handleChangeMonth(event);
+}
+
+function handleChangeMonth(event){
+
+    console.log(`Current: ${currentMonth}, displayed: ${displayedMonth}`)
+    if(displayedMonth < 0 || displayedMonth > 11){
+        console.log(`${displayedMonth} < 0: ${displayedDate}`)
+        displayedDate = new Date(displayedYear, displayedMonth, new Date().getDate());
+        displayedYear = displayedDate.getFullYear();
+        displayedMonth = displayedDate.getMonth();
+        console.log(`${displayedMonth} < 0: ${displayedDate}`)
+        console.log(`Current: ${currentMonth}, displayed: ${displayedMonth}`)
+    }else{
+        displayedDate = new Date(displayedYear, displayedMonth, 1);
+        console.log(`Current: ${currentDate}, displayed: ${displayedDate}`)
     }
     showCalenderMonth();
 
