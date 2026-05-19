@@ -1,8 +1,65 @@
+/* Extra small devices (phones, 600px and down)
+   @media only screen and (max-width: 600px) {...}
+
+   Small devices (portrait tablets and large phones, 600px and up)
+   @media only screen and (min-width: 600px) {...}
+
+   Medium devices (landscape tablets, 768px and up)
+   @media only screen and (min-width: 768px) {...}
+
+   Large devices (laptops/desktops, 992px and up)
+   @media only screen and (min-width: 992px) {...}
+
+   Extra large devices (large laptops and desktops, 1200px and up)
+   @media only screen and (min-width: 1200px) {...} */
+/*https://coolors.co/visualizer/d58e62-ffbe95-fe6f5e-18919e-c3dae8*/
+/*blue gradiant https://coolors.co/gradient-palette/18919e-f2f2f2?number=7*/
+:root{
+    --navbarBackgroundColor: #FFBE95;
+    --headerFontSize: 1.5rem;
+    --textColor: #112A46;
+    --contentBackgroundColor: #18919E;
+    --content-text-color: #050F1A;
+    --calendar-border-color: #353C7D;
+    --background-color: #f2f2f2;
+    --page-color: white;
+    --highlight-color: #FE6F5E;
+    --hover-color: #E0EAEB;
+}
+
+html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--content-text-color);
+    background-color: var(--background-color);
+    margin: 0;
+}
+
+#page {
+    margin: 1rem 1rem 0 1rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    height: 100%;
+    background-color: var(--page-color);
+    flex-grow: 1;
+}
+
 #userForm, #loginForm, #event-container, #ticket-container {
     border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
+    background-color: var(--page-color);
+    padding: 1.2rem;
+    margin: 1.2rem auto auto auto;
     display: table;
+}
+
+#event-container, #ticket-container {
+    display:flex;
+    flex-direction: column;
 }
 
 #gender1, #gender2 {
@@ -18,9 +75,15 @@ label, #submitButton, #loginButton, #createEventButton, .event-box ,.ticket-box{
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: var(--background-color);
 }
 
-.event-box, #userForm{
+.event-box:hover ,.ticket-box:hover {
+    background-color: var(--hover-color);
+    cursor: pointer;
+}
+
+.event-box, #userForm,.ticket-box{
     text-align: center;
 }
 
@@ -39,6 +102,13 @@ input, select {
     width: 100%;
 }
 
+nav {
+    background-color: var(--navbarBackgroundColor);
+    min-height: var(--headerFontSize);
+    color: var(--textColor);
+    position: sticky;
+    top: 0;
+}
 
 #navigationList {
     height: inherit;
@@ -56,18 +126,81 @@ input, select {
     color: inherit;
 }
 
+.navigationLink {
+    font-weight: bold;
+    font-size: var(--headerFontSize);
+    float: left;
+    color: var(--textColor);
+    background-color: inherit;
+    border: 0;
+}
+
+.navigationListItem .navigationLink {
+    display: block;
+    color: inherit;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    height: -webkit-fill-available;
+}
+
+#navigationListStart {
+    margin-left: auto;
+}
+
+#logoTitle {
+    color: var(--textColor);
+    font-size: 2.5rem;
+    text-decoration: none;
+}
+
+p.big-letter {
+    font-size: 1.2rem;
+}
+
+p.big-letter::first-letter {
+    font-size: 2.2rem;
+    color: var(--highlight-color);
+}
+
 .calender-header {
-    background-color: slateblue;
+    background-color: var(--contentBackgroundColor);
+    display: flex;
+}
+
+.calender-prev-button, .calender-next-button{
+    flex-grow: 1;
+    background-color: inherit;
+    border-top: 0;
+    border-bottom: 0;
+    font-size: 1.3rem;
+}
+
+.calender-next-button {
+    border-left: 2px solid var(--calendar-border-color);
+    border-right: 0;
+}
+.calender-prev-button {
+
+    border-right: 2px solid var(--calendar-border-color);
+    border-left: 0;
+
+}
+
+.calender-prev-button:hover, .calender-next-button:hover{
+    background-color: var(--hover-color);
 }
 
 .calender-current-month {
-    margin: 0;
-    padding: 10px 20px 30px 40px;
+    flex-grow: 2;
+    margin: auto;
+    text-align: center;
+    padding: 1rem;
 }
 
 .calender-container {
     background-color: white;
-    border: 1px solid gray;
+    border: 2px solid var(--calendar-border-color);
 }
 
 .calender-body {
@@ -89,7 +222,8 @@ input, select {
 }
 
 .calender-weekdays-headers {
-    background-color: aqua;
+    background-color: #C3DAE8;
+    border-top: 2px solid var(--calendar-border-color);
 }
 
 .calender-weekdays-headers li {
@@ -104,7 +238,7 @@ input, select {
 }
 
 .calender-event-box:hover {
-    background-color: beige;
+    background-color: var(--highlight-color);
     cursor: pointer;
 }
 
@@ -122,15 +256,15 @@ li.calender-week-day {
 }
 
 .isToday {
-    background-color: orangered;
+    background-color: #85D2BF;
 }
 
 .overflowDay {
-    background-color: white;
+    background-color: var(--background-color);
 }
 
 li.overflowDay:hover{
-    background-color: orange;
+    background-color: var(--background-color);
     cursor: default;
 }
 
@@ -139,7 +273,7 @@ li.overflowDay:hover{
     text-align: center;
     border-radius: 2px;
     margin: 2%;
-    background-color: lightblue;
+    background-color: #FFBE95;
     overflow: hidden;
     text-wrap: nowrap;
     text-overflow: ellipsis;

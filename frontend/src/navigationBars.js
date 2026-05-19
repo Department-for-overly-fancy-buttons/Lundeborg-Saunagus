@@ -16,12 +16,21 @@ export function displayNavigationBar(){
 
     listEl.appendChild(listItemTitleEl);
 
-    /*let listItemTheatersEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem",htmlAttributes: {id: "navigationListStart"}});
+    let listItemEventEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem",htmlAttributes: {id: "navigationListStart"}});
 
-    let theaterLinkEl = createHtmlElement({tagName: "a",htmlClass: "navigationLink", htmlAttributes: {href: "http://localhost/theaters/theaters.html", title: "Theaters", textContent: "Theaters"}});
-    listItemTheatersEl.appendChild(theaterLinkEl);
+    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Events", textContent: "Opret event", id: "navigationListStart"}});
+    createEventLink.addEventListener("click", () => window.location.href = "/Event/CreateEvent.html");
+    listItemEventEl.appendChild(createEventLink);
 
-    listEl.appendChild(listItemTheatersEl);*/
+    listEl.appendChild(listItemEventEl);
+
+    let listItemTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let createTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Tilmeldinger", textContent: "Tilmeldinger"}});
+    createTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/MyTickets.html");
+    listItemTicketsEl.appendChild(createTicketsLink);
+
+    listEl.appendChild(listItemTicketsEl);
 
     let listItemLoginEl = createHtmlElement({tagName: "li", htmlClass:  "navigationListItem"});
 
@@ -41,8 +50,6 @@ export function displayNavigationBar(){
         listItemLoginEl.appendChild(logoutLinkEl);
     }
 
-    let createEventLink = createHtmlElement({tagName: "a",htmlClass: "navigationLink", htmlAttributes: {href: "/Event/CreateEvent.html", title: "Events", textContent: "Opret event"}});
-    listItemTitleEl.appendChild(createEventLink);
 
     listEl.appendChild(listItemLoginEl);
 

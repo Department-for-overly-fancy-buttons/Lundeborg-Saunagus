@@ -16,7 +16,7 @@ async function initApp() {
 
 async function fetchTickets() {
     try {
-        const response = await fetch(`${BASE_URL}`);
+        const response = await fetch(`${BASE_URL}/my/tickets`);
         console.log(response);
         if (!response.ok) {
             throw new Error("HTTP error!");
@@ -39,7 +39,7 @@ function display() {
             tagName: "h5",
             htmlClass: "ticket-info",
             htmlAttributes: {
-                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nEvent: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
+                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price +  " kr.\nEvent: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date ,
                 title: "ticket"
             }
         });

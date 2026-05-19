@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.EventResponse;
 
 import java.util.List;
 
@@ -27,6 +28,11 @@ class TicketController {
     @GetMapping("/{email}")
     List<TicketResponse> getTicketsForUser(@PathVariable String email) {
         return ticketService.getTicketsForUser(email);
+    }
+
+    @GetMapping("/get/{id}")
+    TicketResponse getEvent(@PathVariable Long id) {
+        return ticketService.getTicket(id);
     }
 
     @GetMapping("/my/tickets")

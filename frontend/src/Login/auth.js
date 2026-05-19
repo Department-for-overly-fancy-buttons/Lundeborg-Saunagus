@@ -86,6 +86,13 @@ function requireAdmin() {
     }
 }
 
+function isAdmin(){
+    if(!user){
+        return false;
+    }
+    return (user.role.includes("ADMIN"));
+}
+
 function requireEmployee() {
     const user = getLoggedInUser();
     if (!user)
