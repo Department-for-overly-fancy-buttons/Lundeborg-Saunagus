@@ -50,7 +50,7 @@ function showCalenderMonth() {
     headerEl.appendChild(currentMonthTitleEl);
     headerEl.appendChild(nextMonthButton);
 
-    alert("showing calender")
+    //alert("showing calender")
     //if(bodyEl.children.length > 0) {
     console.log(bodyEl)
         while (bodyEl.lastElementChild) {

@@ -68,7 +68,7 @@ public class TicketService {
     }
 
     private TicketResponse ticketToTicketResponse(Ticket ticket) {
-        return new TicketResponse(ticket.getUser().getId(),ticket.getUser().getUsername(), ticket.getTicketType(), ticket.isPaid(),
+        return new TicketResponse(ticket.getId(),ticket.getUser().getId(),ticket.getUser().getUsername(), ticket.getTicketType(), ticket.isPaid(),
                 ticket.getPrice(), ticket.getTimeOfPurchase(), ticket.getEvent().getId(), ticket.getEvent().getTitle(),ticket.getEvent().getDate());
     }
 
@@ -80,4 +80,7 @@ public class TicketService {
         return ticketResponses;
     }
 
+    public TicketResponse getTicket(Long id) {
+        return ticketToTicketResponse(ticketRepository.findById(id).orElseThrow());
+    }
 }
