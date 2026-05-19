@@ -51,22 +51,3 @@ async function handleSubmit(event) {
     const result = await response.json();
     console.log("Event added:", result);
 }
-
-//todo - move code for setting paid status
-// async function handleSubmit(event) {
-//     event.preventDefault();
-//     const formEl = event.target.closest("form");
-//     const formData = new FormData(formEl);
-//     const eventRequest = {
-//         email: formData.get("ticketEmail"),
-//         eventId: eventData.id
-//     }
-//     console.log(eventRequest);
-//     const response = await fetch(`${BASE_URL}/paid/status`, {
-//         method: "POST",
-//         headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
-//         body: JSON.stringify(eventRequest)
-//     });
-//     const result = await response.json();
-//     console.log("Event added:", result);
-// }

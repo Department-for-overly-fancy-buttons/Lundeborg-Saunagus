@@ -33,6 +33,7 @@ async function fetchTicket() {
 
 function display() {
     let ticketContainerEl = document.querySelector("#ticket-container");
+    ticketContainerEl.innerHTML = "";
 
     let ticketBox = createHtmlElement({tagName: "div", htmlClass: "ticket-box"})
 
@@ -41,7 +42,7 @@ function display() {
         tagName: "h5",
         htmlClass: "ticket-info",
         htmlAttributes: {
-            textContent: "Bruger: " + ticketData.email + "\nBetalt: " + ticketData.paid + "\nPris: " + ticketData.price +  " kr.\nEvent: " + ticketData.eventTitle + "\nDato: " + ticketData.date,
+            textContent: "Bruger: " + ticketData.email + "\nBetalt: " + ticketData.paid + "\nPris: " + ticketData.price + " kr.\nEvent: " + ticketData.eventTitle + "\nDato: " + ticketData.date,
             title: "ticket"
         }
     });
@@ -52,9 +53,20 @@ function display() {
         htmlClass: "event-button",
         htmlAttributes: {textContent: "Gå til event"}
     })
+
+    let setPaymentButton = createHtmlElement({
+        tagName: "button",
+        htmlClass: "event-button",
+        htmlAttributes: {textContent: "Sæt betalt til: " + !ticketData.paid}
+    })
+    setPaymentButton.addEventListener("click", setPaymentStatus);
+
     goToEventButton.setAttribute("data-eventId", ticketData.eventId);
     goToEventButton.addEventListener("click", handleGetEvent);
     ticketBox.appendChild(ticketElement);
+    ticketBox.appendChild(setPaymentButton);
+    ticketBox.appendChild(createHtmlElement({tagName: "br"}));
+    ticketBox.appendChild(createHtmlElement({tagName: "br"}));
     ticketBox.appendChild(goToEventButton);
     ticketContainerEl.appendChild(ticketBox);
     console.log(ticketData);
@@ -70,4 +82,21 @@ async function handleGetEvent(event) {
     } else {
         console.log("box clicked");
     }
+}
+
+async function setPaymentStatus(event) {
+    event.preventDefault();
+    const paymentRequest = {
+        email: ticketData.email,
+        eventId: ticketData.eventId
+    }
+    console.log(paymentRequest);
+    const response = await fetch(`${BASE_URL}/paid/status`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
+        body: JSON.stringify(paymentRequest)
+    });
+    const result = await response.json();
+    console.log("Payment status:", result);
+    await initApp();
 }
