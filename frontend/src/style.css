@@ -12,7 +12,8 @@
 
    Extra large devices (large laptops and desktops, 1200px and up)
    @media only screen and (min-width: 1200px) {...} */
-
+/*https://coolors.co/visualizer/d58e62-ffbe95-fe6f5e-18919e-c3dae8*/
+/*blue gradiant https://coolors.co/gradient-palette/18919e-f2f2f2?number=7*/
 :root{
     --navbarBackgroundColor: #FFBE95;
     --headerFontSize: 1.5rem;

@@ -134,7 +134,7 @@ function handleChangeMonthButton(event){
     }else if(event.target.closest("button").dataset.function === "next"){
         displayedMonth = displayedMonth + 1;
     }
-    handleChangeMonth(event);
+    handleChangeMonth();
 }
 
 function handleChangeMonthKey(event){
@@ -147,10 +147,10 @@ function handleChangeMonthKey(event){
     }else{
         return;
     }
-    handleChangeMonth(event);
+    handleChangeMonth();
 }
 
-function handleChangeMonth(event){
+function handleChangeMonth(){
 
     console.log(`Current: ${currentMonth}, displayed: ${displayedMonth}`)
     if(displayedMonth < 0 || displayedMonth > 11){
