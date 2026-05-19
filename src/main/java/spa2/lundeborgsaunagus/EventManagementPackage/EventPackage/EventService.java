@@ -21,7 +21,8 @@ public class EventService {
     }
 
     public List<EventResponse> getEvents() {
-        List<Event> events = eventRepository.findAllByDateAfterOrderByDate(LocalDate.now().minusDays(1));
+        //List<Event> events = eventRepository.findAllByDateAfterOrderByDate(LocalDate.now().minusDays(1));
+        List<Event> events = eventRepository.findAll();
         return toEventResponseList(events);
     }
 
