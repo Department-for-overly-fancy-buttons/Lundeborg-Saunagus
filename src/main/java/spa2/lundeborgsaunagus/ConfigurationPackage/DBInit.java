@@ -8,10 +8,7 @@ import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.Event;
 import spa2.lundeborgsaunagus.EventManagementPackage.EventPackage.EventRepository;
 import spa2.lundeborgsaunagus.TicketPackage.Ticket;
 import spa2.lundeborgsaunagus.TicketPackage.TicketRepository;
-import spa2.lundeborgsaunagus.UserPackage.Gender;
-import spa2.lundeborgsaunagus.UserPackage.GusUser;
-import spa2.lundeborgsaunagus.UserPackage.Role;
-import spa2.lundeborgsaunagus.UserPackage.UserRepository;
+import spa2.lundeborgsaunagus.UserPackage.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,13 +33,21 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        GusUser user = new GusUser("Freja", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0 b", LocalDate.of(2000, 2, 2), Gender.FEMALE, Role.EMPLOYEE);
-        GusUser user2 = new GusUser("Freja2", passwordEncoder.encode("test"), "Freja", "Johannesse", "11111112", "vej 0 b", LocalDate.of(1902, 1, 1), Gender.FEMALE, Role.CUSTOMER);
-        GusUser user3 = new GusUser("Freja3", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111113", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN);
+        GusUser user = new GusUser("Freja", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0 b", LocalDate.of(2000, 2, 2), Gender.FEMALE, Role.EMPLOYEE, MembershipStatus.ACTIVE);
+        GusUser user2 = new GusUser("Freja2", passwordEncoder.encode("test"), "Freja", "Johannesse", "11111112", "vej 0 b", LocalDate.of(1902, 1, 1), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.ACTIVE);
+        GusUser user3 = new GusUser("Freja3", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111113", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN, MembershipStatus.ACTIVE);
+
+        GusUser waitingUser1 = new GusUser("w1", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111114", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN, MembershipStatus.PENDING);
+        GusUser waitingUser2 = new GusUser("w2", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111115", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN, MembershipStatus.PENDING);
+
 
         userRepository.save(user);
         userRepository.save(user2);
         userRepository.save(user3);
+
+        userRepository.save(waitingUser1);
+        userRepository.save(waitingUser2);
+
         Event event = new Event(LocalDate.now(), LocalTime.now().plusMinutes(5), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna");
         event.setInformation("kun for over 90");
         Event event2 = new Event(LocalDate.now().plusDays(10), LocalTime.now(), LocalTime.now().plusHours(2), user, "fyn", 30, "Sauna2");

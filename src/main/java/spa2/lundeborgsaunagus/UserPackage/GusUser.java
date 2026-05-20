@@ -30,8 +30,10 @@ public class GusUser {
     private Gender gender;
     @Column(nullable = false)
     private Role role;
+    @Column(nullable = false)
+    private MembershipStatus membershipStatus;
 
-    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address, LocalDate birthday, Gender gender, Role role) {
+    public GusUser(String username, String password, String firstName, String lastname, String phoneNumber, String address, LocalDate birthday, Gender gender, Role role, MembershipStatus membershipStatus) {
         this.username = username;
         this.password = password;
         this.firstname = firstName;
@@ -41,6 +43,7 @@ public class GusUser {
         this.birthday = birthday;
         this.gender = gender;
         this.role = role;
+        this.membershipStatus = membershipStatus;
     }
 
 
@@ -126,5 +129,13 @@ public class GusUser {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public MembershipStatus getMembershipStatus() {
+        return membershipStatus;
+    }
+
+    public void setMembershipStatus(MembershipStatus membershipStatus) {
+        this.membershipStatus = membershipStatus;
     }
 }

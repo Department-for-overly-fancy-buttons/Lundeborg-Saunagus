@@ -49,7 +49,7 @@ public class UserService {
     public GusUser createUser(CreateGusUserRequest userRequest) {
         GusUser user;
         try {
-            user = userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
+            user = userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER, MembershipStatus.PENDING));
         } catch (DataIntegrityViolationException e) {
             throw new DuplicateUserException("A user of this email or phonenumber already exist");
         }

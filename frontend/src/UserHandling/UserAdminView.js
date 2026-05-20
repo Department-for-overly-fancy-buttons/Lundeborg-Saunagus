@@ -1,5 +1,6 @@
 import {displayNavigationBar} from "../navigationBars.js";
 import {createHtmlElement} from "../htmlTagFactory.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
@@ -11,6 +12,9 @@ let userData;
 
 async function initApp() {
     displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     userData = await fetchUsers();
     display();
 }
@@ -53,7 +57,7 @@ function display() {
     userBox.appendChild(userElement);
 
     let membershibLabel = document.createElement("label");
-    membershibLabel.textContent = "Sæt medlemdskab";
+    membershibLabel.textContent = "Sæt medlemskab";
     let membershibSelect = document.createElement("select");
     membershibSelect.setAttribute("id", "Membershib");
     membershibLabel.appendChild(membershibSelect);
