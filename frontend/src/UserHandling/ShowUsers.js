@@ -62,6 +62,14 @@ function display() {
 
 }
 
-async function handleGetUser() {
+async function handleGetUser(event) {
+    event.preventDefault();
 
+    const userBox = event.target.closest("div");
+    const userId = userBox.getAttribute("data-userId");
+    if (userId !== null) {
+        window.location.href = `/UserHandling/UserAdminView.html?userId=${userId}`;
+    } else {
+        console.log("box clicked");
+    }
 }

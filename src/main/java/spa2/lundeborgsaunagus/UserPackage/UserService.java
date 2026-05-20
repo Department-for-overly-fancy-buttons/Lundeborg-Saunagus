@@ -29,7 +29,11 @@ public class UserService {
     }
 
     public GusUser getUserById(Long id) {
-        return userRepository.getReferenceById(id);
+        return (userRepository.getReferenceById(id));
+    }
+
+    public GusUserResponse getUserResponseById(Long id) {
+        return toUserResponse(userRepository.getReferenceById(id));
     }
 
     public List<GusUserResponse> getUsers() {
