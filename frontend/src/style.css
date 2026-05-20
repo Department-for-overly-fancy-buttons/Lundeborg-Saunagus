@@ -154,12 +154,16 @@ nav {
     text-decoration: none;
 }
 
+#admin-nav-bar {
+    background-color: #FE6F5E;
+}
+
 p.big-letter {
     font-size: 1.2rem;
 }
 
 p.big-letter::first-letter {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     color: var(--highlight-color);
 }
 

@@ -1,4 +1,5 @@
 import {displayNavigationBar} from "./navigationBars.js";
+import { displayAdminNavigationBar } from "./adminNavigationBars.js";
 import {displayCalender} from "./calender.js";
 
 document.addEventListener("DOMContentLoaded", initApp);
@@ -7,6 +8,7 @@ const BASE_URL = "http://localhost:8080/api";
 
 async function initApp() {
     displayNavigationBar();
+    displayAdminNavigationBar();
     let events = await test()
     displayCalender(events);
 }
