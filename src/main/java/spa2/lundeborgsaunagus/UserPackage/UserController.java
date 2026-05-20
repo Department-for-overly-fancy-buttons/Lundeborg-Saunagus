@@ -75,9 +75,10 @@ class UserController {
     }
 
     @PutMapping({"update/{id}"})
-    ResponseEntity<GusUser> updateUser(@PathVariable Long id, @RequestBody CreateGusUserRequest userRequest) {
-        GusUser updateUser = userService.updateUserLogin(id, userRequest);
+    ResponseEntity<GusUser> updateUser(@PathVariable Long id, @RequestBody UpdateGusUserRequest userRequest, Authentication authentication) {
+        GusUser updateUser = userService.updateUserLogin(id, userRequest, authentication.getName());
         if (updateUser == null) {
+            System.out.println("Hi");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(updateUser);

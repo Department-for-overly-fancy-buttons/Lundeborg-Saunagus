@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spa2.lundeborgsaunagus.ExceptionHandling.DuplicateUserException;
+import spa2.lundeborgsaunagus.ExceptionHandling.ProfileNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserService {
     }
 
     public GusUser getUser(String name) {
-        return userRepository.findByUsernameIgnoreCase(name).orElseThrow();
+        return userRepository.findByUsernameIgnoreCase(name).orElseThrow( () -> new ProfileNotFoundException("User not found"));
     }
 
     public GusUser getUserById(Long id) {
@@ -93,8 +94,13 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public GusUser updateUserLogin(Long id, CreateGusUserRequest userRequest) {
+    public GusUser updateUserLogin(Long id, UpdateGusUserRequest userRequest, String callerName) {
+        GusUser caller = getUser(callerName);
         GusUser newUser = getUserById(id);
+
+        if(!newUser.getId().equals(caller.getId())){
+            throw new DuplicateUserException("test");
+        }
         newUser.setUsername(userRequest.username());
         newUser.setPassword(userRequest.password());
         newUser.setRole(stringToRole(userRequest.role()));

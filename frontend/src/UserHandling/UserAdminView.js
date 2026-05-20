@@ -10,6 +10,33 @@ const BASE_URL = "/api/users";
 
 let userData;
 
+async function fetchUpdateUser() {
+    try {
+        const response = await fetch(`${BASE_URL}/update/1`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
+            body: JSON.stringify({
+                username: "test",
+                password: "test",
+                firstname: "test",
+                lastname: "test",
+                phoneNumber: "test",
+                address: "test",
+                birthday: new Date(),
+                gender: "test",
+                role: "ADMIN",
+            })
+        });
+        if (!response.ok) {
+            console.log(response)
+            throw new Error("HTTP error!");
+        }
+        return await response.json();
+    } catch (error) {
+        console.log("An error occurred:   " + error)
+    }
+}
+
 async function initApp() {
     displayNavigationBar();
     if(isAdmin()) {
@@ -17,6 +44,7 @@ async function initApp() {
     }
     userData = await fetchUsers();
     display();
+    let test = await fetchUpdateUser();
 }
 
 async function fetchUsers() {

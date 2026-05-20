@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public String handleProfileNotFound(ProfileNotFoundException exception){
+        return exception.getMessage();
+    }
+
 }
