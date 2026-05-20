@@ -1,5 +1,6 @@
 import {displayNavigationBar} from "../navigationBars.js";
 import {createHtmlElement} from "../htmlTagFactory.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
@@ -13,6 +14,9 @@ let ticketData = [];
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     ticketData = await fetchTickets();
     display();
 }

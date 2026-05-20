@@ -16,15 +16,7 @@ export function displayNavigationBar(){
 
     listEl.appendChild(listItemTitleEl);
 
-    let listItemEventEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem",htmlAttributes: {id: "navigationListStart"}});
-
-    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Events", textContent: "Opret event", id: "navigationListStart"}});
-    createEventLink.addEventListener("click", () => window.location.href = "/Event/CreateEvent.html");
-    listItemEventEl.appendChild(createEventLink);
-
-    listEl.appendChild(listItemEventEl);
-
-    let listItemTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+    let listItemTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem",htmlAttributes: {id: "navigationListStart"}});
 
     let createTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Tilmeldinger", textContent: "Tilmeldinger"}});
     createTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/MyTickets.html");
@@ -47,7 +39,12 @@ export function displayNavigationBar(){
     } else {
         let logoutLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "log ud", textContent: "log ud"}});
         logoutLinkEl.addEventListener("click", logout);
+
+        let showAccountLinkEl = createHtmlElement({tagName: "button", htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Se profil", textContent: "Se profil"}});
+        showAccountLinkEl.addEventListener("click", () => location.href = "/UserHandling/UserDetails.html");
+
         listItemLoginEl.appendChild(logoutLinkEl);
+        listItemLoginEl.appendChild(showAccountLinkEl)
     }
 
 
