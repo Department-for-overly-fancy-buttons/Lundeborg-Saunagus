@@ -51,6 +51,14 @@ class UserController {
         return new GusUserResponse(user.getId(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole());
     }
 
+    @GetMapping("/user/{userId}")
+    GusUserResponse getUserById(@PathVariable Long userId, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
+        return userService.getUserResponseById(userId);
+    }
+
     @GetMapping("/employees")
     List<GusUserResponse> getEmployees() {
         return userService.getAllEmployees();
