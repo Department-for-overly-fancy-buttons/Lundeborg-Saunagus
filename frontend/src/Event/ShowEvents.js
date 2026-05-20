@@ -45,18 +45,18 @@ function display() {
         eventBox.appendChild(titleElement);
 
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let eventStartDate = Temporal.PlainDateTime.from(eventData[1].date);
-        let eventStartTime = Temporal.PlainTime.from(eventData[1].startTime);
-        let startHour = String(eventStartTime.hour).padStart(2, "0");
-        let startMinute = String(eventStartTime.minute).padStart(2, "0");
-        let eventEndTime = Temporal.PlainTime.from(eventData[1].endTime);
-        let endHour = String(eventEndTime.hour).padStart(2, "0");
-        let endMinute = String(eventEndTime.minute).padStart(2, "0");
+        console.log(eventData[i].date)
+        let eventStartDate = new Date(Date.parse(eventData[i].date + "T" + eventData[i].startTime));
+        let startHour = String(eventStartDate.getHours()).padStart(2, "0");
+        let startMinute = String(eventStartDate.getMinutes()).padStart(2, "0");
+        let eventEndTime = new Date(Date.parse(eventData[i].date + "T" + eventData[i].endTime));
+        let endHour = String(eventEndTime.getHours()).padStart(2, "0");
+        let endMinute = String(eventEndTime.getMinutes()).padStart(2, "0");
         let dateTimeElement = createHtmlElement({
                 tagName: "h5",
                 htmlClass: "dateTime-info",
                 htmlAttributes: {
-                    textContent: "Dato: " + eventStartDate.day + ". " + monthNames[eventStartDate.month - 1] + "\n" + startHour + ":" + startMinute + " Til " + endHour + ":" + endMinute,
+                    textContent: "Dato: " + eventStartDate.getDate() + ". " + monthNames[eventStartDate.getMonth()] + "\n" + startHour + ":" + startMinute + " Til " + endHour + ":" + endMinute,
                     title: "date"
                 }
             }
