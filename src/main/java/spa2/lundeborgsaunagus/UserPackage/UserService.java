@@ -32,22 +32,19 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
+    public List<GusUserResponse> getUsers() {
+        return toUserResponseList(userRepository.findAll());
+    }
+
     public List<GusUserResponse> getAllEmployees() {
-        List<GusUserResponse> gusUserResponses = new ArrayList<>();
         List<GusUser> employees = userRepository.findByRole(Role.EMPLOYEE);
         employees.addAll(userRepository.findByRole(Role.ADMIN));
-        System.out.println(Role.EMPLOYEE);
-        for (GusUser user : employees) {
-            gusUserResponses.add(new GusUserResponse(user.getUsername(),
-                    user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
-                    user.getBirthday(), user.getGender(), user.getRole()));
-        }
-        return gusUserResponses;
+        return toUserResponseList(employees);
     }
 
     public GusUser createUser(CreateGusUserRequest userRequest) {
         GusUser user;
-        try{
+        try {
             user = userRepository.save(new GusUser(userRequest.username(), passwordEncoder.encode(userRequest.password()), userRequest.firstname(), userRequest.lastname(), userRequest.phoneNumber(), userRequest.address(), userRequest.birthday(), parseJsonGender(userRequest.gender()), Role.CUSTOMER));
         } catch (DataIntegrityViolationException e) {
             throw new DuplicateUserException("A user of this email or phonenumber already exist");
@@ -79,6 +76,7 @@ public class UserService {
     public List<GusUser> getAllUsers() {
         return userRepository.findAll();
     }
+
     public List<GusUser> getAllUsersByRole(Role role) {
         return userRepository.findByRole(role);
     }
@@ -104,5 +102,18 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    private GusUserResponse toUserResponse(GusUser user) {
+        return new GusUserResponse(user.getUsername(),
+                user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
+                user.getBirthday(), user.getGender(), user.getRole());
+    }
+
+    private List<GusUserResponse> toUserResponseList(List<GusUser> users) {
+        List<GusUserResponse> userResponses = new ArrayList<>();
+        for (GusUser user : users) {
+            userResponses.add(toUserResponse(user));
+        }
+        return userResponses;
+    }
 
 }

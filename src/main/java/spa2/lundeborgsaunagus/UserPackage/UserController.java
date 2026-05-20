@@ -3,6 +3,7 @@ package spa2.lundeborgsaunagus.UserPackage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import java.util.List;
 
-@CrossOrigin( origins = "http://localhost")
+@CrossOrigin(origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
 class UserController {
@@ -21,6 +22,14 @@ class UserController {
     UserController(UserService userService, UserValidationService userValidationService) {
         this.userService = userService;
         this.userValidationService = userValidationService;
+    }
+
+    @GetMapping
+    List<GusUserResponse> getUsers(Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
+        return userService.getUsers();
     }
 
     @PostMapping("/log_in")
@@ -34,7 +43,7 @@ class UserController {
 
     @GetMapping("/user")
     GusUserResponse getUser(Authentication authentication) {
-        if(authentication == null) {
+        if (authentication == null) {
             throw new InvalidInputException("test");
         }
         GusUser user = userService.getUser(authentication.getName());
@@ -70,13 +79,6 @@ class UserController {
     ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
-    }
-
-
-
-    @GetMapping
-    ResponseEntity<List<GusUser>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/role/{role}")
