@@ -103,8 +103,29 @@ function display() {
         }
     );
     eventBox.appendChild(saunaMasterEl);
+
+    if (isAdmin()) {
+        let viewParticipants = createHtmlElement({
+            tagName: "button",
+            htmlClass: "participant-button",
+            htmlAttributes: {textContent: "Se deltager-info"}
+        })
+        viewParticipants.addEventListener("click", handleGetParticipantInfo);
+        eventBox.appendChild(viewParticipants);
+    }
+
     eventContainerEl.appendChild(eventBox);
     console.log(eventData);
+}
+
+
+async function handleGetParticipantInfo(event) {
+    event.preventDefault();
+    if (eventId !== null) {
+        window.location.href = `/ticket/ticketsForEvent.html?eventId=${eventId}`;
+    } else {
+        console.log("box clicked");
+    }
 }
 
 async function handleGetTicket(event) {
