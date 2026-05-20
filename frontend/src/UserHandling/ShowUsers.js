@@ -10,7 +10,7 @@ let userData = [];
 async function initApp() {
     displayNavigationBar();
     userData = await fetchUsers();
-    console.log(userData);
+    display();
 }
 
 async function fetchUsers() {
@@ -23,4 +23,41 @@ async function fetchUsers() {
     } catch (error) {
         console.log("An error occurred:   " + error)
     }
+}
+
+function display() {
+    let userContainerEl = document.querySelector("#user-container");
+    for (let i = 0; i < userData.length; i++) {
+        let userBox = createHtmlElement({tagName: "div", htmlClass: "user-box"});
+        userBox.setAttribute("data-userId", userData[i].id);
+        console.log(userData[i].username);
+        let titleElement = createHtmlElement({
+            tagName: "h4",
+            htmlClass: "user-title",
+            htmlAttributes: {
+                textContent: userData[i].username,
+                title: userData[i].username
+            }
+        });
+        userBox.appendChild(titleElement);
+
+        let userElement = createHtmlElement({
+            tagName: "h5",
+            htmlClass: "user-info",
+            htmlAttributes: {
+                textContent: "Navn: " + userData[i].firstname + " " + userData[i].lastname + "\nFødt: " + userData[i].birthday +
+                    "\nKøn: " + userData[i].gender + "\nBruger type: " + userData[i].role + "\nMedlemskab: " + "Aktiv"
+            }
+        });
+        userElement.setAttribute('style', 'white-space: pre;');
+        userBox.appendChild(userElement);
+        userBox.addEventListener("click", handleGetUser);
+
+        userContainerEl.appendChild(userBox);
+    }
+
+}
+
+async function handleGetUser() {
+
 }

@@ -14,7 +14,7 @@
    @media only screen and (min-width: 1200px) {...} */
 /*https://coolors.co/visualizer/d58e62-ffbe95-fe6f5e-18919e-c3dae8*/
 /*blue gradiant https://coolors.co/gradient-palette/18919e-f2f2f2?number=7*/
-:root{
+:root {
     --navbarBackgroundColor: #FFBE95;
     --headerFontSize: 1.5rem;
     --textColor: #112A46;
@@ -49,7 +49,7 @@ body {
     flex-grow: 1;
 }
 
-#userForm, #loginForm, #event-container, #ticket-container {
+#userForm, #loginForm, #event-container, #ticket-container, #user-container {
     border-radius: 5px;
     background-color: var(--page-color);
     padding: 1.2rem;
@@ -57,8 +57,8 @@ body {
     display: table;
 }
 
-#event-container, #ticket-container {
-    display:flex;
+#event-container, #ticket-container, #user-container {
+    display: flex;
     flex-direction: column;
 }
 
@@ -67,7 +67,7 @@ body {
     text-align: center;
 }
 
-label, #submitButton, #loginButton, #createEventButton, .event-box ,.ticket-box{
+label, #submitButton, #loginButton, #createEventButton, .event-box, .ticket-box, .user-box {
     min-width: 500px;
     padding: 12px;
     display: table-cell;
@@ -78,12 +78,12 @@ label, #submitButton, #loginButton, #createEventButton, .event-box ,.ticket-box{
     background-color: var(--background-color);
 }
 
-.event-box:hover ,.ticket-box:hover {
+.event-box:hover, .ticket-box:hover, .user-box:hover {
     background-color: var(--hover-color);
     cursor: pointer;
 }
 
-.event-box, #userForm,.ticket-box{
+.event-box, #userForm, .ticket-box, .user-box {
     text-align: center;
 }
 
@@ -168,7 +168,7 @@ p.big-letter::first-letter {
     display: flex;
 }
 
-.calender-prev-button, .calender-next-button{
+.calender-prev-button, .calender-next-button {
     flex-grow: 1;
     background-color: inherit;
     border-top: 0;
@@ -180,6 +180,7 @@ p.big-letter::first-letter {
     border-left: 2px solid var(--calendar-border-color);
     border-right: 0;
 }
+
 .calender-prev-button {
 
     border-right: 2px solid var(--calendar-border-color);
@@ -187,7 +188,7 @@ p.big-letter::first-letter {
 
 }
 
-.calender-prev-button:hover, .calender-next-button:hover{
+.calender-prev-button:hover, .calender-next-button:hover {
     background-color: var(--hover-color);
 }
 
@@ -263,13 +264,12 @@ li.calender-week-day {
     background-color: var(--background-color);
 }
 
-li.overflowDay:hover{
+li.overflowDay:hover {
     background-color: var(--background-color);
     cursor: default;
 }
 
-.calender-event-box
-{
+.calender-event-box {
     text-align: center;
     border-radius: 2px;
     margin: 2%;
