@@ -103,7 +103,7 @@ public class UserService {
     }
 
     private GusUserResponse toUserResponse(GusUser user) {
-        return new GusUserResponse(user.getUsername(),
+        return new GusUserResponse(user.getId(), user.getUsername(),
                 user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
                 user.getBirthday(), user.getGender(), user.getRole());
     }
