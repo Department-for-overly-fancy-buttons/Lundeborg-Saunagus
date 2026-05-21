@@ -43,13 +43,17 @@ function display() {
             tagName: "h5",
             htmlClass: "ticket-info",
             htmlAttributes: {
-                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nEvent: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
+                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nBegivenhed: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
                 title: "ticket"
             }
         });
         ticketElement.setAttribute('style', 'white-space: pre;');
         ticketBox.appendChild(ticketElement);
         ticketBox.addEventListener("click", handleGetTicket);
+        if(!ticketData[i].paid){
+            console.log("hi");
+            ticketBox.setAttribute('style', 'background-color :pink');
+        }
         ticketContainerEl.appendChild(ticketBox);
         console.log(ticketData[i]);
     }

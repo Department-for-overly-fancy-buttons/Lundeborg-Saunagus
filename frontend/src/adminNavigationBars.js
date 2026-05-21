@@ -10,7 +10,7 @@ export function displayAdminNavigationBar(){
     navEl.appendChild(listEl);
     let listItemEventEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Opret event", textContent: "Opret event"}});
+    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Opret Begivenhed", textContent: "Opret Begivenhed"}});
     createEventLink.addEventListener("click", () => window.location.href = "/Event/CreateEvent.html");
     listItemEventEl.appendChild(createEventLink);
 
@@ -18,7 +18,7 @@ export function displayAdminNavigationBar(){
 
     let listItemAllTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let createAllTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle billetter", textContent: "Alle billetter"}});
+    let createAllTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Billetter", textContent: "Alle Billetter"}});
     createAllTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/ReservedTickets.html");
     listItemAllTicketsEl.appendChild(createAllTicketsLink);
 

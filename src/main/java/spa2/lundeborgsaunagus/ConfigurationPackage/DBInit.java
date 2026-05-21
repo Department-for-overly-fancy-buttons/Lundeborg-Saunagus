@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class DBInit implements CommandLineRunner {
@@ -47,8 +48,25 @@ public class DBInit implements CommandLineRunner {
         userRepository.save(waitingUser1);
         userRepository.save(waitingUser2);
 
-//        for (int i = 0; i < 100; i++) {
+//        Random r = new Random();
+//        for (int i = 0; i < 200; i++) {
+//            double number = r.nextDouble(0,1);
 //            GusUser newUser = new GusUser("w3" + i, passwordEncoder.encode("test"), "Freja" + i, "Johannessensen" + i, String.valueOf(11111116 + i), "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.PENDING);
+//
+//            if(number<0.45){
+//                newUser.setMembershipStatus(MembershipStatus.ACTIVE);
+//                if(number < 0.02){
+//                    newUser.setRole(Role.ADMIN);
+//                } else if (number < 0.08) {
+//                    newUser.setRole(Role.EMPLOYEE);
+//                }
+//            } else if (number < 0.75) {
+//                newUser.setMembershipStatus(MembershipStatus.PENDING);
+//            } else if (number < 0.95) {
+//                newUser.setMembershipStatus(MembershipStatus.INACTIVE);
+//            } else {
+//                newUser.setMembershipStatus(MembershipStatus.PASSIVE);
+//            }
 //            userRepository.save(newUser);
 //        }
 
@@ -76,14 +94,14 @@ public class DBInit implements CommandLineRunner {
 
         Ticket ticket = new Ticket(user2, "ticket", false, 50, LocalDateTime.now(), event);
         Ticket ticket2 = new Ticket(user, "ticket", true, 50, LocalDateTime.now(), event);
-        Ticket ticket3 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(), event8);
+        Ticket ticket3 = new Ticket(user3, "ticket", false, 50, LocalDateTime.now(), event8);
         Ticket ticket4 = new Ticket(user2, "ticket", false, 50, LocalDateTime.now(), event2);
         Ticket ticket5 = new Ticket(user, "ticket", true, 50, LocalDateTime.now(), event2);
-        Ticket ticket6 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(), event3);
-        Ticket ticket7 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(), event5);
+        Ticket ticket6 = new Ticket(user3, "ticket", false, 50, LocalDateTime.now(), event3);
+        Ticket ticket7 = new Ticket(user3, "ticket", false, 50, LocalDateTime.now(), event5);
         Ticket ticket8 = new Ticket(user2, "ticket", false, 50, LocalDateTime.now(), event6);
         Ticket ticket9 = new Ticket(user, "ticket", true, 50, LocalDateTime.now(), event12);
-        Ticket ticket10 = new Ticket(user3, "ticket", false, 500, LocalDateTime.now(), event9);
+        Ticket ticket10 = new Ticket(user3, "ticket", false, 50, LocalDateTime.now(), event9);
         eventRepository.saveAll(List.of(event, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12, event13, event14, event15));
         ticketRepository.saveAll(List.of(ticket, ticket2, ticket3, ticket4, ticket5, ticket6, ticket7, ticket8, ticket9, ticket10));
     }

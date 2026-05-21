@@ -118,6 +118,19 @@ class UserController {
         return ResponseEntity.ok(gusUserResponse);
     }
 
+    @PutMapping("/update/user/{id}/role")
+    ResponseEntity<GusUserResponse> updateUserRole(@PathVariable Long id, @RequestBody String role, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))||authentication.getName().equalsIgnoreCase(userService.getUserById(id).getUsername())) {
+            return null;
+        }
+        GusUserResponse gusUserResponse = userService.updateUserRole(id, role);
+        if (gusUserResponse == null) {
+            System.out.println("Hi");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(gusUserResponse);
+    }
+
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);

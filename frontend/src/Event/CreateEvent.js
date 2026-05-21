@@ -11,7 +11,7 @@ let saunaMasterData = [];
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
-    if(isAdmin()) {
+    if (isAdmin()) {
         displayAdminNavigationBar();
     }
     saunaMasterData = await fetchSaunaMasters();
@@ -55,9 +55,9 @@ async function handleSubmit(event) {
         headers: {"Content-Type": "application/json", "X-XSRF-TOKEN": getCsrfToken()},
         body: JSON.stringify(eventRequest)
     });
-
-    const result = await response.json();
-    console.log("Event added:", result);
+    if (response.ok) {
+        window.location.href = "/index.html";
+    }
 }
 
 function getSaunaMaster() {
