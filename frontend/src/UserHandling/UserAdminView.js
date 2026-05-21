@@ -91,13 +91,12 @@ function display() {
     membershipSelect.setAttribute("id", "Membership");
     membershipLabel.appendChild(membershipSelect);
 
-    let membershipData = ["Aktiv", "Venteliste", "Inaktiv", "Passiv"];
-    let membershipDataValues = ["ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
+    let membershipData = ["Vælg medlemskab","Aktiv", "Venteliste", "Inaktiv", "Passiv"];
+    let membershipDataValues = ["","ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
 
     for (let i = 0; i < membershipData.length; i++) {
         const option = document.createElement("option")
         option.setAttribute("label", membershipData[i]);
-        console.log(membershipData[i]);
         option.setAttribute("value", membershipDataValues[i]);
         membershipSelect.appendChild(option);
     }
@@ -117,6 +116,9 @@ async function updateMembershipStatus(event) {
     event.preventDefault();
     let membershipSelect = document.querySelector("#Membership");
     const membershipStatus = membershipSelect.value;
+    if(membershipStatus===""){
+        return;
+    }
     await fetchUpdateMembershipStatus(membershipStatus);
 }
 

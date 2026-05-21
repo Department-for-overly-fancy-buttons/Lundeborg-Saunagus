@@ -49,7 +49,6 @@ function display(memberList) {
     for (let i = 0; i < membershipData.length; i++) {
         const option = document.createElement("option")
         option.setAttribute("label", membershipData[i]);
-        console.log(membershipData[i]);
         option.setAttribute("value", membershipDataValues[i]);
         membershipSelect.appendChild(option);
     }
