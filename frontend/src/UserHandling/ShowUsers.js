@@ -42,12 +42,15 @@ function display(memberList) {
     membershipSelect.setAttribute("id", "Membership");
     membershipLabel.appendChild(membershipSelect);
 
-    let membershipData = ["Vælg medlemstype", "Se alle - " + userData.length,
+    let membershipData = ["Vælg Medlemstype", "Se alle - " + userData.length,
         "Aktiv - " + filterUsersByMembershipStatus("ACTIVE").length,
         "Venteliste - " + filterUsersByMembershipStatus("PENDING").length,
         "Inaktiv - " + filterUsersByMembershipStatus("INACTIVE").length,
-        "Passiv - " + filterUsersByMembershipStatus("PASSIVE").length];
-    let membershipDataValues = ["", "ALL", "ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
+        "Passiv - " + filterUsersByMembershipStatus("PASSIVE").length,
+        "Admin - " + filterUsersByRole("ADMIN").length,
+        "Fyrmester - " + filterUsersByRole("EMPLOYEE").length,
+        "Medlem - " + filterUsersByRole("CUSTOMER").length];
+    let membershipDataValues = ["", "ALL", "ACTIVE", "PENDING", "INACTIVE", "PASSIVE", "ADMIN", "EMPLOYEE", "CUSTOMER"];
 
     for (let i = 0; i < membershipData.length; i++) {
         const option = document.createElement("option")
@@ -93,7 +96,11 @@ function displayWithFilter(event) {
     event.preventDefault();
     let membershipSelect = document.querySelector("#Membership");
     const membershipStatus = membershipSelect.value;
-    display(filterUsersByMembershipStatus(membershipStatus));
+    if (membershipStatus === "ADMIN" || membershipStatus === "EMPLOYEE" || membershipStatus === "CUSTOMER") {
+        display(filterUsersByRole(membershipStatus));
+    } else {
+        display(filterUsersByMembershipStatus(membershipStatus));
+    }
 }
 
 function filterUsersByMembershipStatus(membershipStatus) {
@@ -101,6 +108,10 @@ function filterUsersByMembershipStatus(membershipStatus) {
         return userData;
     }
     return userData.filter(user => user.membershipStatus === membershipStatus);
+}
+
+function filterUsersByRole(role) {
+    return userData.filter(user => user.role === role);
 }
 
 async function handleGetUser(event) {
