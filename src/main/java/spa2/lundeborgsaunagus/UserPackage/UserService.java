@@ -66,31 +66,22 @@ public class UserService {
     }
 
     private Role stringToRole(String roleText) {
-        switch (roleText) {
-            case "CUSTOMER":
-                return Role.CUSTOMER;
-            case "EMPLOYEE":
-                return Role.EMPLOYEE;
-            case "ADMIN":
-                return Role.ADMIN;
-            default:
-                return null;
-        }
+        return switch (roleText) {
+            case "CUSTOMER" -> Role.CUSTOMER;
+            case "EMPLOYEE" -> Role.EMPLOYEE;
+            case "ADMIN" -> Role.ADMIN;
+            default -> null;
+        };
     }
 
-    private MembershipStatus stringToMEmbershipStatus(String membership) {
-        switch (membership) {
-            case "ACTIVE":
-                return MembershipStatus.ACTIVE;
-            case "INACTIVE":
-                return MembershipStatus.INACTIVE;
-            case "PENDING":
-                return MembershipStatus.PENDING;
-            case "PASSIVE":
-                return MembershipStatus.PASSIVE;
-            default:
-                return null;
-        }
+    private MembershipStatus stringToMembershipStatus(String membership) {
+        return switch (membership) {
+            case "ACTIVE" -> MembershipStatus.ACTIVE;
+            case "INACTIVE" -> MembershipStatus.INACTIVE;
+            case "PENDING" -> MembershipStatus.PENDING;
+            case "PASSIVE" -> MembershipStatus.PASSIVE;
+            default -> null;
+        };
     }
 
     public List<GusUser> getAllUsers() {
@@ -143,7 +134,7 @@ public class UserService {
 
     public GusUserResponse updateMembershipStatus(Long id, String membershipStatus) {
         GusUser user = getUserById(id);
-        user.setMembershipStatus(stringToMEmbershipStatus(membershipStatus));
+        user.setMembershipStatus(stringToMembershipStatus(membershipStatus));
         return toUserResponse(userRepository.save(user));
     }
 }
