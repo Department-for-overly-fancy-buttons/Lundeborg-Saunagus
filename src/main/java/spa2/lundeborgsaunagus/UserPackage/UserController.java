@@ -36,7 +36,7 @@ class UserController {
     ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
         GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
         if (loggedInUser != null) {
-            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getId(), loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole()));
+            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getId(), loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole(),loggedInUser.getMembershipStatus()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -48,7 +48,7 @@ class UserController {
         }
         GusUser user = userService.getUser(authentication.getName());
 
-        return new GusUserResponse(user.getId(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole());
+        return new GusUserResponse(user.getId(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(), user.getBirthday(), user.getGender(), user.getRole(),user.getMembershipStatus());
     }
 
     @GetMapping("/user/{userId}")
@@ -71,7 +71,7 @@ class UserController {
         if (addedUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(new GusUserResponse(addedUser.getId(), addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getBirthday(), addedUser.getGender(), addedUser.getRole()));
+        return ResponseEntity.ok(new GusUserResponse(addedUser.getId(), addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getBirthday(), addedUser.getGender(), addedUser.getRole(),addedUser.getMembershipStatus()));
     }
 
     @PutMapping({"update/{id}"})
@@ -82,6 +82,19 @@ class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(updateUser);
+    }
+
+    @PutMapping("/update/membership/{id}")
+    ResponseEntity<GusUserResponse> updateMembershipStatus(@PathVariable Long id, @RequestBody String membershipStatus, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
+        GusUserResponse gusUserResponse = userService.updateMembershipStatus(id, membershipStatus);
+        if (gusUserResponse == null) {
+            System.out.println("Hi");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(gusUserResponse);
     }
 
     @DeleteMapping("/{id}")

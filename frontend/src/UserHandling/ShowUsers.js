@@ -10,7 +10,7 @@ let userData = [];
 
 async function initApp() {
     displayNavigationBar();
-    if(isAdmin()) {
+    if (isAdmin()) {
         displayAdminNavigationBar();
     }
     userData = await fetchUsers();
@@ -50,7 +50,7 @@ function display() {
             htmlClass: "user-info",
             htmlAttributes: {
                 textContent: "Navn: " + userData[i].firstname + " " + userData[i].lastname + "\nFødt: " + userData[i].birthday +
-                    "\nKøn: " + userData[i].gender + "\nBruger type: " + userData[i].role + "\nMedlemskab: " + "Aktiv"
+                    "\nKøn: " + userData[i].gender + "\nBruger type: " + userData[i].role + "\nMedlemskab: " + userData[i].membershipStatus
             }
         });
         userElement.setAttribute('style', 'white-space: pre;');

@@ -49,14 +49,14 @@ public class EventService {
         return new EventResponse(addedEvent.getId(), addedEvent.getDate(), addedEvent.getStartTime(),
                 addedEvent.getEndTime(), new GusUserResponse(saunaMaster.getId(),saunaMaster.getUsername(),
                 saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                saunaMaster.getGender(), saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft(), addedEvent.getTitle(), addedEvent.getInformation());
+                saunaMaster.getGender(), saunaMaster.getRole(),saunaMaster.getMembershipStatus()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft(), addedEvent.getTitle(), addedEvent.getInformation());
     }
 
     private EventResponse toEventResponse(Event event) {
         GusUser saunaMaster = event.getSaunaMaster();
         return new EventResponse(event.getId(), event.getDate(), event.getStartTime(), event.getEndTime(), new GusUserResponse(saunaMaster.getId(), saunaMaster.getUsername(),
                 saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation());
+                saunaMaster.getGender(), saunaMaster.getRole(),saunaMaster.getMembershipStatus()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation());
     }
 
     private List<EventResponse> toEventResponseList(List<Event> events) {

@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public GusUser getUser(String name) {
-        return userRepository.findByUsernameIgnoreCase(name).orElseThrow( () -> new ProfileNotFoundException("User not found"));
+        return userRepository.findByUsernameIgnoreCase(name).orElseThrow(() -> new ProfileNotFoundException("User not found"));
     }
 
     public GusUser getUserById(Long id) {
@@ -78,6 +78,21 @@ public class UserService {
         }
     }
 
+    private MembershipStatus stringToMEmbershipStatus(String membership) {
+        switch (membership) {
+            case "ACTIVE":
+                return MembershipStatus.ACTIVE;
+            case "INACTIVE":
+                return MembershipStatus.INACTIVE;
+            case "PENDING":
+                return MembershipStatus.PENDING;
+            case "PASSIVE":
+                return MembershipStatus.PASSIVE;
+            default:
+                return null;
+        }
+    }
+
     public List<GusUser> getAllUsers() {
         return userRepository.findAll();
     }
@@ -98,7 +113,7 @@ public class UserService {
         GusUser caller = getUser(callerName);
         GusUser newUser = getUserById(id);
 
-        if(!newUser.getId().equals(caller.getId())){
+        if (!newUser.getId().equals(caller.getId())) {
             throw new DuplicateUserException("test");
         }
         newUser.setUsername(userRequest.username());
@@ -115,7 +130,7 @@ public class UserService {
     private GusUserResponse toUserResponse(GusUser user) {
         return new GusUserResponse(user.getId(), user.getUsername(),
                 user.getFirstname(), user.getLastname(), user.getPhoneNumber(), user.getAddress(),
-                user.getBirthday(), user.getGender(), user.getRole());
+                user.getBirthday(), user.getGender(), user.getRole(), user.getMembershipStatus());
     }
 
     private List<GusUserResponse> toUserResponseList(List<GusUser> users) {
@@ -126,4 +141,9 @@ public class UserService {
         return userResponses;
     }
 
+    public GusUserResponse updateMembershipStatus(Long id, String membershipStatus) {
+        GusUser user = getUserById(id);
+        user.setMembershipStatus(stringToMEmbershipStatus(membershipStatus));
+        return toUserResponse(userRepository.save(user));
+    }
 }
