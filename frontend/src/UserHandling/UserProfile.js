@@ -10,10 +10,7 @@ async function initApp() {
     showUser(user);
 
     document.querySelector("form").addEventListener("submit", handleSubmit);
-    document.querySelector("#editBtn").addEventListener("click", enableEditMode);
 }
-
-
 
 async function fetchCurrentUser() {
     try {
@@ -32,38 +29,19 @@ async function fetchCurrentUser() {
 }
 
 
-
-function showUser(user) {
-    document.querySelector("#firstname").value = user.firstname;
-    document.querySelector("#lastname").value = user.lastname;
-    document.querySelector("#username").value = user.username;
-    document.querySelector("#phoneNumber").value = user.phoneNumber;
-    document.querySelector("#address").value = user.address;
-    document.querySelector("#birthday").value = user.birthday;
-
-    setInputsDisabled(true);
-}
-
-
-
-function enableEditMode() {
-    setInputsDisabled(false);
-}
-
-
-
-function setInputsDisabled(state) {
-    document.querySelector("#firstname").disabled = state;
-    document.querySelector("#lastname").disabled = state;
-    document.querySelector("#username").disabled = state;
-    document.querySelector("#phoneNumber").disabled = state;
-    document.querySelector("#address").disabled = state;
-}
-
-
+//function showUser(user) {
+//    document.querySelector("#firstname").value = user.firstname;
+//    document.querySelector("#lastname").value = user.lastname;
+//    document.querySelector("#username").value = user.username;
+//    document.querySelector("#phoneNumber").value = user.phoneNumber;
+//    document.querySelector("#address").value = user.address;
+//    document.querySelector("#birthday").value = user.birthday;
+//}
 
 async function handleSubmit(event) {
     event.preventDefault();
+
+    console.log("SUBMIT START");
 
     const formData = new FormData(event.target);
 
@@ -75,26 +53,30 @@ async function handleSubmit(event) {
         address: formData.get("address"),
     };
 
-    const csrfToken = getCsrfToken();
-
     try {
         const response = await fetch(`${BASE_URL}/update`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "X-XSRF-TOKEN": csrfToken || ""
+                "X-XSRF-TOKEN": getCsrfToken() || ""
             },
             body: JSON.stringify(userData)
         });
+
+        console.log("STATUS:", response.status);
+
+        const text = await response.text();
+        console.log("RESPONSE:", text);
 
         if (!response.ok) {
             throw new Error("Update failed: " + response.status);
         }
 
-        const result = await response.json();
-        console.log("User updated:", result);
+        console.log("ABOUT TO REDIRECT");
 
-        window.location.href = "../index.html";
+        setTimeout(() => {
+            window.location.href = "./UserDetails.html";
+        }, 200);
 
     } catch (err) {
         console.error("Error updating user:", err);

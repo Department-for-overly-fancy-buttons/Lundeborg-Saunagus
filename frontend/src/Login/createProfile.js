@@ -299,14 +299,13 @@ async function addUser(event) {
         alert("Dit number må kun indeholde tal og have en længde på 8");
         return
     }
-
     const address = formData.get("address") + ";" + formData.get("zipCode") + ";" + formData.get("city");
-    const addressPattern = /^[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+$/;
-    if (!addressPattern.test(address)) {
-        console.log("Der er gået noget galt i sammensætning af adressen");
-        alert("Der er gået noget galt i sammensætning af adressen");
-        return
-    }
+   // const addressPattern = /^[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+;[a-zA-Z0-9 .-]+$/;
+   // if (!addressPattern.test(address)) {
+   //     console.log("Der er gået noget galt i sammensætning af adressen");
+    //    alert("Der er gået noget galt i sammensætning af adressen");
+      //  return
+    //}
 
     const addressParts = address.split(";");
     console.log(addressParts[0]);

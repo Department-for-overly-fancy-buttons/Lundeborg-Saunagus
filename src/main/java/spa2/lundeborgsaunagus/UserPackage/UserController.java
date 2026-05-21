@@ -57,13 +57,31 @@ class UserController {
         return ResponseEntity.ok(new GusUserResponse(addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getBirthday(), addedUser.getGender(), addedUser.getRole()));
     }
 
-    @PutMapping({"update/{id}"})
-    ResponseEntity<GusUser> updateUser(@PathVariable Long id, @RequestBody CreateGusUserRequest userRequest) {
-        GusUser updateUser = userService.updateUserLogin(id, userRequest);
-        if (updateUser == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    @PutMapping("/update")
+    public ResponseEntity<GusUserResponse> updateUser(
+            Authentication authentication,
+            @RequestBody CreateGusUserRequest userRequest) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Not logged in");
         }
-        return ResponseEntity.ok(updateUser);
+
+        String username = authentication.getName();
+
+        GusUser updatedUser = userService.updateUserByUsername(username, userRequest);
+
+        return ResponseEntity.ok(
+                new GusUserResponse(
+                        updatedUser.getUsername(),
+                        updatedUser.getFirstname(),
+                        updatedUser.getLastname(),
+                        updatedUser.getPhoneNumber(),
+                        updatedUser.getAddress(),
+                        updatedUser.getBirthday(),
+                        updatedUser.getGender(),
+                        updatedUser.getRole()
+                )
+        );
     }
 
     @DeleteMapping("/{id}")

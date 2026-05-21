@@ -30,7 +30,7 @@ public class UserValidationService implements InputValidationService {
         validateName(userRequest.firstname());
         validateName(userRequest.lastname());
         validatePhoneNumber(userRequest.phoneNumber());
-        validateAddress(userRequest.address());
+        //validateAddress(userRequest.address());
         validateBirthday(userRequest.birthday());
         validateGender(userRequest.gender());
         validateRole(userRequest.role());

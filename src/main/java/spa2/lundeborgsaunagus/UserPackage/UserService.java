@@ -104,5 +104,33 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    public GusUser updateUserByUsername(String username, CreateGusUserRequest request) {
+
+        GusUser user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.firstname() != null) {
+            user.setFirstname(request.firstname());
+        }
+
+        if (request.lastname() != null) {
+            user.setLastname(request.lastname());
+        }
+
+        if (request.username() != null) {
+            user.setUsername(request.username());
+        }
+
+        if (request.phoneNumber() != null) {
+            user.setPhoneNumber(request.phoneNumber());
+        }
+
+        if (request.address() != null) {
+            user.setAddress(request.address());
+        }
+
+        return userRepository.save(user);
+    }
+
 
 }
