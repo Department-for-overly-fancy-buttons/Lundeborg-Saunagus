@@ -53,6 +53,10 @@ function display() {
         ticketElement.setAttribute('style', 'white-space: pre;');
         ticketBox.appendChild(ticketElement);
         ticketBox.addEventListener("click", handleGetTicket);
+        if(!ticketData[i].paid){
+            console.log("hi");
+            ticketBox.setAttribute('style', 'background-color :pink');
+        }
         ticketContainerEl.appendChild(ticketBox);
         console.log(ticketData[i]);
     }

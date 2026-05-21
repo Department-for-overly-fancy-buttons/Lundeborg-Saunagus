@@ -51,6 +51,10 @@ function display() {
         }
     });
     ticketElement.setAttribute('style', 'white-space: pre;');
+    if(!ticketData.paid){
+        console.log("hi");
+        ticketBox.setAttribute('style', 'background-color :pink');
+    }
 
     let goToEventButton = createHtmlElement({
         tagName: "button",
