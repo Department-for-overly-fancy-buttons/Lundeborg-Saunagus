@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', initApp);
 const BASE_URL = "/api/users";
 
 let userData = [];
+let filteredUserData = [];
 
 async function initApp() {
     displayNavigationBar();
@@ -14,7 +15,8 @@ async function initApp() {
         displayAdminNavigationBar();
     }
     userData = await fetchUsers();
-    display();
+    filteredUserData = filterUsersByMembershipStatus("PENDING");
+    display(userData);
 }
 
 async function fetchUsers() {
@@ -29,18 +31,41 @@ async function fetchUsers() {
     }
 }
 
-function display() {
+
+function display(memberList) {
     let userContainerEl = document.querySelector("#user-container");
-    for (let i = 0; i < userData.length; i++) {
+    userContainerEl.innerHTML = "";
+
+    let membershipLabel = document.createElement("label");
+    membershipLabel.id = "membershipLabel";
+    membershipLabel.textContent = "Se medlemmer med typen";
+    let membershipSelect = document.createElement("select");
+    membershipSelect.setAttribute("id", "Membership");
+    membershipLabel.appendChild(membershipSelect);
+
+    let membershipData = ["Vælg medlemstype", "Se alle", "Aktiv", "Venteliste", "Inaktiv", "Passiv"];
+    let membershipDataValues = ["", "ALL", "ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
+
+    for (let i = 0; i < membershipData.length; i++) {
+        const option = document.createElement("option")
+        option.setAttribute("label", membershipData[i]);
+        console.log(membershipData[i]);
+        option.setAttribute("value", membershipDataValues[i]);
+        membershipSelect.appendChild(option);
+    }
+    membershipSelect.addEventListener("change", displayWithFilter);
+    userContainerEl.appendChild(membershipLabel);
+
+    for (let i = 0; i < memberList.length; i++) {
         let userBox = createHtmlElement({tagName: "div", htmlClass: "user-box"});
-        userBox.setAttribute("data-userId", userData[i].id);
-        console.log(userData[i].username);
+        userBox.setAttribute("data-userId", memberList[i].id);
+        console.log(memberList[i].username);
         let titleElement = createHtmlElement({
             tagName: "h4",
             htmlClass: "user-title",
             htmlAttributes: {
-                textContent: userData[i].username,
-                title: userData[i].username
+                textContent: memberList[i].username,
+                title: memberList[i].username
             }
         });
         userBox.appendChild(titleElement);
@@ -49,8 +74,8 @@ function display() {
             tagName: "h5",
             htmlClass: "user-info",
             htmlAttributes: {
-                textContent: "Navn: " + userData[i].firstname + " " + userData[i].lastname + "\nFødt: " + userData[i].birthday +
-                    "\nKøn: " + userData[i].gender + "\nBruger type: " + userData[i].role + "\nMedlemskab: " + userData[i].membershipStatus
+                textContent: "Navn: " + memberList[i].firstname + " " + memberList[i].lastname + "\nFødt: " + memberList[i].birthday +
+                    "\nKøn: " + memberList[i].gender + "\nBruger type: " + memberList[i].role + "\nMedlemskab: " + memberList[i].membershipStatus
             }
         });
         userElement.setAttribute('style', 'white-space: pre;');
@@ -60,6 +85,20 @@ function display() {
         userContainerEl.appendChild(userBox);
     }
 
+}
+
+function displayWithFilter(event) {
+    event.preventDefault();
+    let membershipSelect = document.querySelector("#Membership");
+    const membershipStatus = membershipSelect.value;
+    display(filterUsersByMembershipStatus(membershipStatus));
+}
+
+function filterUsersByMembershipStatus(membershipStatus) {
+    if (membershipStatus === "ALL") {
+        return userData;
+    }
+    return userData.filter(user => user.membershipStatus === membershipStatus);
 }
 
 async function handleGetUser(event) {

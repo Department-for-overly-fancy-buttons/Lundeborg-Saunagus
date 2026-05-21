@@ -83,7 +83,7 @@ label, #submitButton, #loginButton, #createEventButton, .event-box, .ticket-box,
     cursor: pointer;
 }
 
-.event-box, #userForm, .ticket-box, .user-box {
+.event-box, #userForm, .ticket-box, .user-box, #membershipLabel {
     text-align: center;
 }
 
