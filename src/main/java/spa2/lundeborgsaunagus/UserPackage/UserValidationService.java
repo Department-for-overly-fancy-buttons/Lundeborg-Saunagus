@@ -22,7 +22,7 @@ public class UserValidationService implements InputValidationService {
     private final Short phoneNumberLength = 8;
     private final Short zipcodeLength = 4;
 
-    public void validateUserInput(CreateGusUserRequest userRequest){
+    public void validateUserCreationInput(CreateGusUserRequest userRequest){
         checkInputNotNull(userRequest);
         checkForIllegalCharacters(userRequest);
         validateEmail(userRequest.username());
@@ -30,10 +30,20 @@ public class UserValidationService implements InputValidationService {
         validateName(userRequest.firstname());
         validateName(userRequest.lastname());
         validatePhoneNumber(userRequest.phoneNumber());
-        //validateAddress(userRequest.address());
+        validateAddress(userRequest.address());
         validateBirthday(userRequest.birthday());
         validateGender(userRequest.gender());
         validateRole(userRequest.role());
+    }
+
+    public void validateUserUpdateInput(CreateGusUserRequest userRequest){
+        //checkInputNotNull(userRequest);
+        //checkForIllegalCharacters(userRequest);
+        validateEmail(userRequest.username());
+        validateName(userRequest.firstname());
+        validateName(userRequest.lastname());
+        validatePhoneNumber(userRequest.phoneNumber());
+        validateAddress(userRequest.address());
     }
 
     private void checkInputNotNull(CreateGusUserRequest userRequest){
@@ -100,15 +110,16 @@ public class UserValidationService implements InputValidationService {
         Matcher addressMatcher = addressPattern.matcher(address);
         boolean addressMatchFound = addressMatcher.matches();
         if(!addressMatchFound){
-            System.out.println("Address not matching format (address,zipcode,city)");
+            System.out.println("Address not matching format (address;zipcode;city)");
             System.out.println(address);
-            throw new InvalidInputException("Address not matching format (address,zipcode,city)");
+            throw new InvalidInputException("Address not matching format (address;zipcode;city)");
         }
 
         Scanner scanner = new Scanner(address);
         scanner.useDelimiter(";");
         System.out.println(scanner.next());
         String zipcode = scanner.next();
+        System.out.println(zipcode);
         Matcher zipcodeMatcher = digitsOnlyPattern.matcher(zipcode);
         if(zipcode.length() != zipcodeLength || !zipcodeMatcher.matches()){
             System.out.println("Zipcode contains non digit characters");

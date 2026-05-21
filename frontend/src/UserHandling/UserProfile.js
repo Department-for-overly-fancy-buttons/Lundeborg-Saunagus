@@ -1,10 +1,15 @@
-import { showUser } from "./ShowProfile.js";
+import {displayNavigationBar} from "../navigationBars.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
 const BASE_URL = "/api/users";
 
 async function initApp() {
+    displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     const user = await fetchCurrentUser();
 
 
@@ -53,7 +58,7 @@ async function handleSubmit(event) {
         lastname: formData.get("lastname"),
         username: formData.get("username"),
         phoneNumber: formData.get("phoneNumber"),
-        address: formData.get("address"),
+        address: formData.get("address") + ";" + formData.get("zipcode") + ";" + formData.get("city")
     };
 
     try {
@@ -84,4 +89,17 @@ async function handleSubmit(event) {
     } catch (err) {
         console.error("Error updating user:", err);
     }
+}
+
+function showUser(user) {
+    document.querySelector("#firstname").value = user.firstname;
+    document.querySelector("#lastname").value = user.lastname;
+    document.querySelector("#username").value = user.username;
+    document.querySelector("#phoneNumber").value = user.phoneNumber;
+    const addressParts = user.address.split(" ");
+    document.querySelector("#address").value = addressParts[0];
+    document.querySelector("#zipcode").value = addressParts[1];
+    document.querySelector("#city").value = addressParts[2];
+
+
 }
