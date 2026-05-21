@@ -35,7 +35,7 @@ export function displayAdminNavigationBar(){
     let listItemAllEventsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
     let allEventsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Begivenheder", textContent: "Alle Begivenheder"}});
-    allEventsLink.addEventListener("click", () => window.location.href = "/UserHandling/ShowUsers.html");
+    allEventsLink.addEventListener("click", () => window.location.href = "/Event/ShowEvents.html");
     listItemAllEventsEl.appendChild(allEventsLink);
 
     listEl.appendChild(listItemAllEventsEl);
