@@ -15,7 +15,6 @@ async function initApp() {
         displayAdminNavigationBar();
     }
     userData = await fetchUsers();
-    filteredUserData = filterUsersByMembershipStatus("PENDING");
     display(userData);
 }
 
@@ -43,7 +42,11 @@ function display(memberList) {
     membershipSelect.setAttribute("id", "Membership");
     membershipLabel.appendChild(membershipSelect);
 
-    let membershipData = ["Vælg medlemstype", "Se alle", "Aktiv", "Venteliste", "Inaktiv", "Passiv"];
+    let membershipData = ["Vælg medlemstype", "Se alle - " + userData.length,
+        "Aktiv - " + filterUsersByMembershipStatus("ACTIVE").length,
+        "Venteliste - " + filterUsersByMembershipStatus("PENDING").length,
+        "Inaktiv - " + filterUsersByMembershipStatus("INACTIVE").length,
+        "Passiv - " + filterUsersByMembershipStatus("PASSIVE").length];
     let membershipDataValues = ["", "ALL", "ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
 
     for (let i = 0; i < membershipData.length; i++) {
