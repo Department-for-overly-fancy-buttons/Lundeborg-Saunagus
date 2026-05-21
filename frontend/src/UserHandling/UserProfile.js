@@ -1,10 +1,16 @@
-import { showUser } from "./ShowProfile.js";
+import {displayNavigationBar} from "../navigationBars.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
+import {validateDigitsOnly, validateEmail, validateName} from "./inputValidation.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
 const BASE_URL = "/api/users";
 
 async function initApp() {
+    displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     const user = await fetchCurrentUser();
 
 
@@ -48,12 +54,44 @@ async function handleSubmit(event) {
 
     const formData = new FormData(event.target);
 
+    let firstname = formData.get("firstname");
+    if (validateName(firstname)) {
+        alert("Fornavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
+        return
+    }
+    let lastname = formData.get("lastname");
+    if (validateName(lastname)) {
+        alert("Efternavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
+        return
+    }
+    let username = formData.get("username");
+    if(validateEmail(username)){
+        alert("Mail adressen har ikke den korrekte format ( eksempel@mail.domæne )")
+        return
+    }
+    let phoneNumber = formData.get("phoneNumber");
+    let phoneNumberLength = 8;
+    if(phoneNumber.length !== phoneNumberLength || validateDigitsOnly(phoneNumber)){
+        alert("Dit number må kun indeholde tal og have en længde på 8");
+        return
+    }
+    let address = formData.get("address") + ";" + formData.get("zipcode") + ";" + formData.get("city");
+    const addressParts = address.split(";");
+    console.log(addressParts[0]);
+    const zipcode = addressParts[1];
+    const zipcodeLength = 4;
+    if (zipcode.length !== zipcodeLength || validateDigitsOnly(zipcode)) {
+        console.log("Zipcode kan kun indeholde tal");
+        alert("Zipcode kan kun indeholde tal");
+        return
+    }
+
     const userData = {
-        firstname: formData.get("firstname"),
-        lastname: formData.get("lastname"),
-        username: formData.get("username"),
-        phoneNumber: formData.get("phoneNumber"),
-        address: formData.get("address"),
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        phoneNumber: phoneNumber,
+        address: address
     };
 
     try {
@@ -84,4 +122,17 @@ async function handleSubmit(event) {
     } catch (err) {
         console.error("Error updating user:", err);
     }
+}
+
+function showUser(user) {
+    document.querySelector("#firstname").value = user.firstname;
+    document.querySelector("#lastname").value = user.lastname;
+    document.querySelector("#username").value = user.username;
+    document.querySelector("#phoneNumber").value = user.phoneNumber;
+    const addressParts = user.address.split(" ");
+    document.querySelector("#address").value = addressParts[0];
+    document.querySelector("#zipcode").value = addressParts[1];
+    document.querySelector("#city").value = addressParts[2];
+
+
 }

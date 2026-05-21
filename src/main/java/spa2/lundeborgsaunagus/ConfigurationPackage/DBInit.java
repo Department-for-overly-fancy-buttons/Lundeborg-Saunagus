@@ -34,12 +34,12 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        GusUser user = new GusUser("Freja", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0 b", LocalDate.of(2000, 2, 2), Gender.FEMALE, Role.EMPLOYEE, MembershipStatus.ACTIVE);
-        GusUser user2 = new GusUser("Freja2", passwordEncoder.encode("test"), "Freja", "Johannesse", "11111112", "vej 0 b", LocalDate.of(1902, 1, 1), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.ACTIVE);
-        GusUser user3 = new GusUser("Freja3", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111113", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN, MembershipStatus.ACTIVE);
+        GusUser user = new GusUser("Freja@test.cm", passwordEncoder.encode("test"), "Freja", "Johannessen", "11111111", "vej 0000 b", LocalDate.of(2000, 2, 2), Gender.FEMALE, Role.EMPLOYEE, MembershipStatus.ACTIVE);
+        GusUser user2 = new GusUser("Freja2@test.cm", passwordEncoder.encode("test"), "Freja", "Johannesse", "11111112", "vej 0 b", LocalDate.of(1902, 1, 1), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.ACTIVE);
+        GusUser user3 = new GusUser("Freja3@test.cm", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111113", "vej 0000 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.ADMIN, MembershipStatus.ACTIVE);
 
-        GusUser waitingUser1 = new GusUser("w1", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111114", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.PENDING);
-        GusUser waitingUser2 = new GusUser("w2", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111115", "vej 0 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.PENDING);
+        GusUser waitingUser1 = new GusUser("w1@test.cm", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111114", "vej 0000 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.PENDING);
+        GusUser waitingUser2 = new GusUser("w2@test.cm", passwordEncoder.encode("test"), "Freja", "Johannessensen", "11111115", "vej 0000 b", LocalDate.of(1992, 10, 10), Gender.FEMALE, Role.CUSTOMER, MembershipStatus.PENDING);
 
         userRepository.save(user);
         userRepository.save(user2);

@@ -12,8 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
-import java.util.List;
-
 @CrossOrigin(origins = "http://localhost")
 @RequestMapping("/api/users")
 @RestController
@@ -62,7 +60,7 @@ class UserController {
 
     @PostMapping("/register")
     ResponseEntity<GusUserResponse> registerUser(@RequestBody CreateGusUserRequest userRequest) {
-        userValidationService.validateUserInput(userRequest);
+        userValidationService.validateUserCreationInput(userRequest);
         GusUser addedUser = userService.createUser(userRequest);
         if (addedUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -78,10 +76,10 @@ class UserController {
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("Not logged in");
         }
-
+        userValidationService.validateUserUpdateInput(userRequest);
         String callerUsername = authentication.getName();
-
         GusUser updatedUser = userService.updateUserByUsername(callerUsername, userRequest);
+
         UserDetails springSecurityUserDetails = userDetailsService.loadUserByUsername(updatedUser.getUsername());
 
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
