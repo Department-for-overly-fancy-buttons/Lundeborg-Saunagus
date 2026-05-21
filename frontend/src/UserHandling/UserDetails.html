@@ -2,11 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>UserDetails</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-<script src="../Login/auth.js"> </script>
-<script type="module" src="ShowProfile.js"> </script>
+
+<nav></nav>
+
+<div id="user-container"></div>
+
+<div id="userProfile">
+
+    <h1>Din profil</h1>
+
+    <p>
+        <strong>Fornavn:</strong>
+        <span id="firstname"></span>
+    </p>
+
+    <p>
+        <strong>Efternavn:</strong>
+        <span id="lastname"></span>
+    </p>
+
+    <p>
+        <strong>Brugernavn:</strong>
+        <span id="username"></span>
+    </p>
+
+    <p>
+        <strong>Telefonnummer:</strong>
+        <span id="phoneNumber"></span>
+    </p>
+
+    <p>
+        <strong>Adresse:</strong>
+        <span id="address"></span>
+    </p>
+
+    <p>
+        <strong>Fødselsdag:</strong>
+        <span id="birthday"></span>
+    </p>
+
+    <button id="editBtn" type="button">Rediger profil</button>
+
+</div>
+
+<script src="../Login/auth.js"></script>
+<script type="module" src="ShowProfile.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector("#editBtn").addEventListener("click", () => {
+            window.location.href = "UserEdit.html";
+        });
+    });
+</script>
+
 </body>
 </html>

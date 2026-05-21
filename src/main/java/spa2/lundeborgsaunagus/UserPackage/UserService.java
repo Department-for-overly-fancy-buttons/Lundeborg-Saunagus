@@ -21,10 +21,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public GusUser logIn(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, password);
-    }
-
     public GusUser getUser(String name) {
         return userRepository.findByUsernameIgnoreCase(name).orElseThrow(() -> new ProfileNotFoundException("User not found"));
     }
@@ -116,6 +112,34 @@ public class UserService {
         }
 
         return userRepository.save(newUser);
+    }
+
+    public GusUser updateUserByUsername(String callerUsername, CreateGusUserRequest request) {
+
+        GusUser user = userRepository.findByUsernameIgnoreCase(callerUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.firstname() != null) {
+            user.setFirstname(request.firstname());
+        }
+
+        if (request.lastname() != null) {
+            user.setLastname(request.lastname());
+        }
+
+        if (request.username() != null) {
+            user.setUsername(request.username());
+        }
+
+        if (request.phoneNumber() != null) {
+            user.setPhoneNumber(request.phoneNumber());
+        }
+
+        if (request.address() != null) {
+            user.setAddress(request.address());
+        }
+
+        return userRepository.save(user);
     }
 
     private GusUserResponse toUserResponse(GusUser user) {

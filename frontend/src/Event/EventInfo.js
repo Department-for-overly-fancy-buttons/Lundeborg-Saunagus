@@ -38,6 +38,8 @@ async function fetchEvent() {
     }
 }
 
+
+
 function display() {
     let eventContainerEl = document.querySelector("#event-container");
     let eventBox = createHtmlElement({tagName: "div", htmlClass: "event-box"})

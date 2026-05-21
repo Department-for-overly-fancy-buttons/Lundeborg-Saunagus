@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<GusUser,Long> {
 
     List<GusUser> findAllByGenderAndBirthdayBetween
             (Gender gender, LocalDate birthdayAfter, LocalDate birthdayBefore);
+
+
+
 }

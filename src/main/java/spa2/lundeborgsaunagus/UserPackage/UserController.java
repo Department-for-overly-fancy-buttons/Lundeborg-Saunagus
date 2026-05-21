@@ -2,10 +2,13 @@ package spa2.lundeborgsaunagus.UserPackage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -18,10 +21,12 @@ class UserController {
 
     private final UserService userService;
     private final UserValidationService userValidationService;
+    private final JpaUserDetailsService userDetailsService;
 
-    UserController(UserService userService, UserValidationService userValidationService) {
+    UserController(UserService userService, UserValidationService userValidationService, JpaUserDetailsService userDetailsService) {
         this.userService = userService;
         this.userValidationService = userValidationService;
+        this. userDetailsService = userDetailsService;
     }
 
     @GetMapping
@@ -30,15 +35,6 @@ class UserController {
             return null;
         }
         return userService.getUsers();
-    }
-
-    @PostMapping("/log_in")
-    ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
-        GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
-        if (loggedInUser != null) {
-            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getId(), loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole(),loggedInUser.getMembershipStatus()));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @GetMapping("/user")
@@ -74,14 +70,41 @@ class UserController {
         return ResponseEntity.ok(new GusUserResponse(addedUser.getId(), addedUser.getUsername(), addedUser.getFirstname(), addedUser.getLastname(), addedUser.getPhoneNumber(), addedUser.getAddress(), addedUser.getBirthday(), addedUser.getGender(), addedUser.getRole(),addedUser.getMembershipStatus()));
     }
 
-    @PutMapping({"update/{id}"})
-    ResponseEntity<GusUser> updateUser(@PathVariable Long id, @RequestBody UpdateGusUserRequest userRequest, Authentication authentication) {
-        GusUser updateUser = userService.updateUserLogin(id, userRequest, authentication.getName());
-        if (updateUser == null) {
-            System.out.println("Hi");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    @PutMapping("/update") // {id} ?
+    public ResponseEntity<GusUserResponse> updateUser(
+            Authentication authentication,
+            @RequestBody CreateGusUserRequest userRequest) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Not logged in");
         }
-        return ResponseEntity.ok(updateUser);
+
+        String callerUsername = authentication.getName();
+
+        GusUser updatedUser = userService.updateUserByUsername(callerUsername, userRequest);
+        UserDetails springSecurityUserDetails = userDetailsService.loadUserByUsername(updatedUser.getUsername());
+
+        Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
+                springSecurityUserDetails,
+                authentication.getCredentials(),
+                authentication.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
+
+        return ResponseEntity.ok(
+                new GusUserResponse(
+                        updatedUser.getId(),
+                        updatedUser.getUsername(),
+                        updatedUser.getFirstname(),
+                        updatedUser.getLastname(),
+                        updatedUser.getPhoneNumber(),
+                        updatedUser.getAddress(),
+                        updatedUser.getBirthday(),
+                        updatedUser.getGender(),
+                        updatedUser.getRole(),
+                        updatedUser.getMembershipStatus()
+                )
+        );
     }
 
     @PutMapping("/update/membership/{id}")
