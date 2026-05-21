@@ -46,7 +46,7 @@ function display() {
             tagName: "h5",
             htmlClass: "ticket-info",
             htmlAttributes: {
-                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nEvent: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
+                textContent: "Bruger: " + ticketData[i].email + "\nBetalt: " + ticketData[i].paid + "\nPris: " + ticketData[i].price + " kr.\nBegivenhed: " + ticketData[i].eventTitle + "\nDato: " + ticketData[i].date,
                 title: "ticket"
             }
         });

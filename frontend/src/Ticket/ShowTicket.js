@@ -46,7 +46,7 @@ function display() {
         tagName: "h5",
         htmlClass: "ticket-info",
         htmlAttributes: {
-            textContent: "Bruger: " + ticketData.email + "\nBetalt: " + ticketData.paid + "\nPris: " + ticketData.price + " kr.\nEvent: " + ticketData.eventTitle + "\nDato: " + ticketData.date,
+            textContent: "Bruger: " + ticketData.email + "\nBetalt: " + ticketData.paid + "\nPris: " + ticketData.price + " kr.\nBegivenhed: " + ticketData.eventTitle + "\nDato: " + ticketData.date,
             title: "ticket"
         }
     });
@@ -55,7 +55,7 @@ function display() {
     let goToEventButton = createHtmlElement({
         tagName: "button",
         htmlClass: "event-button",
-        htmlAttributes: {textContent: "Gå til event"}
+        htmlAttributes: {textContent: "Gå til begivenhed"}
     })
 
     goToEventButton.setAttribute("data-eventId", ticketData.eventId);
