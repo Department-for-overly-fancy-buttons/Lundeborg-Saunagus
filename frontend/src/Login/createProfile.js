@@ -1,6 +1,7 @@
 import {createHtmlElement} from "../htmlTagFactory.js";
 import {displayNavigationBar} from "../navigationBars.js";
 import {ValidateEmail} from "../UserHandling/inputValidation.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
@@ -9,6 +10,9 @@ const BASE_URL = "/api/users";
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     await display();
 }
 

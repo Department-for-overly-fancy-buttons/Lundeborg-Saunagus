@@ -5,7 +5,42 @@ export function displayAdminNavigationBar(){
 
     const navEl = document.querySelector("nav");
 
-    navEl.appendChild(createHtmlElement({tagName: "div", htmlAttributes: {id: "admin-nav-bar", textContent: "test"}}))
+    const listEl = createHtmlElement({tagName: "ul",htmlAttributes: {id: "navigationList"}});
+
+    navEl.appendChild(listEl);
+    let listItemEventEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Opret event", textContent: "Opret event"}});
+    createEventLink.addEventListener("click", () => window.location.href = "/Event/CreateEvent.html");
+    listItemEventEl.appendChild(createEventLink);
+
+    listEl.appendChild(listItemEventEl);
+
+    let listItemAllTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let createAllTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle billetter", textContent: "Alle billetter"}});
+    createAllTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/ReservedTickets.html");
+    listItemAllTicketsEl.appendChild(createAllTicketsLink);
+
+    listEl.appendChild(listItemAllTicketsEl);
+
+    let listItemAllUsersEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let allUsersLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Profiler", textContent: "Alle Profiler"}});
+    allUsersLink.addEventListener("click", () => window.location.href = "/UserHandling/ShowUsers.html");
+    listItemAllUsersEl.appendChild(allUsersLink);
+
+    listEl.appendChild(listItemAllUsersEl);
+
+    let listItemAllEventsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
+
+    let allEventsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Begivenheder", textContent: "Alle Begivenheder"}});
+    allEventsLink.addEventListener("click", () => window.location.href = "/UserHandling/ShowUsers.html");
+    listItemAllEventsEl.appendChild(allEventsLink);
+
+    listEl.appendChild(listItemAllEventsEl);
+
+    navEl.appendChild(listEl)
     //navEl.textContent = "";
 
     /*const listEl = createHtmlElement({tagName: "ul",htmlAttributes: {id: "navigationList"}});

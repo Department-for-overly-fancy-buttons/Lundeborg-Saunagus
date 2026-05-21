@@ -1,4 +1,5 @@
 import {displayNavigationBar} from "../navigationBars.js";
+import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
 
@@ -10,6 +11,9 @@ let saunaMasterData = [];
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     saunaMasterData = await fetchSaunaMasters();
     display();
     document.getElementById("createEventButton").addEventListener("click", handleSubmit);
