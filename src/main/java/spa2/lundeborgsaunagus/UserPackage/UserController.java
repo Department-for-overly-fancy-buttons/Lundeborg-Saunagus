@@ -26,6 +26,7 @@ class UserController {
     UserController(UserService userService, UserValidationService userValidationService, JpaUserDetailsService userDetailsService) {
         this.userService = userService;
         this.userValidationService = userValidationService;
+        this. userDetailsService = userDetailsService;
     }
 
     @GetMapping
@@ -34,16 +35,6 @@ class UserController {
             return null;
         }
         return userService.getUsers();
-    }
-
-    @PostMapping("/log_in")
-    ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
-        GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
-        if (loggedInUser != null) {
-            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getId(), loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole(),loggedInUser.getMembershipStatus()));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/user")
@@ -102,6 +93,7 @@ class UserController {
 
         return ResponseEntity.ok(
                 new GusUserResponse(
+                        updatedUser.getId(),
                         updatedUser.getUsername(),
                         updatedUser.getFirstname(),
                         updatedUser.getLastname(),
@@ -109,7 +101,8 @@ class UserController {
                         updatedUser.getAddress(),
                         updatedUser.getBirthday(),
                         updatedUser.getGender(),
-                        updatedUser.getRole()
+                        updatedUser.getRole(),
+                        updatedUser.getMembershipStatus()
                 )
         );
     }
