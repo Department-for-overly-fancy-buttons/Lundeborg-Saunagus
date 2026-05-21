@@ -86,12 +86,12 @@ function display() {
     userBox.appendChild(userElement);
 
     let membershipLabel = document.createElement("label");
-    membershipLabel.textContent = "Sæt medlemskab";
+    membershipLabel.textContent = "Sæt Medlemskab";
     let membershipSelect = document.createElement("select");
     membershipSelect.setAttribute("id", "Membership");
     membershipLabel.appendChild(membershipSelect);
 
-    let membershipData = ["Vælg medlemskab","Aktiv", "Venteliste", "Inaktiv", "Passiv"];
+    let membershipData = ["Vælg Medlemskab","Aktiv", "Venteliste", "Inaktiv", "Passiv"];
     let membershipDataValues = ["","ACTIVE", "PENDING", "INACTIVE", "PASSIVE"];
 
     for (let i = 0; i < membershipData.length; i++) {
@@ -108,6 +108,30 @@ function display() {
     submitButton.type = `button`;
     submitButton.addEventListener("click", updateMembershipStatus);
     userBox.appendChild(submitButton);
+
+    let userRoleLabel = document.createElement("label");
+    userRoleLabel.textContent = "Sæt Rolle";
+    let userRoleSelect = document.createElement("select");
+    userRoleSelect.setAttribute("id", "userRole");
+    userRoleLabel.appendChild(userRoleSelect);
+
+    let userRoleData = ["Vælg Rolle","Admin", "Fyrmester", "Medlem"];
+    let userRoleValues = ["","ADMIN", "EMPLOYEE", "CUSTOMER"];
+
+    for (let i = 0; i < userRoleData.length; i++) {
+        const option = document.createElement("option")
+        option.setAttribute("label", userRoleData[i]);
+        option.setAttribute("value", userRoleValues[i]);
+        userRoleSelect.appendChild(option);
+    }
+    userBox.appendChild(userRoleLabel);
+
+    let userRoleSubmitButton = document.createElement("button")
+    userRoleSubmitButton.textContent = `Opdater medlemskab`;
+    userRoleSubmitButton.id = 'submitMembershipButton';
+    userRoleSubmitButton.type = `button`;
+    userRoleSubmitButton.addEventListener("click", updateRoleStatus);
+    userBox.appendChild(userRoleSubmitButton);
 
     userContainerEl.appendChild(userBox);
 }
@@ -130,6 +154,34 @@ async function fetchUpdateMembershipStatus(membershipStatus) {
             "Content-Type": "application/json", "X-XSRF-TOKEN": csrfToken
         },
         body: (membershipStatus)
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update membership status");
+    }
+    userData = await fetchUser();
+    await display()
+    return await response.json();
+}
+
+async function updateRoleStatus(event) {
+    event.preventDefault();
+    let roleSelect = document.querySelector("#userRole");
+    const roleStatus = roleSelect.value;
+    if(roleStatus===""){
+        return;
+    }
+    await fetchUpdateRoleStatus(roleStatus);
+}
+
+async function fetchUpdateRoleStatus(roleStatus) {
+    const csrfToken = getCsrfToken()
+    const response = await fetch(`${BASE_URL}/update/user/${userId}/role`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json", "X-XSRF-TOKEN": csrfToken
+        },
+        body: (roleStatus)
     });
 
     if (!response.ok) {

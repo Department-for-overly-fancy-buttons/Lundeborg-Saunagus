@@ -42,7 +42,7 @@ function display(memberList) {
     membershipSelect.setAttribute("id", "Membership");
     membershipLabel.appendChild(membershipSelect);
 
-    let membershipData = ["Vælg medlemstype", "Se alle - " + userData.length,
+    let membershipData = ["Vælg Medlemstype", "Se alle - " + userData.length,
         "Aktiv - " + filterUsersByMembershipStatus("ACTIVE").length,
         "Venteliste - " + filterUsersByMembershipStatus("PENDING").length,
         "Inaktiv - " + filterUsersByMembershipStatus("INACTIVE").length,

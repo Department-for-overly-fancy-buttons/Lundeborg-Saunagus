@@ -161,4 +161,11 @@ public class UserService {
         user.setMembershipStatus(stringToMembershipStatus(membershipStatus));
         return toUserResponse(userRepository.save(user));
     }
+
+    public GusUserResponse updateUserRole(Long id, String role) {
+        GusUser user = getUserById(id);
+        user.setRole(stringToRole(role));
+        return toUserResponse(userRepository.save(user));
+    }
+
 }
