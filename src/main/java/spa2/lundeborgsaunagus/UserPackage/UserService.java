@@ -20,10 +20,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public GusUser logIn(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, password);
-    }
-
     public GusUser getUser(String name) {
         return userRepository.findByUsernameIgnoreCase(name).orElseThrow();
     }
@@ -104,9 +100,9 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public GusUser updateUserByUsername(String username, CreateGusUserRequest request) {
+    public GusUser updateUserByUsername(String callerUsername, CreateGusUserRequest request) {
 
-        GusUser user = userRepository.findByUsernameIgnoreCase(username)
+        GusUser user = userRepository.findByUsernameIgnoreCase(callerUsername)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (request.firstname() != null) {

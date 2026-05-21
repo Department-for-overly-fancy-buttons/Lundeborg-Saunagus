@@ -2,7 +2,10 @@ package spa2.lundeborgsaunagus.UserPackage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spa2.lundeborgsaunagus.ExceptionHandling.InvalidInputException;
 
@@ -17,23 +20,18 @@ class UserController {
 
     private final UserService userService;
     private final UserValidationService userValidationService;
+    private final JpaUserDetailsService userDetailsService;
 
-    UserController(UserService userService, UserValidationService userValidationService) {
+    UserController(UserService userService, UserValidationService userValidationService, JpaUserDetailsService userDetailsService) {
         this.userService = userService;
         this.userValidationService = userValidationService;
-    }
-
-    @PostMapping("/log_in")
-    ResponseEntity<GusUserResponse> logIn(@RequestBody GusUser gusUser) {
-        GusUser loggedInUser = userService.logIn(gusUser.getUsername(), gusUser.getPassword());
-        if (loggedInUser != null) {
-            return ResponseEntity.ok(new GusUserResponse(loggedInUser.getUsername(), loggedInUser.getFirstname(), loggedInUser.getLastname(), loggedInUser.getPhoneNumber(), loggedInUser.getAddress(), loggedInUser.getBirthday(), loggedInUser.getGender(), loggedInUser.getRole()));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/user")
     GusUserResponse getUser(Authentication authentication) {
+        System.out.println(authentication.getName());
+        System.out.println("authentication");
         if(authentication == null) {
             throw new InvalidInputException("test");
         }
@@ -66,9 +64,17 @@ class UserController {
             throw new RuntimeException("Not logged in");
         }
 
-        String username = authentication.getName();
+        String callerUsername = authentication.getName();
 
-        GusUser updatedUser = userService.updateUserByUsername(username, userRequest);
+        GusUser updatedUser = userService.updateUserByUsername(callerUsername, userRequest);
+        UserDetails springSecurityUserDetails = userDetailsService.loadUserByUsername(updatedUser.getUsername());
+
+        Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
+                springSecurityUserDetails,
+                authentication.getCredentials(),
+                authentication.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
 
         return ResponseEntity.ok(
                 new GusUserResponse(

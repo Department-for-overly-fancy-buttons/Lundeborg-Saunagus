@@ -26,7 +26,7 @@ async function fetchCurrentUser() {
     }
 }
 
-function showUser(user) {
+export function showUser(user) {
     document.querySelector("#firstname").textContent = user.firstname;
     document.querySelector("#lastname").textContent = user.lastname;
     document.querySelector("#username").textContent = user.username;

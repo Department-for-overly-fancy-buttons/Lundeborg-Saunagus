@@ -1,9 +1,12 @@
+import { showUser } from "./ShowProfile.js";
+
 document.addEventListener('DOMContentLoaded', initApp);
 
-const BASE_URL = "/api/users/user";
+const BASE_URL = "/api/users";
 
 async function initApp() {
     const user = await fetchCurrentUser();
+
 
     if (!user) return;
 
@@ -14,7 +17,7 @@ async function initApp() {
 
 async function fetchCurrentUser() {
     try {
-        const response = await fetch(BASE_URL);
+        const response = await fetch(`${BASE_URL}/user`);
 
         if (!response.ok) {
             throw new Error("Could not fetch user information");
