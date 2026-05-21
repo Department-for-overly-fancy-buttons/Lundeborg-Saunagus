@@ -8,7 +8,9 @@ const BASE_URL = "http://localhost:8080/api";
 
 async function initApp() {
     displayNavigationBar();
-    displayAdminNavigationBar();
+    if(isAdmin()) {
+        displayAdminNavigationBar();
+    }
     let events = await test()
     displayCalender(events);
 }

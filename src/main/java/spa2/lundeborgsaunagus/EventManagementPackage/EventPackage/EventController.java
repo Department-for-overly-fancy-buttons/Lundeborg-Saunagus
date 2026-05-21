@@ -1,6 +1,8 @@
 package spa2.lundeborgsaunagus.EventManagementPackage.EventPackage;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,10 @@ class EventController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<EventResponse> createEvent(@RequestBody CreateEventRequest eventRequest) {
+    ResponseEntity<EventResponse> createEvent(@RequestBody CreateEventRequest eventRequest, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
         return ResponseEntity.ok(eventService.createEvent(eventRequest));
     }
 

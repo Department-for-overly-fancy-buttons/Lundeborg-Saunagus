@@ -21,7 +21,8 @@ public class EventService {
     }
 
     public List<EventResponse> getEvents() {
-        List<Event> events = eventRepository.findAllByDateAfterOrderByDate(LocalDate.now().minusDays(1));
+        //List<Event> events = eventRepository.findAllByDateAfterOrderByDate(LocalDate.now().minusDays(1));
+        List<Event> events = eventRepository.findAll();
         return toEventResponseList(events);
     }
 
@@ -46,16 +47,16 @@ public class EventService {
         Event addedEvent = eventRepository.save(addEvent);
 
         return new EventResponse(addedEvent.getId(), addedEvent.getDate(), addedEvent.getStartTime(),
-                addedEvent.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
+                addedEvent.getEndTime(), new GusUserResponse(saunaMaster.getId(),saunaMaster.getUsername(),
                 saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                saunaMaster.getGender(), saunaMaster.getRole()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft(), addedEvent.getTitle(), addedEvent.getInformation());
+                saunaMaster.getGender(), saunaMaster.getRole(),saunaMaster.getMembershipStatus()), addedEvent.getAddress(), addedEvent.getCapacity(), addedEvent.ticketsLeft(), addedEvent.getTitle(), addedEvent.getInformation());
     }
 
     private EventResponse toEventResponse(Event event) {
         GusUser saunaMaster = event.getSaunaMaster();
-        return new EventResponse(event.getId(), event.getDate(), event.getStartTime(), event.getEndTime(), new GusUserResponse(saunaMaster.getUsername(),
+        return new EventResponse(event.getId(), event.getDate(), event.getStartTime(), event.getEndTime(), new GusUserResponse(saunaMaster.getId(), saunaMaster.getUsername(),
                 saunaMaster.getFirstname(), saunaMaster.getLastname(), saunaMaster.getPhoneNumber(), saunaMaster.getAddress(), saunaMaster.getBirthday(),
-                saunaMaster.getGender(), saunaMaster.getRole()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation());
+                saunaMaster.getGender(), saunaMaster.getRole(),saunaMaster.getMembershipStatus()), event.getAddress(), event.getCapacity(), event.ticketsLeft(), event.getTitle(), event.getInformation());
     }
 
     private List<EventResponse> toEventResponseList(List<Event> events) {

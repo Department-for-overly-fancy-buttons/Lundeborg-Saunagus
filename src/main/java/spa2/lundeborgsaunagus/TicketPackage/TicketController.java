@@ -21,17 +21,27 @@ class TicketController {
     }
 
     @GetMapping()
-    List<TicketResponse> getTickets() {
+    List<TicketResponse> getTickets(Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
         return ticketService.getTickets();
     }
 
     @GetMapping("/{email}")
-    List<TicketResponse> getTicketsForUser(@PathVariable String email) {
-        return ticketService.getTicketsForUser(email);
+    List<TicketResponse> getTicketsForUser(@PathVariable String email, Authentication authentication) {
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
+                authentication.getName().equalsIgnoreCase(email)) {
+            return ticketService.getTicketsForUser(email);
+        }
+        return null;
     }
 
     @GetMapping("/get/{id}")
-    TicketResponse getEvent(@PathVariable Long id) {
+    TicketResponse getEvent(@PathVariable Long id, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
         return ticketService.getTicket(id);
     }
 
@@ -41,7 +51,10 @@ class TicketController {
     }
 
     @GetMapping("/event/{eventId}")
-    List<TicketResponse> getTicketsForEvent(@PathVariable Long eventId) {
+    List<TicketResponse> getTicketsForEvent(@PathVariable Long eventId, Authentication authentication) {
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            return null;
+        }
         return ticketService.getTicketsForEvent(eventId);
     }
 
@@ -57,7 +70,6 @@ class TicketController {
     @PostMapping("/paid/status")
     ResponseEntity<TicketResponse> setPaidStatus(@RequestBody TicketRequest ticketRequest, Authentication authentication) {
         if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-            System.out.println(authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
             return null;
         }
         TicketResponse ticket = ticketService.setTicketPaidStatus(ticketRequest);

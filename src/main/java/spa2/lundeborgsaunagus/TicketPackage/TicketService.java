@@ -8,6 +8,7 @@ import spa2.lundeborgsaunagus.UserPackage.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -33,6 +34,11 @@ public class TicketService {
         }
         GusUser user = userService.getUser(email);
         Event event = eventService.getEventById(ticketRequest.eventId());
+        LocalDateTime startDate = LocalDateTime.of(event.getDate(),event.getStartTime());
+        if(startDate.isBefore(LocalDateTime.now())){
+            System.out.println("too late");
+            return null;
+        }
         if (!getTicketForEventAndUser(event, user).isEmpty()) {
             return null;
         }
@@ -54,7 +60,9 @@ public class TicketService {
 
     public List<TicketResponse> getTicketsForUser(String email) {
         GusUser user = userService.getUser(email);
-        return ticketListToTicketResponseList(ticketRepository.findAllByUserOrderByTimeOfPurchase(user));
+        List<TicketResponse> ticketResponses =  ticketListToTicketResponseList(ticketRepository.findAllByUserOrderByTimeOfPurchase(user));
+        ticketResponses.sort(Comparator.comparing(TicketResponse::date));
+        return ticketResponses;
     }
 
     public TicketResponse setTicketPaidStatus(TicketRequest ticketRequest) {
