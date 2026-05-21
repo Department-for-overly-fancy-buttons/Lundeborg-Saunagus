@@ -1,6 +1,6 @@
 import {createHtmlElement} from "../htmlTagFactory.js";
 import {displayNavigationBar} from "../navigationBars.js";
-import {ValidateEmail} from "../UserHandling/inputValidation.js";
+import {validateDigitsOnly, validateEmail, validateName, validatePassword} from "../UserHandling/inputValidation.js";
 import {displayAdminNavigationBar} from "../adminNavigationBars.js";
 
 document.addEventListener('DOMContentLoaded', initApp);
@@ -272,34 +272,34 @@ async function addUser(event) {
     const formEl = event.target.closest("form");
     const formData = new FormData(formEl);
     const username = formData.get("mail").trim();
-    if (ValidateEmail(username)) {
+    if (validateEmail(username)) {
         alert("Mail adressen har ikke den korrekte format ( eksempel@mail.domæne )")
         return
     }
 
     const password = formData.get("password");
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/;
-    if (!passwordRegex.test(password) || password.length < 8) {
+
+    if (validatePassword(password)) {
         alert("Adgangskode har ikke den korrekte format")
         return
     }
 
     const firstname = formData.get("firstname");
-    const nameRegex = /^[a-zA-ZæøåÆØÅ](?!.*--)(?!.*\s{2})[a-zA-ZæøåÆØÅ\s-]{0,98}[a-zA-ZææøåÆØÅ]$/i;
-    if (!nameRegex.test(firstname)) {
+
+    if (validateName(firstname)) {
         alert("Fornavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
         return
     }
     const lastname = formData.get("lastname");
-    if (!nameRegex.test(lastname)) {
+    if (validateName(lastname)) {
         alert("Efternavn kan kun indeholde bogstaver, bindestreger og mellemrum (bindestreg må ikke stå forrest eller bagerst i navnet)")
         return
     }
     const phoneNumber = formData.get("phoneNumber");
-    const digitsOnlyPattern = /^\d+$/;
+
 
     let phoneNumberLength = 8;
-    if(phoneNumber.length !== phoneNumberLength || !digitsOnlyPattern.test(phoneNumber)){
+    if(phoneNumber.length !== phoneNumberLength || validateDigitsOnly(phoneNumber)){
         alert("Dit number må kun indeholde tal og have en længde på 8");
         return
     }
@@ -315,13 +315,11 @@ async function addUser(event) {
     console.log(addressParts[0]);
     const zipcode = addressParts[1];
     const zipcodeLength = 4;
-    if (zipcode.length !== zipcodeLength || !digitsOnlyPattern.test(zipcode)) {
+    if (zipcode.length !== zipcodeLength || validateDigitsOnly(zipcode)) {
         console.log("Zipcode kan kun indeholde tal");
         alert("Zipcode kan kun indeholde tal");
         return
     }
-
-    console.log(address);
 
     const birthday = formData.get("birthday");
     if(!birthday){
