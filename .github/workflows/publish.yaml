@@ -27,3 +27,5 @@ jobs:
 
           # Stop and remove the container
           docker compose down
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
