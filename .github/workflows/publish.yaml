@@ -16,9 +16,13 @@ jobs:
 
       - name: Run Docker container
         run: |
+          # Print environment variables for debugging
+          echo "MYSQL_ROOT_PASSWORD is set: ${{ secrets.MYSQL_ROOT_PASSWORD != '' }}"
+          echo "MYSQL_DATABASE is set: ${{ secrets.MYSQL_DATABASE != '' }}"
           # Run the container in detached mode
           docker compose up -d
           sleep 5
+          docker compose ps
           docker compose logs --no-color db || true
           
           # Wait for a few seconds to ensure the container is up and running
