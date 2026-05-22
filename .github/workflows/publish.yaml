@@ -29,21 +29,19 @@ jobs:
 
       - name: Run Docker container
         run: |
-          # Print environment variables for debugging
-          echo "MYSQL_ROOT_PASSWORD is set: ${{ secrets.MYSQL_ROOT_PASSWORD != '' }}"
-          echo "MYSQL_DATABASE is set: ${{ secrets.MYSQL_DATABASE != '' }}"
-          # Run the container in detached mode
-          docker compose up -d
-          sleep 5
-          docker compose ps
-          docker compose logs --no-color db || true
-          
-          # Wait for a few seconds to ensure the container is up and running
-          sleep 40
-
-          for i in {1..10}; do
-            if docker compose exec app curl -f 
-          http://localhost:8080/actuator/health; then echo "App is healthy!" exit 0 fi sleep 5 done echo "App failed to start in time" exit 1
+            # Run the container in detached mode
+            docker compose up -d
+            sleep 5
+            docker compose logs --no-color db || true
+            
+            # Wait for a few seconds to ensure the container is up and running
+            sleep 40
+            
+            # Test the application endpoint
+            curl -f http://localhost:8080/actuator/health || exit 1
+            
+            # Stop and remove the container
+            docker compose down
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
@@ -52,6 +50,3 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${{ secrets.MYSQL_DATABASE }}
           SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      - name: Stop containers
-        if: always()
-        run: docker compose down
