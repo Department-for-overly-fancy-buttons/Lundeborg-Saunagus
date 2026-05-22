@@ -5,12 +5,12 @@ export function displayAdminNavigationBar(){
 
     const navEl = document.querySelector("nav");
 
-    const listEl = createHtmlElement({tagName: "ul",htmlAttributes: {id: "navigationList"}});
+    const listEl = createHtmlElement({tagName: "ul",htmlAttributes: {id: "admin-nav-bar"}});
 
     navEl.appendChild(listEl);
     let listItemEventEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let createEventLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Opret Begivenhed", textContent: "Opret Begivenhed"}});
+    let createEventLink = createHtmlElement({tagName: "button",htmlClass: ["navigationLink", "admin-nav-bar-link"], htmlAttributes: {type: "button", title: "Opret Begivenhed", textContent: "Opret Begivenhed"}});
     createEventLink.addEventListener("click", () => window.location.href = "/Event/CreateEvent.html");
     listItemEventEl.appendChild(createEventLink);
 
@@ -18,7 +18,7 @@ export function displayAdminNavigationBar(){
 
     let listItemAllTicketsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let createAllTicketsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Billetter", textContent: "Alle Billetter"}});
+    let createAllTicketsLink = createHtmlElement({tagName: "button",htmlClass: ["navigationLink", "admin-nav-bar-link"], htmlAttributes: {type: "button", title: "Alle Billetter", textContent: "Alle Billetter"}});
     createAllTicketsLink.addEventListener("click", () => window.location.href = "/Ticket/ReservedTickets.html");
     listItemAllTicketsEl.appendChild(createAllTicketsLink);
 
@@ -26,7 +26,7 @@ export function displayAdminNavigationBar(){
 
     let listItemAllUsersEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let allUsersLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Profiler", textContent: "Alle Profiler"}});
+    let allUsersLink = createHtmlElement({tagName: "button",htmlClass: ["navigationLink", "admin-nav-bar-link"], htmlAttributes: {type: "button", title: "Alle Profiler", textContent: "Alle Profiler"}});
     allUsersLink.addEventListener("click", () => window.location.href = "/UserHandling/ShowUsers.html");
     listItemAllUsersEl.appendChild(allUsersLink);
 
@@ -34,7 +34,7 @@ export function displayAdminNavigationBar(){
 
     let listItemAllEventsEl = createHtmlElement({tagName: "li", htmlClass: "navigationListItem"});
 
-    let allEventsLink = createHtmlElement({tagName: "button",htmlClass: "navigationLink", htmlAttributes: {type: "button", title: "Alle Begivenheder", textContent: "Alle Begivenheder"}});
+    let allEventsLink = createHtmlElement({tagName: "button",htmlClass: ["navigationLink", "admin-nav-bar-link"], htmlAttributes: {type: "button", title: "Alle Begivenheder", textContent: "Alle Begivenheder"}});
     allEventsLink.addEventListener("click", () => window.location.href = "/Event/ShowEvents.html");
     listItemAllEventsEl.appendChild(allEventsLink);
 
