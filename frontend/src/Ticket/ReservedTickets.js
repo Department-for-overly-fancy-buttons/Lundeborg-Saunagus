@@ -11,7 +11,7 @@ let ticketData = [];
 async function initApp() {
     //requireNotLogIn();
     displayNavigationBar();
-    if(isAdmin()) {
+    if (isAdmin()) {
         displayAdminNavigationBar();
     }
     ticketData = await fetchTickets();
@@ -50,14 +50,38 @@ function display() {
         ticketElement.setAttribute('style', 'white-space: pre;');
         ticketBox.appendChild(ticketElement);
         ticketBox.addEventListener("click", handleGetTicket);
-        if(!ticketData[i].paid){
-            console.log("hi");
-            ticketBox.setAttribute('style', 'background-color :pink');
+        if (!ticketData[i].paid) {
+            // let number = getRandomNumber();
+            // console.log(number);
+
+            ticketBox.setAttribute('style', `background-color :pink`);
         }
         ticketContainerEl.appendChild(ticketBox);
         console.log(ticketData[i]);
     }
 }
+
+// function getRandomNumber() {
+//     let number = (Math.random().toPrecision(6));
+//     number = (number * 1000000).toPrecision(6);
+//     console.log(number + " e");
+//     if (number < 100000) {
+//         console.log("10%")
+//         number = (number * 10).toPrecision(6);
+//     }
+//     if (number < 100000) {
+//         console.log("1%")
+//         number = (number * 10).toPrecision(6);
+//     }
+//     if (number < 100000) {
+//         console.log("0.1%")
+//         number = (number * 10).toPrecision(6);
+//     }
+//     if (number < 100000) {
+//         console.log("0.01% chance to get this message");
+//     }
+//     return number;
+// }
 
 async function handleGetTicket(event) {
     event.preventDefault();
