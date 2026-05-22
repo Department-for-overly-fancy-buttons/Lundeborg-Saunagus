@@ -180,6 +180,11 @@ nav {
     border: 0;
 }
 
+.admin-nav-bar-link{
+    width: 100%;
+    height: 100%;
+}
+
 .admin-nav-bar-link:hover {
     background-color: var(--admin-navbar-hover-color);
     width: 100%;
