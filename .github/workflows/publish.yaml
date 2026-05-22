@@ -17,8 +17,8 @@ jobs:
       - name: Run Docker container
         run: |
           # Run the container in detached mode
-          docker compose up -d
-          docker compose lundeborg-saunagus-db-1
+          docker-compose up -d
+          docker-compose logs -f
           
           # Wait for a few seconds to ensure the container is up and running
           sleep 30
