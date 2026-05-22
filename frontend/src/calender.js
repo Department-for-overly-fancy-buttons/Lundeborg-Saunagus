@@ -93,20 +93,23 @@ function showCalenderMonth() {
 
         //display events
         for(let i = 0; i < eventList.length; i++) {
-            let eventDate = new Date(Date.parse(eventList[i].date));
+            let event = eventList[i];
+            let eventDate = new Date(Date.parse(event.date));
             let eventBoxEl;
             if (weekDay === eventDate.getDate() && displayedMonth === eventDate.getMonth() && displayedYear === eventDate.getFullYear()) {
                 eventBoxEl = createHtmlElement({
                     tagName: "div",
                     htmlClass: "calender-event-box",
-                    htmlAttributes: {textContent: `${eventList[i].title}`}
+                    htmlAttributes: {textContent: `${event.title}`}
                 });
-                eventBoxEl.setAttribute("data-eventId", eventList[i].id);
+                eventBoxEl.setAttribute("data-eventId", event.id);
+                let eventStartTime = createHtmlElement({tagName: "p", htmlAttributes: {textContent: `${event.startTime.substring(0, 5)} - ${event.endTime.substring(0, 5)}`}});
+                eventBoxEl.appendChild(eventStartTime);
                 weekDayEl.appendChild(eventBoxEl);
             }
         }
 
-        weekDayEl.appendChild(createHtmlElement({tagName: "p", htmlClass: "default-cursor", htmlAttributes: {textContent: `${weekDay}`}}));
+        weekDayEl.appendChild(createHtmlElement({tagName: "p", htmlClass: ["default-cursor", "test"], htmlAttributes: {textContent: `${weekDay}`}}));
 
         calenderWeekDaysEl.appendChild(weekDayEl);
         calenderWeekDaysEl.addEventListener("click", handleEventClick);

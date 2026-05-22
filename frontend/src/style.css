@@ -2,7 +2,7 @@
    @media only screen and (max-width: 600px) {...}
 
    Small devices (portrait tablets and large phones, 600px and up)
-   @media only screen and (min-width: 600px) {...}
+   @media only screen and (min-width: 600px) {...} 635
 
    Medium devices (landscape tablets, 768px and up)
    @media only screen and (min-width: 768px) {...}
@@ -16,6 +16,8 @@
 /*blue gradiant https://coolors.co/gradient-palette/18919e-f2f2f2?number=7*/
 :root {
     --navbarBackgroundColor: #FFBE95;
+    --admin-navbar-color: #FFD8C0;
+    --admin-navbar-hover-color: #FFE8DA;
     --headerFontSize: 1.5rem;
     --textColor: #112A46;
     --contentBackgroundColor: #18919E;
@@ -118,12 +120,19 @@ nav {
     overflow: hidden;
     display: flex;
     color: inherit;
+    font-size: 1.5rem;
+
 }
 
 .navigationListItem {
     background-color: inherit;
     border-left: 3px solid var(--textColor);
     color: inherit;
+    font-size: inherit;
+}
+
+.navigationLink:hover {
+    background-color: var(--admin-navbar-color);
 }
 
 .navigationLink {
@@ -142,6 +151,7 @@ nav {
     padding: 0.5rem 1rem;
     text-decoration: none;
     height: -webkit-fill-available;
+    font-size: inherit;
 }
 
 #navigationListStart {
@@ -155,8 +165,32 @@ nav {
 }
 
 #admin-nav-bar {
-    background-color: #FE6F5E;
+    background-color: var(--admin-navbar-color);
+    height: inherit;
+    list-style-type: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    color: inherit;
+    font-size: 1.2rem;
 }
+#admin-nav-bar li {
+    flex-grow: 1;
+    border: 0;
+}
+
+.admin-nav-bar-link{
+    width: 100%;
+    height: 100%;
+}
+
+.admin-nav-bar-link:hover {
+    background-color: var(--admin-navbar-hover-color);
+    width: 100%;
+    height: 100%;
+}
+
 
 p.big-letter {
     font-size: 1.2rem;
@@ -247,7 +281,7 @@ p.big-letter::first-letter {
     cursor: pointer;
 }
 
-.calender-weekdays p {
+.test {
     margin: auto 2% 2% 0;
     align-self: flex-end;
     text-align: right;
@@ -274,7 +308,7 @@ li.overflowDay:hover {
 }
 
 .calender-event-box {
-    text-align: center;
+    text-align: left;
     border-radius: 2px;
     margin: 2%;
     background-color: #FFBE95;
@@ -282,6 +316,16 @@ li.overflowDay:hover {
     text-wrap: nowrap;
     text-overflow: ellipsis;
     width: stretch;
+    padding: 0 0 1rem 0;
+}
+
+.calender-event-box p {
+    font-size: 0.8rem;
+    margin: inherit;
+    text-align: left;
+    overflow: hidden;
+    text-wrap: wrap;
+    text-overflow: ellipsis;
 }
 
 .default-cursor {
