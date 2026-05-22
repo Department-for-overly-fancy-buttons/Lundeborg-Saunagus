@@ -1,4 +1,4 @@
-name: KinoXP CI
+name: Lundeborg-Saunagus CI
 
 on:
   push:
@@ -13,11 +13,11 @@ env:
 
 jobs:
   java-test:
-    uses: /.github/workflows/Java_tests_with_maven.yml
+    uses: ./.github/workflows/Java_tests_with_maven.yml
 
   docker-ci:
     needs: java-test
-    uses: /.github/workflows/publish.yaml
+    uses: ./.github/workflows/publish.yaml
 
   build-and-push:
     needs: docker-ci
