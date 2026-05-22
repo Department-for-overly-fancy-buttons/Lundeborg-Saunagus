@@ -24,11 +24,9 @@ jobs:
           # Wait for a few seconds to ensure the container is up and running
           sleep 40
 
-          # Test the application endpoint
-          curl -f http://localhost:8080/actuator/health || exit 1
-
-          # Stop and remove the container
-          docker compose down
+          for i in {1..10}; do
+            if docker compose exec app curl -f 
+          http://localhost:8080/actuator/health; then echo "App is healthy!" exit 0 fi sleep 5 done echo "App failed to start in time" exit 1
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
@@ -37,3 +35,6 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${{ secrets.MYSQL_DATABASE }}
           SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      - name: Stop containers
+        if: always()
+        run: docker sompose down
