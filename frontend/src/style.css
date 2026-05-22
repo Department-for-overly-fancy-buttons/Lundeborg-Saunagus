@@ -247,7 +247,7 @@ p.big-letter::first-letter {
     cursor: pointer;
 }
 
-.calender-weekdays p {
+.test {
     margin: auto 2% 2% 0;
     align-self: flex-end;
     text-align: right;
@@ -274,7 +274,7 @@ li.overflowDay:hover {
 }
 
 .calender-event-box {
-    text-align: center;
+    text-align: left;
     border-radius: 2px;
     margin: 2%;
     background-color: #FFBE95;
@@ -282,6 +282,16 @@ li.overflowDay:hover {
     text-wrap: nowrap;
     text-overflow: ellipsis;
     width: stretch;
+    padding: 0 0 1rem 0;
+}
+
+.calender-event-box p {
+    font-size: 0.8rem;
+    margin: inherit;
+    text-align: left;
+    overflow: hidden;
+    text-wrap: wrap;
+    text-overflow: ellipsis;
 }
 
 .default-cursor {
