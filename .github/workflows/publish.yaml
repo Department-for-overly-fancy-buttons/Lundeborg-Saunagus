@@ -1,0 +1,52 @@
+name: Docker CI
+on:
+  workflow_call:
+    secrets:
+      MYSQL_ROOT_PASSWORD:
+        required: true
+      MYSQL_DATABASE:
+        required: true
+      MYSQL_USER:
+        required: true
+      MYSQL_PASSWORD:
+        required: true
+      SPRING_DATASOURCE_USERNAME:
+        required: true
+      SPRING_DATASOURCE_PASSWORD:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Build test container
+        run: docker build -t app:test .
+
+      - name: Run Docker container
+        run: |
+            # Run the container in detached mode
+            docker compose up -d
+            sleep 5
+            docker compose logs --no-color db || true
+            
+            # Wait for a few seconds to ensure the container is up and running
+            sleep 40
+            
+            # Test the application endpoint
+            curl -f http://localhost:8080/actuator/health || exit 1
+            
+            # Stop and remove the container
+            docker compose down
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${{ secrets.MYSQL_DATABASE }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.MYSQL_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}

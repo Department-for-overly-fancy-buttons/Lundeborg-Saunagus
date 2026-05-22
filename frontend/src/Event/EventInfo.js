@@ -78,7 +78,7 @@ function display() {
             tagName: "h5",
             htmlClass: "dateTime-info",
             htmlAttributes: {
-                textContent: "Dato: " + eventStartDate.getDate() + ". " + monthNames[eventStartDate.getMonth()] + "\n" + startHour + ":" + startMinute + " Til " + endHour + ":" + endMinute,
+                textContent: "Dato: " + eventStartDate.getDate() + ". " + monthNames[eventStartDate.getMonth()] + " " + eventStartDate.getFullYear() + "\n" + startHour + ":" + startMinute + " Til " + endHour + ":" + endMinute,
                 title: "date"
             }
         }
