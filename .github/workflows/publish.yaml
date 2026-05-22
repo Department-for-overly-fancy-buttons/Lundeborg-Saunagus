@@ -1,6 +1,19 @@
 name: Docker CI
 on:
   workflow_call:
+    secrets:
+      MYSQL_ROOT_PASSWORD:
+        required: true
+      MYSQL_DATABASE:
+        required: true
+      MYSQL_USER:
+        required: true
+      MYSQL_PASSWORD:
+        required: true
+      SPRING_DATASOURCE_USERNAME:
+        required: true
+      SPRING_DATASOURCE_PASSWORD:
+        required: true
 
 jobs:
   build:
