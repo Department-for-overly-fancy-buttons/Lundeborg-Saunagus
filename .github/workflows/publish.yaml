@@ -37,4 +37,4 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       - name: Stop containers
         if: always()
-        run: docker sompose down
+        run: docker compose down
