@@ -1,0 +1,29 @@
+name: Docker CI
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Build test container
+        run: docker build -t app:test .
+
+      - name: Run Docker container
+        run: |
+          # Run the container in detached mode
+          docker compose up -d
+          
+          # Wait for a few seconds to ensure the container is up and running
+          sleep 30
+
+          # Test the application endpoint
+          curl -f http://localhost:8080/actuator/health || exit 1
+
+          # Stop and remove the container
+          docker compose down
